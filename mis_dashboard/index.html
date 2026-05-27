@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>MIS Dashboard</title>
+  <link rel="stylesheet" href="style.css"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="logo">◉ MIS</div>
+
+      <nav class="menu">
+        <a class="active">Feed</a>
+        <a>Projetos</a>
+        <a>Dashboard</a>
+        <a>Pendências</a>
+        <a>Alertas</a>
+        <a>Mensagens</a>
+        <a>Equipe</a>
+        <a>Biblioteca</a>
+        <a>Relatórios</a>
+        <a>Configurações</a>
+      </nav>
+
+      <div class="profile">
+        <img src="https://i.pravatar.cc/80?img=12"/>
+        <div>
+          <h4>Carlos Mendes</h4>
+          <p>Engenheiro Civil</p>
+        </div>
+      </div>
+    </aside>
+
+    <main class="content">
+      <header class="topbar">
+        <input type="text" placeholder="Buscar obras, pessoas ou atualizações..." />
+
+        <div class="top-actions">
+          <button class="new-project">+ Novo projeto</button>
+          <div class="avatar">
+            <img src="https://i.pravatar.cc/50?img=15"/>
+          </div>
+        </div>
+      </header>
+
+      <section class="stories">
+        <div class="story">
+          <img src="https://images.unsplash.com/photo-1511818966892-d7d671e672a2?q=80&w=600&auto=format&fit=crop"/>
+          <span>Villa Aurora</span>
+        </div>
+
+        <div class="story">
+          <img src="https://images.unsplash.com/photo-1600585154526-990dced4db0d?q=80&w=600&auto=format&fit=crop"/>
+          <span>Jardins</span>
+        </div>
+
+        <div class="story">
+          <img src="https://images.unsplash.com/photo-1494526585095-c41746248156?q=80&w=600&auto=format&fit=crop"/>
+          <span>Corporate</span>
+        </div>
+
+        <div class="story">
+          <img src="https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?q=80&w=600&auto=format&fit=crop"/>
+          <span>Horizonte</span>
+        </div>
+
+        <div class="story">
+          <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=600&auto=format&fit=crop"/>
+          <span>Greenview</span>
+        </div>
+      </section>
+
+      <section class="filters">
+        <div class="tabs">
+          <button class="active">Todos</button>
+          <button>Seguindo</button>
+          <button>Em andamento</button>
+          <button>Concluídos</button>
+        </div>
+
+        <button class="sort">Mais recentes</button>
+      </section>
+
+      <section class="cards">
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <h3>Villa Aurora</h3>
+              <p>Florianópolis, SC</p>
+            </div>
+            <span>•••</span>
+          </div>
+
+          <img class="card-image" src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1200&auto=format&fit=crop"/>
+
+          <div class="card-content">
+            <div class="status green">Em andamento</div>
+
+            <div class="progress-area">
+              <div class="circle">72%</div>
+
+              <div class="progress-info">
+                <h4>Estrutura - Fundação</h4>
+                <p>72% concluído</p>
+
+                <div class="progress-bar">
+                  <div style="width:72%"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <h3>Residencial Jardins</h3>
+              <p>São Paulo, SP</p>
+            </div>
+            <span>•••</span>
+          </div>
+
+          <img class="card-image" src="https://images.unsplash.com/photo-1460317442991-0ec209397118?q=80&w=1200&auto=format&fit=crop"/>
+
+          <div class="card-content">
+            <div class="status blue">Acabamento</div>
+
+            <div class="progress-area">
+              <div class="circle">48%</div>
+
+              <div class="progress-info">
+                <h4>Acabamento - Revestimentos</h4>
+                <p>48% concluído</p>
+
+                <div class="progress-bar">
+                  <div style="width:48%"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <h3>Corporate Tower</h3>
+              <p>Curitiba, PR</p>
+            </div>
+            <span>•••</span>
+          </div>
+
+          <img class="card-image" src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1200&auto=format&fit=crop"/>
+
+          <div class="card-content">
+            <div class="status purple">Instalações</div>
+
+            <div class="progress-area">
+              <div class="circle">25%</div>
+
+              <div class="progress-info">
+                <h4>Instalações elétricas</h4>
+                <p>25% concluído</p>
+
+                <div class="progress-bar">
+                  <div style="width:25%"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </section>
+    </main>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

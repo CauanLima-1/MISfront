@@ -1,0 +1,17 @@
+{
+  "name": "mis_dashboard",
+  "version": "1.0.0",
+  "description": "Servidor local mínimo para visualização do dashboard MIS",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "keywords": [
+    "dashboard",
+    "local",
+    "static",
+    "mis"
+  ],
+  "author": "",
+  "license": "MIT"
+}
