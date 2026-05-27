@@ -33,13 +33,22 @@ function resolveFilePath(requestPath) {
     const routeWithoutSlash = route.replace(/\/$/, '');
 
     if (requestPath === routeWithoutSlash) {
+      if (app.file) {
+        return path.join(ROOT, app.file);
+      }
       return path.join(ROOT, app.dir, 'index.html');
     }
 
     if (requestPath.startsWith(route)) {
       const subPath = requestPath.slice(route.length);
       if (subPath === '') {
+        if (app.file) {
+          return path.join(ROOT, app.file);
+        }
         return path.join(ROOT, app.dir, 'index.html');
+      }
+      if (app.file) {
+        return null;
       }
       return path.join(ROOT, app.dir, subPath);
     }

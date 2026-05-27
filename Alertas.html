@@ -1,0 +1,813 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=1440" />
+<title>MIS — Alertas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --font: 'Plus Jakarta Sans', system-ui, -apple-system, Segoe UI, Helvetica, Arial, sans-serif;
+    --green: #14532d;
+    --green-acc: #34d399;
+    --red: #ef4444;
+    --orange: #f97316;
+    --blue: #3b82f6;
+    --purple: #8b5cf6;
+    --yellow: #eab308;
+  }
+  html[data-theme="light"] {
+    --bg: #d9d9d9;
+    --panel: #e7e7e7;
+    --card: #ebebeb;
+    --card-2: #f1f1f1;
+    --border: rgba(0,0,0,0.08);
+    --border-soft: rgba(0,0,0,0.05);
+    --text: #1a1a1a;
+    --text-2: #6b6b6b;
+    --text-3: #8a8a8a;
+    --sidebar: #e1e1e1;
+    --search: #cfcfcf;
+    --shadow: 0 1px 2px rgba(0,0,0,.04), 0 6px 24px rgba(0,0,0,.06);
+    --shadow-card: 0 1px 2px rgba(0,0,0,.04), 0 12px 32px rgba(0,0,0,.07);
+    --logo-bg: radial-gradient(circle at 30% 30%, #2b2b2b, #050505 70%);
+    --logo-fg: #ffffff;
+    --novo-bg: #1f1f1f;
+    --novo-fg: #ffffff;
+  }
+  html[data-theme="dark"] {
+    --bg: #0a1019;
+    --panel: rgba(255,255,255,0.03);
+    --card: rgba(255,255,255,0.04);
+    --card-2: rgba(255,255,255,0.06);
+    --border: rgba(255,255,255,0.08);
+    --border-soft: rgba(255,255,255,0.06);
+    --text: #e9eef5;
+    --text-2: #a4adba;
+    --text-3: #7b8593;
+    --sidebar: rgba(255,255,255,0.025);
+    --search: rgba(255,255,255,0.05);
+    --shadow: 0 1px 0 rgba(255,255,255,.04) inset, 0 18px 40px rgba(0,0,0,.45);
+    --shadow-card: 0 1px 0 rgba(255,255,255,.05) inset, 0 24px 60px rgba(0,0,0,.55);
+    --logo-fg: #0e151d;
+    --novo-bg: rgba(255,255,255,0.06);
+    --novo-fg: #ffffff;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--bg); color: var(--text); font-family: var(--font); -webkit-font-smoothing: antialiased; }
+  body {
+    min-height: 100vh;
+    background:
+      radial-gradient(1200px 600px at 100% 0%, color-mix(in oklab, var(--bg) 88%, white 12%), transparent 60%),
+      radial-gradient(900px 500px at 0% 100%, color-mix(in oklab, var(--bg) 92%, white 8%), transparent 60%),
+      var(--bg);
+  }
+  html[data-theme="dark"] body {
+    background:
+      radial-gradient(900px 600px at 85% -10%, #2a3a52 0%, transparent 55%),
+      radial-gradient(800px 600px at 15% 105%, #15243a 0%, transparent 55%),
+      radial-gradient(700px 500px at 50% 50%, #14202f 0%, transparent 60%),
+      linear-gradient(160deg, #0c1420 0%, #0a1019 100%);
+  }
+
+  .app { display: grid; grid-template-columns: 240px 1fr; min-height: 100vh; }
+
+  /* Sidebar */
+  .sidebar {
+    background: var(--sidebar);
+    border-right: 1px solid var(--border);
+    padding: 22px 18px 18px;
+    display: flex; flex-direction: column; gap: 18px;
+    position: sticky; top: 0; height: 100vh;
+  }
+  html[data-theme="dark"] .sidebar {
+    backdrop-filter: blur(20px) saturate(140%);
+    -webkit-backdrop-filter: blur(20px) saturate(140%);
+    background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.015));
+    border-right: 1px solid rgba(255,255,255,0.06);
+  }
+  .logo-row { display: flex; align-items: center; gap: 10px; padding: 4px 6px 14px; }
+  .logo {
+    width: 64px; height: 64px; border-radius: 50%;
+    background: var(--logo-bg);
+    display: grid; place-items: center;
+    color: var(--logo-fg);
+    font-weight: 800; font-size: 17px; letter-spacing: 1px;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.15), 0 6px 18px rgba(0,0,0,.25);
+    position: relative;
+  }
+  html[data-theme="dark"] .logo {
+    width: 36px; height: 36px; font-size: 0;
+    background: transparent; box-shadow: none;
+  }
+  html[data-theme="dark"] .logo::before {
+    content: ""; position: absolute; inset: 0;
+    border-radius: 50%;
+    background:
+      radial-gradient(circle at 50% 50%, transparent 35%, #fff 36%, #fff 41%, transparent 42%),
+      radial-gradient(circle at 50% 50%, #fff 18%, transparent 19%);
+  }
+  html[data-theme="dark"] .logo-text { display: inline-block; }
+  html[data-theme="light"] .logo-text { display: none; }
+  .logo-text { color: var(--text); font-weight: 700; font-size: 22px; }
+
+  .nav { display: flex; flex-direction: column; gap: 4px; }
+  .nav a {
+    display: flex; align-items: center; gap: 12px;
+    padding: 11px 14px; border-radius: 12px;
+    color: var(--text-2); text-decoration: none;
+    font-size: 14.5px; font-weight: 500;
+  }
+  .nav a:hover { background: var(--card); color: var(--text); }
+  .nav a.active { background: var(--green); color: #fff; }
+  .nav a.active svg { color: #fff; }
+  .nav .badge { margin-left: auto; color: var(--red); font-weight: 700; font-size: 13px; }
+  .nav a.active .badge { color: #fff; opacity: .85; }
+  .nav svg { color: var(--text-2); width: 18px; height: 18px; flex: none; }
+
+  .sidebar .spacer { flex: 1; }
+  .user-card {
+    display: flex; align-items: center; gap: 10px;
+    padding: 8px 10px;
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 14px;
+  }
+  html[data-theme="dark"] .user-card {
+    backdrop-filter: blur(14px) saturate(140%);
+    background: rgba(255,255,255,0.04);
+    border-color: rgba(255,255,255,0.08);
+  }
+  .avatar {
+    width: 36px; height: 36px; border-radius: 50%;
+    background: linear-gradient(135deg,#7a7a7a,#3a3a3a);
+    background-size: cover; background-position: center;
+    flex: none;
+  }
+  .user-card .name { font-size: 13.5px; font-weight: 600; color: var(--text); line-height: 1.15; }
+  .user-card .role { font-size: 12px; color: var(--text-3); }
+  .user-card .chev { margin-left: auto; color: var(--text-3); }
+
+  /* Main */
+  .main { padding: 22px 28px 60px; display: flex; flex-direction: column; gap: 22px; }
+
+  .topbar { display: flex; align-items: center; gap: 16px; }
+  .search {
+    flex: 1; max-width: 720px;
+    display: flex; align-items: center; gap: 10px;
+    background: var(--search);
+    border: 1px solid var(--border-soft);
+    height: 48px; border-radius: 28px; padding: 0 18px;
+  }
+  html[data-theme="dark"] .search,
+  html[data-theme="dark"] .icon-btn,
+  html[data-theme="dark"] .user-trigger,
+  html[data-theme="dark"] .btn-primary,
+  html[data-theme="dark"] .select,
+  html[data-theme="dark"] .tabs,
+  html[data-theme="dark"] .stat,
+  html[data-theme="dark"] .alert,
+  html[data-theme="dark"] .panel,
+  html[data-theme="dark"] .theme-switch {
+    backdrop-filter: blur(14px) saturate(140%);
+    -webkit-backdrop-filter: blur(14px) saturate(140%);
+    background: rgba(255,255,255,0.04);
+    border-color: rgba(255,255,255,0.08);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.06);
+  }
+  .search input { flex: 1; background: transparent; border: 0; outline: 0; color: var(--text); font: 500 14.5px var(--font); }
+  .search input::placeholder { color: var(--text-3); }
+  .kbd {
+    font-size: 12.5px; color: var(--text-3); display: inline-flex; gap: 4px;
+    padding: 4px 8px; border-radius: 6px;
+    background: color-mix(in oklab, var(--search) 70%, var(--bg));
+    border: 1px solid var(--border);
+  }
+  .top-actions { margin-left: auto; display: flex; align-items: center; gap: 14px; }
+  .btn-primary {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--novo-bg); color: var(--novo-fg);
+    border: 1px solid var(--border);
+    height: 44px; padding: 0 18px; border-radius: 24px;
+    font: 600 14px var(--font); cursor: pointer;
+    box-shadow: var(--shadow);
+  }
+  .icon-btn {
+    width: 44px; height: 44px; border-radius: 50%;
+    background: var(--card); border: 1px solid var(--border-soft);
+    display: grid; place-items: center; position: relative; cursor: pointer;
+    color: var(--text);
+  }
+  .icon-btn .dot {
+    position: absolute; top: -2px; right: -2px;
+    background: var(--red); color: #fff;
+    min-width: 18px; height: 18px; border-radius: 9px;
+    font-size: 11px; font-weight: 700;
+    display: grid; place-items: center; padding: 0 4px;
+    border: 2px solid var(--bg);
+  }
+  html[data-theme="dark"] .icon-btn .dot { border-color: #0b121c; }
+  .user-trigger {
+    display: flex; align-items: center; gap: 6px;
+    background: var(--card); border: 1px solid var(--border-soft);
+    height: 44px; padding: 4px 12px 4px 4px; border-radius: 24px; cursor: pointer;
+  }
+  .user-trigger .avatar { width: 36px; height: 36px; }
+
+  /* Page header */
+  .page-head { display: flex; align-items: flex-end; gap: 20px; padding: 4px 4px 0; }
+  .page-head h1 {
+    margin: 0; font-size: 30px; font-weight: 800;
+    letter-spacing: -0.4px; color: var(--text);
+    display: inline-flex; align-items: center; gap: 12px;
+  }
+  .page-head h1 .pulse {
+    width: 10px; height: 10px; border-radius: 50%;
+    background: var(--red); position: relative;
+    box-shadow: 0 0 0 0 rgba(239,68,68,.7);
+    animation: pulse 1.6s ease-out infinite;
+  }
+  @keyframes pulse {
+    0%   { box-shadow: 0 0 0 0 rgba(239,68,68,.6); }
+    70%  { box-shadow: 0 0 0 14px rgba(239,68,68,0); }
+    100% { box-shadow: 0 0 0 0 rgba(239,68,68,0); }
+  }
+  .page-head .sub { color: var(--text-3); font-size: 14px; margin-top: 6px; }
+  .page-head .right { margin-left: auto; display: flex; gap: 10px; }
+
+  /* Stats */
+  .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+  .stat {
+    background: var(--card); border: 1px solid var(--border-soft);
+    border-radius: 18px; padding: 18px 20px;
+    display: flex; flex-direction: column; gap: 6px;
+    box-shadow: var(--shadow);
+  }
+  .stat .label { font-size: 13px; color: var(--text-2); display: flex; align-items: center; gap: 8px; }
+  .stat .label .ico {
+    width: 28px; height: 28px; border-radius: 8px;
+    display: grid; place-items: center;
+    background: var(--card-2);
+  }
+  .stat .num { font-size: 32px; font-weight: 800; color: var(--text); letter-spacing: -0.5px; }
+  .stat .delta { font-size: 12px; color: var(--text-3); }
+  .stat .delta.up { color: #b91c1c; }
+  .stat .delta.down { color: #15803d; }
+  .stat.tone-red .ico    { background: rgba(239,68,68,.18);  color: #ef4444; }
+  .stat.tone-orange .ico { background: rgba(249,115,22,.18); color: #c2410c; }
+  .stat.tone-amber .ico  { background: rgba(234,179,8,.22);  color: #b45309; }
+  .stat.tone-blue .ico   { background: rgba(59,130,246,.18); color: #3b82f6; }
+  html[data-theme="dark"] .stat.tone-orange .ico { color: #fb923c; }
+  html[data-theme="dark"] .stat.tone-amber  .ico { color: #fbbf24; }
+
+  /* Tabs */
+  .tabs-row { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+  .tabs {
+    display: inline-flex; gap: 4px; padding: 4px;
+    background: var(--card); border: 1px solid var(--border-soft);
+    border-radius: 28px;
+  }
+  .tabs button {
+    border: 0; background: transparent; cursor: pointer;
+    padding: 10px 18px; border-radius: 22px;
+    font: 600 13.5px var(--font); color: var(--text-2);
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  .tabs button .count {
+    font-size: 11px; padding: 2px 7px; border-radius: 10px;
+    background: var(--card-2); color: var(--text-2);
+  }
+  .tabs button.active { background: var(--green); color: #fff; }
+  .tabs button.active .count { background: rgba(255,255,255,.15); color: #fff; }
+  .right-tools { margin-left: auto; display: flex; align-items: center; gap: 12px; }
+  .select {
+    background: var(--card); border: 1px solid var(--border-soft);
+    height: 40px; padding: 0 14px; border-radius: 20px;
+    display: inline-flex; align-items: center; gap: 8px;
+    font: 600 13px var(--font); color: var(--text); cursor: pointer;
+  }
+
+  /* Group */
+  .group-head {
+    display: flex; align-items: center; gap: 10px;
+    margin-top: 6px; padding: 0 4px;
+  }
+  .group-head .title { font-size: 13px; font-weight: 700; color: var(--text-2); text-transform: uppercase; letter-spacing: .6px; }
+  .group-head .line { flex: 1; height: 1px; background: var(--border); }
+
+  /* Alerts */
+  .alerts { display: flex; flex-direction: column; gap: 12px; }
+  .alert {
+    position: relative;
+    background: var(--card); border: 1px solid var(--border-soft);
+    border-radius: 16px; padding: 16px 18px 16px 24px;
+    display: grid; grid-template-columns: 40px 1fr auto; gap: 16px;
+    align-items: flex-start;
+    box-shadow: var(--shadow);
+    transition: transform .15s, box-shadow .15s;
+  }
+  .alert:hover { transform: translateY(-1px); box-shadow: var(--shadow-card); }
+  .alert::before {
+    content: ""; position: absolute; left: 0; top: 16px; bottom: 16px;
+    width: 4px; border-radius: 0 4px 4px 0;
+  }
+  .alert.sev-critical::before { background: #ef4444; }
+  .alert.sev-warning::before  { background: #f59e0b; }
+  .alert.sev-info::before     { background: #3b82f6; }
+  .alert.sev-success::before  { background: #22c55e; }
+  .alert.unread { background: color-mix(in oklab, var(--card) 90%, var(--red) 6%); }
+  html[data-theme="dark"] .alert.unread { background: rgba(255,255,255,0.06); }
+
+  .alert .sev {
+    width: 40px; height: 40px; border-radius: 12px;
+    display: grid; place-items: center;
+    background: var(--card-2);
+  }
+  .alert.sev-critical .sev { background: rgba(239,68,68,.18); color: #ef4444; }
+  .alert.sev-warning  .sev { background: rgba(245,158,11,.22); color: #b45309; }
+  .alert.sev-info     .sev { background: rgba(59,130,246,.18); color: #3b82f6; }
+  .alert.sev-success  .sev { background: rgba(34,197,94,.18); color: #15803d; }
+  html[data-theme="dark"] .alert.sev-warning .sev { color: #fbbf24; }
+  html[data-theme="dark"] .alert.sev-success .sev { color: #34d399; }
+
+  .a-body { min-width: 0; }
+  .a-head { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .a-title { font-size: 15px; font-weight: 700; color: var(--text); line-height: 1.25; }
+  .a-tag {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 3px 9px; border-radius: 999px;
+    font: 700 11px var(--font); letter-spacing: .4px; text-transform: uppercase;
+  }
+  .a-tag.sev-critical { background: rgba(239,68,68,.18); color: #b91c1c; }
+  .a-tag.sev-warning  { background: rgba(245,158,11,.22); color: #a16207; }
+  .a-tag.sev-info     { background: rgba(59,130,246,.18); color: #1d4ed8; }
+  .a-tag.sev-success  { background: rgba(34,197,94,.18); color: #15803d; }
+  html[data-theme="dark"] .a-tag.sev-critical { color: #fca5a5; }
+  html[data-theme="dark"] .a-tag.sev-warning  { color: #fde68a; }
+  html[data-theme="dark"] .a-tag.sev-info     { color: #93c5fd; }
+  html[data-theme="dark"] .a-tag.sev-success  { color: #86efac; }
+  .unread-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--red); }
+
+  .a-desc { font-size: 13.5px; color: var(--text-2); margin-top: 6px; line-height: 1.45; }
+  .a-meta {
+    display: flex; align-items: center; gap: 14px; margin-top: 10px;
+    color: var(--text-3); font-size: 12.5px; flex-wrap: wrap;
+  }
+  .a-meta .item { display: inline-flex; align-items: center; gap: 6px; }
+  .a-meta .swatch { width: 8px; height: 8px; border-radius: 3px; }
+  .a-meta .who { display: inline-flex; align-items: center; gap: 6px; }
+  .a-meta .who .av { width: 18px; height: 18px; border-radius: 50%; background-size: cover; background-position: center; }
+
+  .a-actions { display: flex; align-items: center; gap: 8px; }
+  .a-actions button {
+    border: 1px solid var(--border-soft);
+    background: var(--card-2);
+    color: var(--text); font: 600 12.5px var(--font);
+    padding: 8px 14px; border-radius: 999px; cursor: pointer;
+    display: inline-flex; align-items: center; gap: 6px;
+  }
+  .a-actions button:hover { background: var(--card); }
+  .a-actions button.primary { background: var(--green); color: #fff; border-color: transparent; }
+  .a-actions button.ghost   { background: transparent; }
+  .a-actions .iconbtn {
+    width: 34px; height: 34px; padding: 0; border-radius: 50%;
+    display: grid; place-items: center;
+  }
+  html[data-theme="dark"] .a-actions button {
+    background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.1);
+  }
+  html[data-theme="dark"] .a-actions button.primary { background: #16a34a; }
+  html[data-theme="dark"] .a-actions button.ghost { background: transparent; }
+
+  .alert.resolved { opacity: 0.65; }
+  .alert.resolved .a-title { text-decoration: line-through; color: var(--text-3); }
+
+  /* Side panel */
+  .layout { display: grid; grid-template-columns: 1fr 320px; gap: 22px; align-items: flex-start; }
+  .panel {
+    background: var(--card); border: 1px solid var(--border-soft);
+    border-radius: 18px; padding: 18px;
+    display: flex; flex-direction: column; gap: 14px;
+    box-shadow: var(--shadow);
+    position: sticky; top: 22px;
+  }
+  .panel h3 { margin: 0; font-size: 14px; font-weight: 700; color: var(--text); }
+  .legend { display: flex; flex-direction: column; gap: 10px; }
+  .legend .row { display: flex; align-items: center; gap: 10px; font-size: 13px; color: var(--text-2); }
+  .legend .row .swatch { width: 10px; height: 10px; border-radius: 3px; }
+  .legend .row .count { margin-left: auto; font-weight: 700; color: var(--text); }
+
+  .spark { display: flex; align-items: flex-end; gap: 6px; height: 60px; }
+  .spark .b {
+    flex: 1; background: linear-gradient(180deg, #ef4444, #f97316);
+    border-radius: 4px 4px 2px 2px; opacity: .85;
+  }
+  html[data-theme="dark"] .spark .b { opacity: 1; }
+
+  .quiet {
+    border: 1px dashed var(--border);
+    border-radius: 12px; padding: 12px;
+    font-size: 12.5px; color: var(--text-3); line-height: 1.5;
+  }
+
+  /* Theme switch */
+  .theme-switch {
+    position: fixed; right: 22px; bottom: 22px; z-index: 50;
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 24px; padding: 6px;
+    display: inline-flex; gap: 4px; box-shadow: var(--shadow);
+  }
+  .theme-switch button {
+    border: 0; background: transparent; cursor: pointer;
+    width: 38px; height: 38px; border-radius: 50%;
+    display: grid; place-items: center; color: var(--text-2);
+  }
+  .theme-switch button.active { background: var(--green); color: #fff; }
+</style>
+</head>
+<body data-screen-label="03 Alertas">
+<div id="root"></div>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<script type="text/babel">
+
+const { useState, useEffect, useMemo } = React;
+
+const I = {
+  feed: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><rect x="3" y="3" width="18" height="18" rx="3" /><path d="M3 15l5-5 4 4 4-6 5 6" /></svg>,
+  proj: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M3 17l4-6 4 3 4-7 6 10" /></svg>,
+  dash: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><rect x="3" y="3" width="7" height="7" rx="1.5" /><rect x="14" y="3" width="7" height="7" rx="1.5" /><rect x="3" y="14" width="7" height="7" rx="1.5" /><rect x="14" y="14" width="7" height="7" rx="1.5" /></svg>,
+  check: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><circle cx="12" cy="12" r="9" /><path d="M8 12.5l2.5 2.5L16 10" /></svg>,
+  bell: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M6 8a6 6 0 1 1 12 0c0 5 2 6 2 6H4s2-1 2-6z" /><path d="M10 19a2 2 0 0 0 4 0" /></svg>,
+  msg: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 21l1.9-5.4A8 8 0 1 1 21 12z" /></svg>,
+  team: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><circle cx="9" cy="9" r="3" /><path d="M3 19a6 6 0 0 1 12 0" /><circle cx="17" cy="8" r="2.5" /><path d="M15 19a5 5 0 0 1 7-4.6" /></svg>,
+  lib: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M4 5a2 2 0 0 1 2-2h10v18H6a2 2 0 0 1-2-2z" /><path d="M16 3h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-2" /></svg>,
+  rep: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><rect x="4" y="3" width="16" height="18" rx="2" /><path d="M8 8h8M8 12h8M8 16h5" /></svg>,
+  cog: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><circle cx="12" cy="12" r="3" /><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 0 1-4 0v-.1a1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 0 1 0-4h.1a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3h0a1.7 1.7 0 0 0 1-1.5V3a2 2 0 0 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8v0a1.7 1.7 0 0 0 1.5 1H21a2 2 0 0 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z" /></svg>,
+  chev: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M6 9l6 6 6-6" /></svg>,
+  search: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><circle cx="11" cy="11" r="7" /><path d="M20 20l-3.5-3.5" /></svg>,
+  cal: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><rect x="3" y="5" width="18" height="16" rx="2" /><path d="M16 3v4M8 3v4M3 10h18" /></svg>,
+  more: <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="1.7" /><circle cx="12" cy="12" r="1.7" /><circle cx="19" cy="12" r="1.7" /></svg>,
+  tick: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" style={{ width: "19px", height: "19px" }}><path d="M5 12l5 5L20 7" /></svg>,
+  alertTri: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 3l10 18H2L12 3z" /><path d="M12 10v5M12 18v.5" /></svg>,
+  zap: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M13 2L4 14h7l-1 8 9-12h-7l1-8z" /></svg>,
+  shield: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6l8-3z" /></svg>,
+  cash: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="2" y="6" width="20" height="12" rx="2" /><circle cx="12" cy="12" r="3" /><path d="M5 9h.01M19 15h.01" /></svg>,
+  cloud: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M7 17h11a4 4 0 0 0 0-8 6 6 0 0 0-11.5-2A4 4 0 0 0 7 17z" /><path d="M8 21l1-2M12 21l1-3M16 21l1-2" /></svg>,
+  doc: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z" /><path d="M14 3v6h6" /></svg>,
+  info: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="9" /><path d="M12 8h.01M11 12h1v5h1" /></svg>,
+  fire: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M12 2s4 4 4 9a4 4 0 1 1-8 0c0-2 1-3 1-3s-2 1-2 4a6 6 0 0 0 12 0c0-6-7-10-7-10z" /></svg>,
+  clock: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><circle cx="12" cy="12" r="9" /><path d="M12 7v5l3 2" /></svg>,
+  filter: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M3 5h18l-7 9v6l-4-2v-4L3 5z" /></svg>,
+  sun: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><circle cx="12" cy="12" r="4" /><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" /></svg>,
+  moon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" /></svg>,
+  muted: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M9 9a3 3 0 1 1 6 0c0 5 2 6 2 6H7s2-1 2-6z" /><path d="M3 3l18 18" /></svg>,
+  external: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ width: "16px", height: "16px" }}><path d="M14 4h6v6" /><path d="M20 4l-8 8" /><path d="M20 14v6H4V4h6" /></svg>
+};
+
+const PHOTOS = {
+  carlos: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=200&q=70",
+  mariana: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=200&q=70",
+  joao: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=200&q=70",
+  fernanda: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=200&q=70"
+};
+
+const PROJECTS = {
+  villa: { name: "Villa Aurora", color: "#22c55e" },
+  jardins: { name: "Residencial Jardins", color: "#3b82f6" },
+  corp: { name: "Corporate Tower", color: "#8b5cf6" },
+  loft: { name: "Loft Panorama", color: "#ef4444" },
+  horiz: { name: "Horizonte", color: "#a855f7" }
+};
+
+const ALERTS = [
+{
+  id: 1, severity: "critical", icon: I.alertTri,
+  title: "Atraso crítico no cronograma",
+  desc: "A estrutura do 8º andar está 5 dias atrás do planejado. Pode impactar a entrega de instalações em 12/06.",
+  project: "corp", when: "há 12 min", unread: true,
+  who: "Sistema · Cronograma", whoImg: null, group: "Hoje"
+},
+{
+  id: 2, severity: "critical", icon: I.shield,
+  title: "Risco de segurança identificado",
+  desc: "Vistoria registrou EPIs ausentes em 3 trabalhadores no canteiro central. Ação imediata recomendada.",
+  project: "villa", when: "há 1 h", unread: true,
+  who: "Mariana Costa", whoImg: PHOTOS.mariana, group: "Hoje"
+},
+{
+  id: 3, severity: "warning", icon: I.cash,
+  title: "Orçamento próximo do limite",
+  desc: "O projeto utilizou 92% do orçamento aprovado (R$ 4.2M de R$ 4.6M). Revisar próximos aportes.",
+  project: "jardins", when: "há 3 h", unread: true,
+  who: "Sistema · Financeiro", whoImg: null, group: "Hoje"
+},
+{
+  id: 4, severity: "warning", icon: I.cloud,
+  title: "Previsão de chuva forte",
+  desc: "Quarta-feira com 80% de precipitação. Pode comprometer a concretagem da fundação prevista para o dia.",
+  project: "loft", when: "há 6 h", unread: true,
+  who: "Sistema · Clima", whoImg: null, group: "Hoje"
+},
+{
+  id: 5, severity: "info", icon: I.doc,
+  title: "Aprovação pendente: memorial descritivo",
+  desc: "João Pedro enviou o memorial revisado para sua assinatura. Aguardando há 18h.",
+  project: "horiz", when: "ontem, 17:30", unread: true,
+  who: "João Pedro", whoImg: PHOTOS.joao, group: "Ontem"
+},
+/* histórico já resolvido — fica no fim, em "Esta semana" */
+{
+  id: 6, severity: "success", icon: I.tick,
+  title: "Inspeção elétrica concluída sem ressalvas",
+  desc: "Andares 1–7 da Corporate Tower aprovados. Relatório anexado.",
+  project: "corp", when: "há 2 dias", unread: false,
+  who: "Fernanda Lima", whoImg: PHOTOS.fernanda, group: "Esta semana",
+  resolved: true
+},
+{
+  id: 7, severity: "warning", icon: I.cash,
+  title: "Variação de preço em insumos",
+  desc: "Cimento CP-II teve alta de 6,2% na cotação semanal.",
+  project: "villa", when: "há 3 dias", unread: false,
+  who: "Sistema · Mercado", whoImg: null, group: "Esta semana",
+  resolved: true
+}];
+
+
+function Sidebar() {
+  return (
+    <aside className="sidebar">
+      <div className="logo-row">
+        <div className="logo">MIS</div>
+        <span className="logo-text">MIS</span>
+      </div>
+      <nav className="nav">
+        <a href="/mis_dashboard/">{I.feed}<span>Feed</span></a>
+        <a href="#">{I.proj}<span>Projetos</span></a>
+        <a href="/mis_dashboard/">{I.dash}<span>Dashboard</span></a>
+        <a href="/mis_pendências/">{I.check}<span>Pendências</span><span className="badge">7</span></a>
+        <a className="active" href="/alertas/">{I.bell}<span>Alertas</span><span className="badge">5</span></a>
+        <a href="/atualizacoes/">{I.msg}<span>Atualizações</span><span className="badge">24</span></a>
+        <a href="#">{I.team}<span>Equipe</span></a>
+        <a href="#">{I.lib}<span>Biblioteca</span></a>
+        <a href="#">{I.rep}<span>Relatórios</span></a>
+        <a href="#">{I.cog}<span>Configurações</span></a>
+      </nav>
+      <div className="spacer"></div>
+      <div className="user-card">
+        <div className="avatar" style={{ backgroundImage: `url(${PHOTOS.carlos})` }}></div>
+        <div>
+          <div className="name">Carlos Mendes</div>
+          <div className="role">Engenheiro Civil</div>
+        </div>
+        <div className="chev">{I.chev}</div>
+      </div>
+    </aside>);
+
+}
+
+function Topbar() {
+  return (
+    <div className="topbar">
+      <div className="search">
+        <span style={{ color: "var(--text-3)" }}>{I.search}</span>
+        <input placeholder="Buscar alertas, projetos ou pessoas..." />
+        <span className="kbd">⌘ K</span>
+      </div>
+      <div className="top-actions">
+        <button className="btn-primary">{I.muted}<span>Modo silencioso</span></button>
+        <button className="icon-btn">{I.bell}<span className="dot">4</span></button>
+        <button className="user-trigger">
+          <span className="avatar" style={{ backgroundImage: `url(${PHOTOS.carlos})` }}></span>
+          <span style={{ color: "var(--text-2)" }}>{I.chev}</span>
+        </button>
+      </div>
+    </div>);
+
+}
+
+function Stats() {
+  return (
+    <div className="stats">
+      <div className="stat tone-red">
+        <div className="label"><span className="ico">{I.fire}</span> Críticos</div>
+        <div className="num">2</div>
+        <div className="delta up">+1 desde ontem</div>
+      </div>
+      <div className="stat tone-orange">
+        <div className="label"><span className="ico">{I.alertTri}</span> Avisos</div>
+        <div className="num">2</div>
+        <div className="delta">Cronograma e clima</div>
+      </div>
+      <div className="stat tone-blue">
+        <div className="label"><span className="ico">{I.info}</span> Informativos</div>
+        <div className="num">1</div>
+        <div className="delta">Aguardando ação</div>
+      </div>
+      <div className="stat tone-amber">
+        <div className="label"><span className="ico">{I.clock}</span> Tempo médio resolução</div>
+        <div className="num">3,4h</div>
+        <div className="delta down">−22% vs mês passado</div>
+      </div>
+    </div>);
+
+}
+
+const FILTERS = [
+{ key: "todos", label: "Todos", count: 7 },
+{ key: "nao", label: "Não lidos", count: 5 },
+{ key: "crit", label: "Críticos", count: 2 },
+{ key: "aviso", label: "Avisos", count: 2 },
+{ key: "info", label: "Informativos", count: 1 }];
+
+
+const SEV_LABEL = { critical: "Crítico", warning: "Aviso", info: "Informativo", success: "Resolvido" };
+
+function TabsRow({ tab, setTab }) {
+  return (
+    <div className="tabs-row">
+      <div className="tabs">
+        {FILTERS.map((f) =>
+        <button key={f.key} className={tab === f.key ? "active" : ""} onClick={() => setTab(f.key)}>
+            {f.label}<span className="count">{f.count}</span>
+          </button>
+        )}
+      </div>
+      <div className="right-tools">
+        <div className="select">{I.filter}<span>Todos os projetos</span>{I.chev}</div>
+        <div className="select"><span>Mais recentes</span>{I.chev}</div>
+      </div>
+    </div>);
+
+}
+
+function AlertItem({ a, onResolve, onDismiss, resolved }) {
+  const proj = PROJECTS[a.project];
+  const sev = resolved ? "success" : a.severity;
+  return (
+    <div className={"alert sev-" + sev + (a.unread && !resolved ? " unread" : "") + (resolved ? " resolved" : "")}>
+      <div className="sev">{resolved ? I.tick : a.icon}</div>
+      <div className="a-body">
+        <div className="a-head">
+          {a.unread && !resolved && <span className="unread-dot" title="Não lido"></span>}
+          <span className="a-title">{a.title}</span>
+          <span className={"a-tag sev-" + sev}>{SEV_LABEL[sev]}</span>
+        </div>
+        <div className="a-desc">{a.desc}</div>
+        <div className="a-meta">
+          <span className="item"><span className="swatch" style={{ background: proj.color }}></span>{proj.name}</span>
+          <span className="item" style={{ fontSize: "6px", width: "59px" }}>{I.clock}{a.when}</span>
+          <span className="item who">
+            {a.whoImg ?
+            <span className="av" style={{ backgroundImage: `url(${a.whoImg})` }}></span> :
+            <span style={{ color: "var(--text-3)" }}>{I.info}</span>}
+            {a.who}
+          </span>
+        </div>
+      </div>
+      <div className="a-actions">
+        {!resolved && <button className="primary" onClick={onResolve}>{I.tick}<span>Resolver</span></button>}
+        {!resolved && <button onClick={onDismiss}>Ignorar</button>}
+        {!resolved && <button className="ghost iconbtn" title="Abrir">{I.external}</button>}
+        {resolved && <button className="ghost">Ver detalhes</button>}
+        <button className="ghost iconbtn" title="Mais">{I.more}</button>
+      </div>
+    </div>);
+
+}
+
+function SidePanel() {
+  return (
+    <aside className="panel">
+      <h3>Atividade da semana</h3>
+      <div className="spark">
+        {[3, 5, 2, 4, 6, 8, 5].map((v, i) =>
+        <div key={i} className="b" style={{ height: v * 7 + 8 + "px" }}></div>
+        )}
+      </div>
+      <div style={{ display: "flex", justifyContent: "space-between", fontSize: 11, color: "var(--text-3)" }}>
+        <span>Seg</span><span>Ter</span><span>Qua</span><span>Qui</span><span>Sex</span><span>Sáb</span><span>Dom</span>
+      </div>
+      <h3 style={{ marginTop: 6 }}>Por severidade</h3>
+      <div className="legend">
+        <div className="row"><span className="swatch" style={{ background: "#ef4444" }}></span>Críticos<span className="count">2</span></div>
+        <div className="row"><span className="swatch" style={{ background: "#f59e0b" }}></span>Avisos<span className="count">2</span></div>
+        <div className="row"><span className="swatch" style={{ background: "#3b82f6" }}></span>Informativos<span className="count">1</span></div>
+        <div className="row"><span className="swatch" style={{ background: "#22c55e" }}></span>Resolvidos (7d)<span className="count">12</span></div>
+      </div>
+      <h3 style={{ marginTop: 6 }}>Regras ativas</h3>
+      <div className="quiet">
+        Você receberá alertas críticos por <b>push</b> e <b>e-mail</b>. Avisos e informativos apenas no app. <a href="#" style={{ color: "var(--text-2)", textDecoration: "underline" }}>Ajustar preferências</a>
+      </div>
+    </aside>);
+
+}
+
+function ThemeSwitch({ theme, setTheme }) {
+  return (
+    <div className="theme-switch" role="group" aria-label="Tema">
+      <button className={theme === "light" ? "active" : ""} onClick={() => setTheme("light")} aria-label="Modo claro">{I.sun}</button>
+      <button className={theme === "dark" ? "active" : ""} onClick={() => setTheme("dark")} aria-label="Modo escuro">{I.moon}</button>
+    </div>);
+
+}
+
+function App() {
+  const [theme, setTheme] = useState(() => localStorage.getItem("mis-theme") || "light");
+  const [tab, setTab] = useState("todos");
+  const [resolvedIds, setResolvedIds] = useState(() => new Set());
+  const [dismissedIds, setDismissedIds] = useState(() => new Set());
+
+  useEffect(() => {
+    document.documentElement.setAttribute("data-theme", theme);
+    localStorage.setItem("mis-theme", theme);
+  }, [theme]);
+
+  const visible = useMemo(() => {
+    let list = ALERTS.filter((a) => !dismissedIds.has(a.id));
+    if (tab === "nao") list = list.filter((a) => a.unread && !resolvedIds.has(a.id) && !a.resolved);
+    if (tab === "crit") list = list.filter((a) => a.severity === "critical");
+    if (tab === "aviso") list = list.filter((a) => a.severity === "warning");
+    if (tab === "info") list = list.filter((a) => a.severity === "info");
+    return list;
+  }, [tab, dismissedIds, resolvedIds]);
+
+  const grouped = useMemo(() => {
+    const order = ["Hoje", "Ontem", "Esta semana"];
+    const map = {};
+    visible.forEach((a) => {(map[a.group] = map[a.group] || []).push(a);});
+    return order.filter((g) => map[g]).map((g) => [g, map[g]]);
+  }, [visible]);
+
+  const resolve = (id) => setResolvedIds((prev) => new Set(prev).add(id));
+  const dismiss = (id) => setDismissedIds((prev) => new Set(prev).add(id));
+
+  return (
+    <div className="app">
+      <Sidebar />
+      <main className="main">
+        <Topbar />
+        <div className="page-head">
+          <div>
+            <h1><span className="pulse"></span>Alertas</h1>
+            <div className="sub">5 alertas não lidos · 2 críticos exigem ação imediata</div>
+          </div>
+          <div className="right">
+            <button className="select">{I.cal}<span>Últimos 7 dias</span>{I.chev}</button>
+            <button className="select">{I.tick}<span>Marcar tudo como lido</span></button>
+          </div>
+        </div>
+        <Stats />
+        <TabsRow tab={tab} setTab={setTab} />
+        <div className="layout">
+          <div className="alerts">
+            {grouped.length === 0 &&
+            <div className="quiet" style={{ padding: 20, textAlign: "center" }}>Nenhum alerta neste filtro. ✨</div>
+            }
+            {grouped.map(([group, items]) =>
+            <React.Fragment key={group}>
+                <div className="group-head">
+                  <span className="title">{group}</span>
+                  <span className="line"></span>
+                  <span style={{ fontSize: 12, color: "var(--text-3)" }}>{items.length}</span>
+                </div>
+                {items.map((a) =>
+              <AlertItem
+                key={a.id} a={a}
+                resolved={resolvedIds.has(a.id) || a.resolved}
+                onResolve={() => resolve(a.id)}
+                onDismiss={() => dismiss(a.id)} />
+
+              )}
+              </React.Fragment>
+            )}
+          </div>
+          <SidePanel />
+        </div>
+      </main>
+      <ThemeSwitch theme={theme} setTheme={setTheme} />
+    </div>);
+
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+</script>
+<script>
+  window.MIS_SHARED_BRIDGE_CONFIG = {
+    source: 'alertas',
+    pageLabel: 'Alertas',
+    fallbackMessage: 'Tela de alertas ativa',
+    navLinkSelector: 'a[href="/mis_dashboard/"]',
+    navPageLabel: 'Dashboard',
+    navMessage: 'Voltando para o dashboard'
+  };
+</script>
+<script src="/shared/bridge.js"></script>
+</body>
+</html>
