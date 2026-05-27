@@ -21,6 +21,18 @@ const APPS = [
     alias: 'mis_pendências',
     route: '/mis_pendências/',
     dir: 'mis_pendências'
+  },
+  {
+    name: 'alertas',
+    alias: 'alertas',
+    route: '/alertas/',
+    file: 'Alertas.html'
+  },
+  {
+    name: 'atualizacoes',
+    alias: 'atualizacoes',
+    route: '/atualizacoes/',
+    file: 'Atualizações.html'
   }
 ];
 

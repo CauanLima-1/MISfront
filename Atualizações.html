@@ -1,0 +1,1149 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=1440" />
+<title>MIS — Atualizações</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --font: 'Plus Jakarta Sans', system-ui, -apple-system, Segoe UI, Helvetica, Arial, sans-serif;
+    --green: #14532d;
+    --green-acc: #34d399;
+    --red: #ef4444;
+  }
+  html[data-theme="light"] {
+    --bg: #d9d9d9;
+    --panel: #e7e7e7;
+    --card: #ebebeb;
+    --card-2: #f1f1f1;
+    --border: rgba(0,0,0,0.08);
+    --border-soft: rgba(0,0,0,0.05);
+    --text: #1a1a1a;
+    --text-2: #6b6b6b;
+    --text-3: #8a8a8a;
+    --sidebar: #e1e1e1;
+    --search: #cfcfcf;
+    --shadow: 0 1px 2px rgba(0,0,0,.04), 0 6px 24px rgba(0,0,0,.06);
+    --shadow-card: 0 1px 2px rgba(0,0,0,.04), 0 12px 32px rgba(0,0,0,.07);
+    --logo-bg: radial-gradient(circle at 30% 30%, #2b2b2b, #050505 70%);
+    --logo-fg: #ffffff;
+    --novo-bg: #1f1f1f;
+    --novo-fg: #ffffff;
+  }
+  html[data-theme="dark"] {
+    --bg: #0a1019;
+    --panel: rgba(255,255,255,0.03);
+    --card: rgba(255,255,255,0.04);
+    --card-2: rgba(255,255,255,0.06);
+    --border: rgba(255,255,255,0.08);
+    --border-soft: rgba(255,255,255,0.06);
+    --text: #e9eef5;
+    --text-2: #a4adba;
+    --text-3: #7b8593;
+    --sidebar: rgba(255,255,255,0.025);
+    --search: rgba(255,255,255,0.05);
+    --shadow: 0 1px 0 rgba(255,255,255,.04) inset, 0 18px 40px rgba(0,0,0,.45);
+    --shadow-card: 0 1px 0 rgba(255,255,255,.05) inset, 0 24px 60px rgba(0,0,0,.55);
+    --logo-fg: #0e151d;
+    --novo-bg: rgba(255,255,255,0.06);
+    --novo-fg: #ffffff;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--bg); color: var(--text); font-family: var(--font); -webkit-font-smoothing: antialiased; height: 100%; }
+  body {
+    min-height: 100vh;
+    background:
+      radial-gradient(1200px 600px at 100% 0%, color-mix(in oklab, var(--bg) 88%, white 12%), transparent 60%),
+      radial-gradient(900px 500px at 0% 100%, color-mix(in oklab, var(--bg) 92%, white 8%), transparent 60%),
+      var(--bg);
+  }
+  html[data-theme="dark"] body {
+    background:
+      radial-gradient(900px 600px at 85% -10%, #2a3a52 0%, transparent 55%),
+      radial-gradient(800px 600px at 15% 105%, #15243a 0%, transparent 55%),
+      radial-gradient(700px 500px at 50% 50%, #14202f 0%, transparent 60%),
+      linear-gradient(160deg, #0c1420 0%, #0a1019 100%);
+  }
+
+  .app { display: grid; grid-template-columns: 240px 1fr; min-height: 100vh; }
+
+  /* Sidebar */
+  .sidebar {
+    background: var(--sidebar);
+    border-right: 1px solid var(--border);
+    padding: 22px 18px 18px;
+    display: flex; flex-direction: column; gap: 18px;
+    position: sticky; top: 0; height: 100vh;
+  }
+  html[data-theme="dark"] .sidebar {
+    backdrop-filter: blur(20px) saturate(140%);
+    -webkit-backdrop-filter: blur(20px) saturate(140%);
+    background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.015));
+    border-right: 1px solid rgba(255,255,255,0.06);
+  }
+  .logo-row { display: flex; align-items: center; gap: 10px; padding: 4px 6px 14px; }
+  .logo {
+    width: 64px; height: 64px; border-radius: 50%;
+    background: var(--logo-bg);
+    display: grid; place-items: center;
+    color: var(--logo-fg);
+    font-weight: 800; font-size: 17px; letter-spacing: 1px;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.15), 0 6px 18px rgba(0,0,0,.25);
+    position: relative;
+  }
+  html[data-theme="dark"] .logo {
+    width: 36px; height: 36px; font-size: 0;
+    background: transparent; box-shadow: none;
+  }
+  html[data-theme="dark"] .logo::before {
+    content: ""; position: absolute; inset: 0;
+    border-radius: 50%;
+    background:
+      radial-gradient(circle at 50% 50%, transparent 35%, #fff 36%, #fff 41%, transparent 42%),
+      radial-gradient(circle at 50% 50%, #fff 18%, transparent 19%);
+  }
+  html[data-theme="dark"] .logo-text { display: inline-block; }
+  html[data-theme="light"] .logo-text { display: none; }
+  .logo-text { color: var(--text); font-weight: 700; font-size: 22px; }
+
+  .nav { display: flex; flex-direction: column; gap: 4px; }
+  .nav a {
+    display: flex; align-items: center; gap: 12px;
+    padding: 11px 14px; border-radius: 12px;
+    color: var(--text-2); text-decoration: none;
+    font-size: 14.5px; font-weight: 500;
+  }
+  .nav a:hover { background: var(--card); color: var(--text); }
+  .nav a.active { background: var(--green); color: #fff; }
+  .nav a.active svg { color: #fff; }
+  .nav a.active .badge { color: #fff; opacity: .85; }
+  .nav .badge { margin-left: auto; color: var(--red); font-weight: 700; font-size: 13px; }
+  .nav svg { color: var(--text-2); width: 18px; height: 18px; flex: none; }
+  .sidebar .spacer { flex: 1; }
+  .user-card {
+    display: flex; align-items: center; gap: 10px;
+    padding: 8px 10px;
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 14px;
+  }
+  html[data-theme="dark"] .user-card {
+    backdrop-filter: blur(14px) saturate(140%);
+    background: rgba(255,255,255,0.04);
+    border-color: rgba(255,255,255,0.08);
+  }
+  .avatar {
+    width: 36px; height: 36px; border-radius: 50%;
+    background: linear-gradient(135deg,#7a7a7a,#3a3a3a);
+    background-size: cover; background-position: center; flex: none;
+    position: relative;
+  }
+  .user-card .name { font-size: 13.5px; font-weight: 600; color: var(--text); line-height: 1.15; }
+  .user-card .role { font-size: 12px; color: var(--text-3); }
+  .user-card .chev { margin-left: auto; color: var(--text-3); }
+
+  /* Main */
+  .main { padding: 22px 22px 22px; display: flex; flex-direction: column; gap: 18px; height: 100vh; }
+
+  .topbar { display: flex; align-items: center; gap: 16px; }
+  .search {
+    flex: 1; max-width: 720px;
+    display: flex; align-items: center; gap: 10px;
+    background: var(--search); border: 1px solid var(--border-soft);
+    height: 48px; border-radius: 28px; padding: 0 18px;
+  }
+  html[data-theme="dark"] .search,
+  html[data-theme="dark"] .icon-btn,
+  html[data-theme="dark"] .user-trigger,
+  html[data-theme="dark"] .btn-primary,
+  html[data-theme="dark"] .select,
+  html[data-theme="dark"] .obra-panel,
+  html[data-theme="dark"] .feed-panel,
+  html[data-theme="dark"] .info-panel,
+  html[data-theme="dark"] .composer,
+  html[data-theme="dark"] .theme-switch {
+    backdrop-filter: blur(14px) saturate(140%);
+    -webkit-backdrop-filter: blur(14px) saturate(140%);
+    background: rgba(255,255,255,0.04);
+    border-color: rgba(255,255,255,0.08);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.06);
+  }
+  .search input { flex: 1; background: transparent; border: 0; outline: 0; color: var(--text); font: 500 14.5px var(--font); }
+  .search input::placeholder { color: var(--text-3); }
+  .kbd {
+    font-size: 12.5px; color: var(--text-3); display: inline-flex; gap: 4px;
+    padding: 4px 8px; border-radius: 6px;
+    background: color-mix(in oklab, var(--search) 70%, var(--bg));
+    border: 1px solid var(--border);
+  }
+  .top-actions { margin-left: auto; display: flex; align-items: center; gap: 14px; }
+  .btn-primary {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--novo-bg); color: var(--novo-fg);
+    border: 1px solid var(--border);
+    height: 44px; padding: 0 18px; border-radius: 24px;
+    font: 600 14px var(--font); cursor: pointer; box-shadow: var(--shadow);
+  }
+  .icon-btn {
+    width: 44px; height: 44px; border-radius: 50%;
+    background: var(--card); border: 1px solid var(--border-soft);
+    display: grid; place-items: center; position: relative; cursor: pointer; color: var(--text);
+  }
+  .icon-btn .dot {
+    position: absolute; top: -2px; right: -2px;
+    background: var(--red); color: #fff;
+    min-width: 18px; height: 18px; border-radius: 9px;
+    font-size: 11px; font-weight: 700;
+    display: grid; place-items: center; padding: 0 4px;
+    border: 2px solid var(--bg);
+  }
+  html[data-theme="dark"] .icon-btn .dot { border-color: #0b121c; }
+  .user-trigger {
+    display: flex; align-items: center; gap: 6px;
+    background: var(--card); border: 1px solid var(--border-soft);
+    height: 44px; padding: 4px 12px 4px 4px; border-radius: 24px; cursor: pointer;
+  }
+  .user-trigger .avatar { width: 36px; height: 36px; }
+
+  /* Grid */
+  .center { flex: 1; min-height: 0; display: grid; grid-template-columns: 320px 1fr 320px; gap: 18px; }
+
+  /* Obra list */
+  .obra-panel {
+    background: var(--card); border: 1px solid var(--border-soft);
+    border-radius: 20px; padding: 16px;
+    display: flex; flex-direction: column; gap: 12px;
+    min-height: 0; box-shadow: var(--shadow);
+  }
+  .obra-panel h2 { margin: 0; font-size: 18px; font-weight: 800; color: var(--text); letter-spacing: -.2px; }
+  .obra-top { display: flex; align-items: center; gap: 10px; }
+  .obra-top .count {
+    background: var(--green); color: #fff;
+    font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 999px;
+  }
+  .obra-top .add {
+    margin-left: auto; width: 32px; height: 32px; border-radius: 50%;
+    background: var(--card-2); border: 1px solid var(--border-soft);
+    display: grid; place-items: center; cursor: pointer; color: var(--text);
+  }
+  .obra-search {
+    display: flex; align-items: center; gap: 8px;
+    background: var(--card-2); border: 1px solid var(--border-soft);
+    border-radius: 14px; padding: 8px 12px; color: var(--text-3);
+  }
+  .obra-search input { flex: 1; border: 0; background: transparent; outline: 0; color: var(--text); font: 500 13px var(--font); }
+  .obra-filters { display: flex; gap: 6px; flex-wrap: wrap; }
+  .obra-filters button {
+    border: 1px solid var(--border-soft); background: transparent;
+    color: var(--text-2); font: 600 12px var(--font);
+    padding: 6px 11px; border-radius: 999px; cursor: pointer;
+  }
+  .obra-filters button.active { background: var(--green); color: #fff; border-color: transparent; }
+  .obra-list { flex: 1; overflow: auto; display: flex; flex-direction: column; gap: 4px; margin: 0 -8px; padding: 0 8px; }
+  .obra-list::-webkit-scrollbar { width: 8px; }
+  .obra-list::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+  .obra {
+    display: grid; grid-template-columns: 48px 1fr auto; gap: 10px;
+    padding: 10px; border-radius: 14px; cursor: pointer; align-items: center;
+  }
+  .obra:hover { background: var(--card-2); }
+  .obra.active { background: var(--card-2); }
+  html[data-theme="dark"] .obra.active { background: rgba(255,255,255,0.07); }
+  .obra .thumb {
+    width: 48px; height: 48px; border-radius: 12px;
+    background-size: cover; background-position: center;
+    position: relative; overflow: hidden;
+    border: 1px solid var(--border-soft);
+  }
+  .obra .thumb .swatch {
+    position: absolute; left: 0; top: 0; bottom: 0; width: 4px;
+  }
+  .obra .name-row { display: flex; align-items: center; gap: 6px; }
+  .obra .name { font-size: 14px; font-weight: 700; color: var(--text); line-height: 1.1; }
+  .obra .preview { font-size: 12.5px; color: var(--text-3); margin-top: 3px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .obra .right { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; }
+  .obra .time { font-size: 11.5px; color: var(--text-3); }
+  .obra .unread {
+    min-width: 20px; height: 20px; border-radius: 10px; padding: 0 6px;
+    background: var(--red); color: #fff;
+    font: 700 11px var(--font);
+    display: grid; place-items: center;
+  }
+  .obra .live {
+    display: inline-flex; align-items: center; gap: 4px;
+    font-size: 10px; font-weight: 700; color: #16a34a; text-transform: uppercase; letter-spacing: .5px;
+  }
+  html[data-theme="dark"] .obra .live { color: #34d399; }
+  .obra .live::before {
+    content:""; width: 6px; height: 6px; border-radius: 50%; background: #22c55e;
+    box-shadow: 0 0 0 0 rgba(34,197,94,.7); animation: pulseDot 1.6s ease-out infinite;
+  }
+  @keyframes pulseDot { 0% { box-shadow: 0 0 0 0 rgba(34,197,94,.5); } 70% { box-shadow: 0 0 0 8px rgba(34,197,94,0); } }
+
+  .section-title {
+    font-size: 11px; font-weight: 700; color: var(--text-3);
+    text-transform: uppercase; letter-spacing: .6px;
+    padding: 10px 10px 4px;
+  }
+
+  /* Feed panel */
+  .feed-panel {
+    background: var(--card); border: 1px solid var(--border-soft);
+    border-radius: 20px; display: flex; flex-direction: column;
+    min-height: 0; overflow: hidden; box-shadow: var(--shadow);
+  }
+  .feed-head {
+    display: flex; align-items: center; gap: 14px;
+    padding: 16px 20px; border-bottom: 1px solid var(--border-soft);
+  }
+  .feed-head .thumb {
+    width: 52px; height: 52px; border-radius: 14px;
+    background-size: cover; background-position: center;
+    position: relative; border: 1px solid var(--border-soft);
+  }
+  .feed-head .title { font-size: 18px; font-weight: 800; color: var(--text); line-height: 1.1; letter-spacing: -.2px; }
+  .feed-head .meta { font-size: 12.5px; color: var(--text-3); margin-top: 4px; display: flex; align-items: center; gap: 8px; }
+  .feed-head .meta .pip { width: 7px; height: 7px; border-radius: 2px; }
+  .feed-head .right { margin-left: auto; display: flex; gap: 8px; align-items: center; }
+  .feed-head .iconbtn {
+    width: 38px; height: 38px; border-radius: 50%;
+    background: var(--card-2); border: 1px solid var(--border-soft);
+    display: grid; place-items: center; cursor: pointer; color: var(--text);
+  }
+  .feed-head .followbtn {
+    background: var(--green); color: #fff;
+    border: 0; border-radius: 999px; padding: 8px 14px;
+    font: 700 12px var(--font); cursor: pointer;
+    display: inline-flex; align-items: center; gap: 6px;
+  }
+  .feed-head .followbtn.unfollow {
+    background: var(--card-2); color: var(--text); border: 1px solid var(--border-soft);
+  }
+
+  .feed-filters {
+    display: flex; gap: 6px; padding: 12px 20px;
+    border-bottom: 1px solid var(--border-soft);
+    overflow-x: auto;
+  }
+  .feed-filters button {
+    flex: none; border: 1px solid var(--border-soft); background: transparent;
+    color: var(--text-2); font: 600 12.5px var(--font);
+    padding: 7px 14px; border-radius: 999px; cursor: pointer;
+    display: inline-flex; align-items: center; gap: 6px;
+  }
+  .feed-filters button.active { background: var(--green); color: #fff; border-color: transparent; }
+  .feed-filters button .count {
+    font-size: 10.5px; padding: 1px 6px; border-radius: 999px;
+    background: var(--card-2); color: var(--text-2);
+  }
+  .feed-filters button.active .count { background: rgba(255,255,255,.18); color: #fff; }
+
+  .feed-body {
+    flex: 1; overflow: auto; padding: 18px 22px;
+    display: flex; flex-direction: column; gap: 0;
+  }
+  .feed-body::-webkit-scrollbar { width: 8px; }
+  .feed-body::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+
+  .day-sep {
+    display: flex; align-items: center; gap: 10px; margin: 10px 0 6px;
+    color: var(--text-3); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .6px;
+  }
+  .day-sep .line { flex: 1; height: 1px; background: var(--border); }
+
+  /* Timeline events */
+  .ev {
+    position: relative; padding: 14px 0 14px 44px;
+    border-bottom: 1px solid var(--border-soft);
+  }
+  .ev:last-child { border-bottom: 0; }
+  .ev::before {
+    content: ""; position: absolute; left: 17px; top: 22px; bottom: -14px;
+    width: 2px; background: var(--border);
+  }
+  .ev:last-child::before { display: none; }
+  .ev .dot {
+    position: absolute; left: 4px; top: 14px;
+    width: 30px; height: 30px; border-radius: 10px;
+    display: grid; place-items: center;
+    background: var(--card-2); border: 1px solid var(--border-soft);
+    color: var(--text);
+  }
+  .ev .head {
+    display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+    font-size: 13.5px; color: var(--text-2);
+  }
+  .ev .head .who { font-weight: 700; color: var(--text); }
+  .ev .head .time { margin-left: auto; font-size: 11.5px; color: var(--text-3); }
+  .ev .head .tag {
+    font: 700 10px var(--font); padding: 2px 7px; border-radius: 999px;
+    background: var(--card-2); color: var(--text-2); letter-spacing: .4px; text-transform: uppercase;
+  }
+  .ev .head .tag.t-progress  { background: rgba(34,197,94,.18); color: #15803d; }
+  .ev .head .tag.t-photo     { background: rgba(168,85,247,.18); color: #7e22ce; }
+  .ev .head .tag.t-file      { background: rgba(59,130,246,.18); color: #1d4ed8; }
+  .ev .head .tag.t-inspection{ background: rgba(20,184,166,.18); color: #0f766e; }
+  .ev .head .tag.t-comment   { background: rgba(100,116,139,.22); color: #475569; }
+  .ev .head .tag.t-approval  { background: rgba(234,179,8,.22); color: #a16207; }
+  .ev .head .tag.t-alert     { background: rgba(239,68,68,.18); color: #b91c1c; }
+  .ev .head .tag.t-milestone { background: rgba(20,83,45,.22); color: #14532d; }
+  html[data-theme="dark"] .ev .head .tag.t-progress   { color: #86efac; }
+  html[data-theme="dark"] .ev .head .tag.t-photo      { color: #d8b4fe; }
+  html[data-theme="dark"] .ev .head .tag.t-file       { color: #93c5fd; }
+  html[data-theme="dark"] .ev .head .tag.t-inspection { color: #5eead4; }
+  html[data-theme="dark"] .ev .head .tag.t-comment    { color: #cbd5e1; }
+  html[data-theme="dark"] .ev .head .tag.t-approval   { color: #fde68a; }
+  html[data-theme="dark"] .ev .head .tag.t-alert      { color: #fca5a5; }
+  html[data-theme="dark"] .ev .head .tag.t-milestone  { color: #86efac; }
+
+  .ev .body {
+    margin-top: 8px; padding: 12px 14px;
+    background: var(--card-2); border: 1px solid var(--border-soft);
+    border-radius: 14px;
+  }
+  .ev .body.plain { background: transparent; border: 0; padding: 0; }
+  .ev .body .title { font-size: 14.5px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+  .ev .body .text  { font-size: 13.5px; color: var(--text-2); line-height: 1.5; }
+  .ev .photo {
+    margin-top: 10px; border-radius: 12px; overflow: hidden;
+    border: 1px solid var(--border-soft);
+  }
+  .ev .photo img { display: block; width: 100%; max-height: 280px; object-fit: cover; }
+  .ev .progress-card {
+    margin-top: 10px; display: flex; align-items: center; gap: 12px;
+    padding: 12px; background: var(--card-2); border: 1px solid var(--border-soft);
+    border-radius: 14px;
+  }
+  .ev .progress-card .pct { font: 800 22px var(--font); color: #15803d; min-width: 56px; }
+  html[data-theme="dark"] .ev .progress-card .pct { color: #34d399; }
+  .ev .progress-card .stage { font-size: 13px; font-weight: 700; color: var(--text); }
+  .ev .progress-card .delta { font-size: 11.5px; color: var(--text-3); }
+  .ev .progress-card .bar { flex: 1; height: 6px; background: color-mix(in oklab, var(--card-2) 30%, var(--border)); border-radius: 6px; overflow: hidden; }
+  .ev .progress-card .bar > i { display: block; height: 100%; background: linear-gradient(90deg,#22c55e,#16a34a); border-radius: 6px; }
+
+  .ev .file-row {
+    margin-top: 10px;
+    display: flex; align-items: center; gap: 12px;
+    padding: 12px; border-radius: 12px; background: var(--card-2);
+    border: 1px solid var(--border-soft);
+  }
+  .ev .file-row .ic {
+    width: 40px; height: 40px; border-radius: 10px;
+    background: var(--card); display: grid; place-items: center;
+  }
+  .ev .file-row .fname { font-size: 13.5px; font-weight: 700; color: var(--text); }
+  .ev .file-row .fmeta { font-size: 11.5px; color: var(--text-3); margin-top: 2px; }
+  .ev .file-row .download { color: var(--text-3); cursor: pointer; }
+
+  .ev .actions {
+    display: flex; align-items: center; gap: 18px; margin-top: 10px;
+    padding-top: 4px;
+  }
+  .ev .actions span {
+    display: inline-flex; align-items: center; gap: 6px;
+    color: var(--text-3); font: 600 12px var(--font); cursor: pointer;
+  }
+  .ev .actions span:hover { color: var(--text-2); }
+  .ev .actions .heart { color: var(--red); }
+
+  /* Composer */
+  .composer {
+    border-top: 1px solid var(--border-soft);
+    padding: 12px 14px;
+    background: var(--card);
+    display: flex; align-items: center; gap: 8px;
+  }
+  .composer .iconbtn {
+    width: 36px; height: 36px; border-radius: 50%;
+    display: grid; place-items: center; cursor: pointer;
+    background: transparent; border: 0; color: var(--text-2);
+  }
+  .composer .iconbtn:hover { background: var(--card-2); color: var(--text); }
+  .composer .input-wrap {
+    flex: 1; display: flex; align-items: center; gap: 6px;
+    background: var(--card-2); border: 1px solid var(--border-soft);
+    border-radius: 20px; padding: 8px 12px;
+  }
+  .composer input {
+    flex: 1; background: transparent; border: 0; outline: 0;
+    color: var(--text); font: 500 13.5px var(--font);
+  }
+  .composer .send {
+    width: 40px; height: 40px; border-radius: 50%;
+    background: var(--green); color: #fff; border: 0; cursor: pointer;
+    display: grid; place-items: center;
+  }
+  html[data-theme="dark"] .composer .send { background: #16a34a; }
+
+  /* Info panel */
+  .info-panel {
+    background: var(--card); border: 1px solid var(--border-soft);
+    border-radius: 20px; padding: 18px;
+    display: flex; flex-direction: column; gap: 16px;
+    overflow: auto; min-height: 0; box-shadow: var(--shadow);
+  }
+  .info-panel::-webkit-scrollbar { width: 8px; }
+  .info-panel::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+  .info-cover {
+    height: 110px; border-radius: 14px; overflow: hidden;
+    background-size: cover; background-position: center;
+    position: relative;
+  }
+  .info-cover::after {
+    content:""; position: absolute; inset: 0;
+    background: linear-gradient(180deg, transparent 40%, rgba(0,0,0,.55));
+  }
+  .info-cover .badge {
+    position: absolute; left: 10px; top: 10px;
+    background: rgba(0,0,0,.55); color: #fff;
+    border-radius: 999px; padding: 4px 10px;
+    font: 700 11px var(--font); display: inline-flex; align-items: center; gap: 6px; z-index: 1;
+  }
+  .info-name { font-size: 17px; font-weight: 800; color: var(--text); margin-top: -8px; }
+  .info-loc  { font-size: 12.5px; color: var(--text-3); display: inline-flex; align-items: center; gap: 6px; }
+  .quick-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+  .quick-row button {
+    border: 1px solid var(--border-soft); background: var(--card-2);
+    color: var(--text); border-radius: 12px; padding: 10px 4px;
+    display: flex; flex-direction: column; align-items: center; gap: 4px;
+    font: 600 10.5px var(--font); cursor: pointer;
+  }
+  .quick-row button:hover { background: var(--card); }
+  .info-section h4 {
+    margin: 0 0 8px; font-size: 11px; color: var(--text-3);
+    text-transform: uppercase; letter-spacing: .6px;
+  }
+  .info-section .row {
+    display: flex; align-items: center; gap: 10px;
+    padding: 8px 0; font-size: 13px; color: var(--text);
+    border-bottom: 1px solid var(--border-soft);
+  }
+  .info-section .row:last-child { border-bottom: 0; }
+  .info-section .row .key { color: var(--text-3); }
+  .info-section .row .val { margin-left: auto; font-weight: 600; }
+  .stage-bar { height: 6px; border-radius: 6px; background: color-mix(in oklab, var(--card-2) 30%, var(--border)); overflow: hidden; margin-top: 6px; }
+  .stage-bar > i { display: block; height: 100%; background: linear-gradient(90deg,#22c55e,#16a34a); }
+  .team-row { display: flex; align-items: center; gap: 8px; padding: 6px 0; }
+  .team-row .av { width: 30px; height: 30px; border-radius: 50%; background-size: cover; background-position: center; }
+  .team-row .who { font-size: 13px; font-weight: 600; color: var(--text); line-height: 1.1; }
+  .team-row .role { font-size: 11.5px; color: var(--text-3); }
+
+  /* Theme switch */
+  .theme-switch {
+    position: fixed; right: 22px; bottom: 22px; z-index: 50;
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 24px; padding: 6px;
+    display: inline-flex; gap: 4px; box-shadow: var(--shadow);
+  }
+  .theme-switch button {
+    border: 0; background: transparent; cursor: pointer;
+    width: 38px; height: 38px; border-radius: 50%;
+    display: grid; place-items: center; color: var(--text-2);
+  }
+  .theme-switch button.active { background: var(--green); color: #fff; }
+
+  @media (max-width: 1200px) {
+    .center { grid-template-columns: 300px 1fr; }
+    .info-panel { display: none; }
+  }
+</style>
+</head>
+<body data-screen-label="04 Atualizações">
+<div id="root"></div>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<script type="text/babel">
+
+const { useState, useEffect, useMemo, useRef } = React;
+
+const I = {
+  feed: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><rect x="3" y="3" width="18" height="18" rx="3" /><path d="M3 15l5-5 4 4 4-6 5 6" /></svg>,
+  proj: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M3 17l4-6 4 3 4-7 6 10" /></svg>,
+  dash: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><rect x="3" y="3" width="7" height="7" rx="1.5" /><rect x="14" y="3" width="7" height="7" rx="1.5" /><rect x="3" y="14" width="7" height="7" rx="1.5" /><rect x="14" y="14" width="7" height="7" rx="1.5" /></svg>,
+  check: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><circle cx="12" cy="12" r="9" /><path d="M8 12.5l2.5 2.5L16 10" /></svg>,
+  bell: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M6 8a6 6 0 1 1 12 0c0 5 2 6 2 6H4s2-1 2-6z" /><path d="M10 19a2 2 0 0 0 4 0" /></svg>,
+  bolt: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M13 2L4 14h7l-1 8 9-12h-7l1-8z" /></svg>,
+  team: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><circle cx="9" cy="9" r="3" /><path d="M3 19a6 6 0 0 1 12 0" /><circle cx="17" cy="8" r="2.5" /><path d="M15 19a5 5 0 0 1 7-4.6" /></svg>,
+  lib: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M4 5a2 2 0 0 1 2-2h10v18H6a2 2 0 0 1-2-2z" /><path d="M16 3h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-2" /></svg>,
+  rep: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><rect x="4" y="3" width="16" height="18" rx="2" /><path d="M8 8h8M8 12h8M8 16h5" /></svg>,
+  cog: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><circle cx="12" cy="12" r="3" /><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 0 1-4 0v-.1a1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 0 1 0-4h.1a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3h0a1.7 1.7 0 0 0 1-1.5V3a2 2 0 0 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8v0a1.7 1.7 0 0 0 1.5 1H21a2 2 0 0 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z" /></svg>,
+  chev: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M6 9l6 6 6-6" /></svg>,
+  search: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" style={{ width: "30px" }}><circle cx="11" cy="11" r="7" /><path d="M20 20l-3.5-3.5" /></svg>,
+  plus: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 5v14M5 12h14" /></svg>,
+  trend: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M3 17l6-6 4 4 8-8" /><path d="M14 7h7v7" /></svg>,
+  camera: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M3 7h4l2-3h6l2 3h4v13H3z" /><circle cx="12" cy="13" r="4" /></svg>,
+  doc: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z" /><path d="M14 3v6h6" /></svg>,
+  pdf: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z" /><path d="M14 3v6h6" /><text x="6.5" y="17" fontSize="5.5" fontWeight="800" fill="currentColor" stroke="none">PDF</text></svg>,
+  download: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><path d="M7 10l5 5 5-5M12 15V3" /></svg>,
+  comment: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 21l1.9-5.4A8 8 0 1 1 21 12z" /></svg>,
+  ruler: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M2 14l8-8 8 8-8 8z" /><path d="M5 11l2 2M8 8l2 2M11 5l2 2M14 8l2 2M11 11l2 2" /></svg>,
+  alertTri: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 3l10 18H2L12 3z" /><path d="M12 10v5M12 18v.5" /></svg>,
+  approval: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M9 11l2 2 4-4" /><circle cx="12" cy="12" r="9" /></svg>,
+  flag: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M4 21V4l8 3 8-3v13l-8 3-8-3z" /></svg>,
+  heart: <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21s-7-4.5-9.5-9A5.5 5.5 0 0 1 12 6a5.5 5.5 0 0 1 9.5 6C19 16.5 12 21 12 21z" /></svg>,
+  send: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M22 2L11 13" /><path d="M22 2l-7 20-4-9-9-4 20-7z" /></svg>,
+  clip: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M21 10l-9 9a5 5 0 0 1-7-7l9-9a3.5 3.5 0 0 1 5 5l-9 9a2 2 0 0 1-3-3l8-8" /></svg>,
+  smile: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><circle cx="12" cy="12" r="9" /><path d="M8 10h.01M16 10h.01M8 14s1.5 2 4 2 4-2 4-2" /></svg>,
+  more: <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="1.7" /><circle cx="12" cy="12" r="1.7" /><circle cx="19" cy="12" r="1.7" /></svg>,
+  pin: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M12 22s7-6 7-12a7 7 0 0 0-14 0c0 6 7 12 7 12z" /><circle cx="12" cy="10" r="2.5" /></svg>,
+  cal: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" style={{ width: "6px" }}><rect x="3" y="5" width="18" height="16" rx="2" /><path d="M16 3v4M8 3v4M3 10h18" /></svg>,
+  read: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ width: "8px", height: "38px" }}><path d="M2 12l5 5L17 7" /><path d="M7 17L17 7" /></svg>,
+  filter: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M3 5h18l-7 9v6l-4-2v-4L3 5z" /></svg>,
+  sun: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><circle cx="12" cy="12" r="4" /><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" /></svg>,
+  moon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" /></svg>
+};
+
+const PHOTOS = {
+  carlos: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=200&q=70",
+  mariana: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=200&q=70",
+  joao: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=200&q=70",
+  fernanda: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=200&q=70",
+  rafael: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=200&q=70",
+  villa: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=900&q=80",
+  jardins: "https://images.unsplash.com/photo-1542621334-a254cf47733d?auto=format&fit=crop&w=900&q=80",
+  corp: "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=900&q=80",
+  loft: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=900&q=80",
+  horiz: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=900&q=80",
+  greenview: "https://images.unsplash.com/photo-1448630360428-65456885c650?auto=format&fit=crop&w=900&q=80",
+  concretagem: "https://images.unsplash.com/photo-1582407947304-fd86f028f716?auto=format&fit=crop&w=900&q=80",
+  estrutura: "https://images.unsplash.com/photo-1581094288338-2314dddb7ece?auto=format&fit=crop&w=900&q=80"
+};
+
+const OBRAS = [
+{
+  id: "villa", name: "Villa Aurora", loc: "Florianópolis, SC",
+  color: "#22c55e", thumb: PHOTOS.villa, cover: PHOTOS.villa,
+  stage: "Estrutura - Fundação", progress: 72, unread: 8, live: true,
+  preview: "Mariana atualizou o avanço para 72%",
+  time: "agora", lastTs: 1, following: true,
+  team: [
+  { name: "Mariana Costa", role: "Eng. Responsável", img: PHOTOS.mariana },
+  { name: "Rafael Souza", role: "Mestre de obras", img: PHOTOS.rafael },
+  { name: "João Pedro", role: "Arquiteto", img: PHOTOS.joao }]
+
+},
+{
+  id: "jardins", name: "Residencial Jardins", loc: "São Paulo, SP",
+  color: "#3b82f6", thumb: PHOTOS.jardins, cover: PHOTOS.jardins,
+  stage: "Acabamento - Revestimentos", progress: 48, unread: 3, live: false,
+  preview: "João Pedro anexou Memorial_VillaAurora_v3.docx",
+  time: "08:42", lastTs: 2, following: true,
+  team: [
+  { name: "João Pedro", role: "Arquiteto", img: PHOTOS.joao },
+  { name: "Mariana Costa", role: "Eng. Responsável", img: PHOTOS.mariana }]
+
+},
+{
+  id: "corp", name: "Corporate Tower", loc: "Curitiba, PR",
+  color: "#8b5cf6", thumb: PHOTOS.corp, cover: PHOTOS.corp,
+  stage: "Instalações elétricas", progress: 25, unread: 12, live: true,
+  preview: "ALERTA: estrutura do 8º andar com atraso de 5 dias",
+  time: "12 min", lastTs: 1, following: true,
+  team: [
+  { name: "Fernanda Lima", role: "Eng. Elétrica", img: PHOTOS.fernanda },
+  { name: "Carlos Mendes", role: "Eng. Civil", img: PHOTOS.carlos }]
+
+},
+{
+  id: "loft", name: "Loft Panorama", loc: "Balneário Camboriú, SC",
+  color: "#ef4444", thumb: PHOTOS.loft, cover: PHOTOS.loft,
+  stage: "Fundação", progress: 18, unread: 0,
+  preview: "Rafael Souza concluiu vistoria sem ressalvas",
+  time: "Ontem", lastTs: 3, following: true,
+  team: [{ name: "Rafael Souza", role: "Mestre de obras", img: PHOTOS.rafael }]
+},
+{
+  id: "horiz", name: "Horizonte", loc: "Belo Horizonte, MG",
+  color: "#a855f7", thumb: PHOTOS.horiz, cover: PHOTOS.horiz,
+  stage: "Projeto executivo", progress: 8, unread: 1,
+  preview: "Aprovação solicitada: memorial descritivo",
+  time: "Ontem", lastTs: 3, following: false,
+  team: [{ name: "João Pedro", role: "Arquiteto", img: PHOTOS.joao }]
+},
+{
+  id: "green", name: "Est. Greenview", loc: "Porto Alegre, RS",
+  color: "#06b6d4", thumb: PHOTOS.greenview, cover: PHOTOS.greenview,
+  stage: "Fundação", progress: 32, unread: 0,
+  preview: "Relatório semanal publicado",
+  time: "Seg", lastTs: 4, following: false,
+  team: [{ name: "Lucas Andrade", role: "Eng. Civil", img: PHOTOS.carlos }]
+}];
+
+
+/* Tipo de evento -> (icon, tag class, label) */
+const TYPE = {
+  progress: { ic: I.trend, cls: "t-progress", label: "Avanço" },
+  photo: { ic: I.camera, cls: "t-photo", label: "Foto" },
+  file: { ic: I.doc, cls: "t-file", label: "Arquivo" },
+  inspection: { ic: I.ruler, cls: "t-inspection", label: "Vistoria" },
+  comment: { ic: I.comment, cls: "t-comment", label: "Comentário" },
+  approval: { ic: I.approval, cls: "t-approval", label: "Aprovação" },
+  alert: { ic: I.alertTri, cls: "t-alert", label: "Alerta" },
+  milestone: { ic: I.flag, cls: "t-milestone", label: "Marco" }
+};
+
+const FEEDS = {
+  villa: [
+  { day: "Hoje" },
+  { id: 1, type: "progress", who: "Mariana Costa", whoImg: PHOTOS.mariana, time: "agora",
+    stage: "Estrutura - Fundação", from: 65, to: 72 },
+  { id: 2, type: "photo", who: "Mariana Costa", whoImg: PHOTOS.mariana, time: "08:12",
+    text: "Concretagem da laje L1 finalizada às 07:38. Cura programada para 72h.",
+    photo: PHOTOS.concretagem, likes: 12, comments: 4 },
+  { id: 3, type: "inspection", who: "Rafael Souza", whoImg: PHOTOS.rafael, time: "07:38",
+    title: "Vistoria de armaduras",
+    text: "Posicionamento de armaduras conforme projeto. 3 ajustes de espaçamento registrados.",
+    checklist: { ok: 18, pending: 3 } },
+  { id: 4, type: "comment", who: "João Pedro", whoImg: PHOTOS.joao, time: "07:20",
+    text: "Atenção à cobertura da fôrma — previsão de chuva à tarde.", likes: 3, comments: 1 },
+  { day: "Ontem" },
+  { id: 5, type: "file", who: "Mariana Costa", whoImg: PHOTOS.mariana, time: "ontem, 17:42",
+    file: { name: "Relatorio_Fundacao_28-05.pdf", size: "2,4 MB", type: "PDF" } },
+  { id: 6, type: "approval", who: "Sistema", time: "ontem, 16:10",
+    title: "Aprovação solicitada", text: "Liberação para concretagem da L1 aguardando assinatura de Carlos Mendes." },
+  { day: "Esta semana" },
+  { id: 7, type: "milestone", who: "Sistema", time: "seg, 09:00",
+    title: "Marco atingido: 70% da fundação", text: "Cronograma adiantado em 1 dia." },
+  { id: 8, type: "alert", who: "Sistema", time: "seg, 08:00",
+    title: "Variação de preço — Cimento CP-II", text: "Alta de 6,2% na cotação semanal pode impactar próxima compra." }],
+
+  jardins: [
+  { day: "Hoje" },
+  { id: 1, type: "file", who: "João Pedro", whoImg: PHOTOS.joao, time: "08:42",
+    file: { name: "Memorial_VillaAurora_v3.docx", size: "880 KB", type: "DOCX" } },
+  { id: 2, type: "progress", who: "Mariana Costa", whoImg: PHOTOS.mariana, time: "08:30",
+    stage: "Acabamento - Revestimentos", from: 45, to: 48 },
+  { id: 3, type: "comment", who: "João Pedro", whoImg: PHOTOS.joao, time: "08:20",
+    text: "Revisei o memorial — ajustes nos revestimentos do hall. Pode aprovar.", likes: 2 }],
+
+  corp: [
+  { day: "Hoje" },
+  { id: 1, type: "alert", who: "Sistema", time: "há 12 min",
+    title: "Atraso crítico no cronograma",
+    text: "A estrutura do 8º andar está 5 dias atrás do planejado. Pode impactar entrega de instalações em 12/06." },
+  { id: 2, type: "photo", who: "Fernanda Lima", whoImg: PHOTOS.fernanda, time: "07:15",
+    text: "Início das instalações elétricas do 5º andar.",
+    photo: PHOTOS.estrutura, likes: 8, comments: 2 },
+  { id: 3, type: "progress", who: "Fernanda Lima", whoImg: PHOTOS.fernanda, time: "07:10",
+    stage: "Instalações elétricas", from: 22, to: 25 },
+  { day: "Ontem" },
+  { id: 4, type: "approval", who: "Sistema", time: "ontem, 14:20",
+    title: "Aprovação pendente", text: "Liberação da subestação aguardando sua assinatura." }],
+
+  loft: [
+  { day: "Ontem" },
+  { id: 1, type: "inspection", who: "Rafael Souza", whoImg: PHOTOS.rafael, time: "ontem, 16:40",
+    title: "Vistoria de fundação", text: "Sem ressalvas. Liberada continuidade.", checklist: { ok: 14, pending: 0 } }],
+
+  horiz: [
+  { day: "Ontem" },
+  { id: 1, type: "approval", who: "João Pedro", whoImg: PHOTOS.joao, time: "ontem, 11:00",
+    title: "Aprovação solicitada", text: "Memorial descritivo enviado para sua assinatura." }],
+
+  green: [
+  { day: "Esta semana" },
+  { id: 1, type: "file", who: "Lucas Andrade", whoImg: PHOTOS.carlos, time: "seg, 09:30",
+    file: { name: "Relatorio_Semanal_27-05.pdf", size: "1,8 MB", type: "PDF" } }]
+
+};
+
+function Sidebar() {
+  return (
+    <aside className="sidebar">
+      <div className="logo-row">
+        <div className="logo">MIS</div>
+        <span className="logo-text">MIS</span>
+      </div>
+      <nav className="nav">
+        <a href="MIS Dashboard.html">{I.feed}<span>Feed</span></a>
+        <a href="#">{I.proj}<span>Projetos</span></a>
+        <a href="#">{I.dash}<span>Dashboard</span></a>
+        <a href="Pendências.html">{I.check}<span>Pendências</span><span className="badge">7</span></a>
+        <a href="Alertas.html">{I.bell}<span>Alertas</span><span className="badge">5</span></a>
+        <a className="active" href="Atualizações.html">{I.bolt}<span>Atualizações</span><span className="badge">24</span></a>
+        <a href="#">{I.team}<span>Equipe</span></a>
+        <a href="#">{I.lib}<span>Biblioteca</span></a>
+        <a href="#">{I.rep}<span>Relatórios</span></a>
+        <a href="#">{I.cog}<span>Configurações</span></a>
+      </nav>
+      <div className="spacer"></div>
+      <div className="user-card">
+        <div className="avatar" style={{ backgroundImage: `url(${PHOTOS.carlos})` }}></div>
+        <div>
+          <div className="name">Carlos Mendes</div>
+          <div className="role">Engenheiro Civil</div>
+        </div>
+        <div className="chev">{I.chev}</div>
+      </div>
+    </aside>);
+
+}
+
+function Topbar() {
+  return (
+    <div className="topbar">
+      <div className="search">
+        <span style={{ color: "var(--text-3)" }}>{I.search}</span>
+        <input placeholder="Buscar atualizações, obras ou pessoas..." />
+        <span className="kbd">⌘ K</span>
+      </div>
+      <div className="top-actions">
+        <button className="btn-primary">{I.read}<span>Marcar tudo como lido</span></button>
+        <button className="icon-btn">{I.bell}<span className="dot">4</span></button>
+        <button className="user-trigger">
+          <span className="avatar" style={{ backgroundImage: `url(${PHOTOS.carlos})` }}></span>
+          <span style={{ color: "var(--text-2)" }}>{I.chev}</span>
+        </button>
+      </div>
+    </div>);
+
+}
+
+function ObraList({ activeId, setActiveId, filter, setFilter }) {
+  const list = useMemo(() => {
+    let l = OBRAS;
+    if (filter === "novidades") l = l.filter((o) => o.unread > 0);
+    if (filter === "seguindo") l = l.filter((o) => o.following);
+    if (filter === "live") l = l.filter((o) => o.live);
+    return l;
+  }, [filter]);
+
+  const total = OBRAS.reduce((s, o) => s + o.unread, 0);
+
+  return (
+    <section className="obra-panel">
+      <div className="obra-top">
+        <h2>Atualizações</h2>
+        {total > 0 && <span className="count">{total}</span>}
+        <button className="add" title="Acompanhar obra">{I.plus}</button>
+      </div>
+      <div className="obra-search" style={{ height: "5px" }}>
+        {I.search}
+        <input placeholder="Buscar obra..." />
+      </div>
+      <div className="obra-filters">
+        <button className={filter === "todas" ? "active" : ""} onClick={() => setFilter("todas")}>Todas</button>
+        <button className={filter === "novidades" ? "active" : ""} onClick={() => setFilter("novidades")}>Com novidades</button>
+        <button className={filter === "seguindo" ? "active" : ""} onClick={() => setFilter("seguindo")}>Acompanhando</button>
+        <button className={filter === "live" ? "active" : ""} onClick={() => setFilter("live")}>Ao vivo</button>
+      </div>
+      <div className="obra-list">
+        <div className="section-title">Suas obras</div>
+        {list.map((o) =>
+        <div key={o.id} className={"obra" + (o.id === activeId ? " active" : "")} onClick={() => setActiveId(o.id)}>
+            <div className="thumb" style={{ backgroundImage: `url(${o.thumb})` }}>
+              <div className="swatch" style={{ background: o.color }}></div>
+            </div>
+            <div style={{ minWidth: 0 }}>
+              <div className="name-row">
+                <span className="name">{o.name}</span>
+                {o.live && <span className="live">ao vivo</span>}
+              </div>
+              <div className="preview">{o.preview}</div>
+            </div>
+            <div className="right">
+              <div className="time">{o.time}</div>
+              {o.unread > 0 && <div className="unread">{o.unread}</div>}
+            </div>
+          </div>
+        )}
+      </div>
+    </section>);
+
+}
+
+const FILTERS = [
+{ key: "todas", label: "Tudo", types: null },
+{ key: "progress", label: "Avanço", types: ["progress", "milestone"] },
+{ key: "photo", label: "Fotos", types: ["photo"] },
+{ key: "file", label: "Arquivos", types: ["file"] },
+{ key: "inspection", label: "Vistorias", types: ["inspection"] },
+{ key: "comment", label: "Comentários", types: ["comment"] },
+{ key: "approval", label: "Aprovações", types: ["approval"] },
+{ key: "alert", label: "Alertas", types: ["alert"] }];
+
+
+function FeedPanel({ obra, events, filter, setFilter, onSend }) {
+  const [draft, setDraft] = useState("");
+  const ref = useRef(null);
+
+  const counts = useMemo(() => {
+    const c = {};
+    events.forEach((e) => {if (e.type) c[e.type] = (c[e.type] || 0) + 1;});
+    return c;
+  }, [events]);
+
+  const filtered = useMemo(() => {
+    if (filter === "todas") return events;
+    const types = FILTERS.find((f) => f.key === filter)?.types || [];
+    const out = [];
+    let lastDay = null;
+    for (const e of events) {
+      if (e.day) {lastDay = e;continue;}
+      if (types.includes(e.type)) {
+        if (lastDay) {out.push(lastDay);lastDay = null;}
+        out.push(e);
+      }
+    }
+    return out;
+  }, [events, filter]);
+
+  useEffect(() => {if (ref.current) ref.current.scrollTop = 0;}, [obra.id]);
+
+  const submit = (e) => {
+    e.preventDefault();
+    if (!draft.trim()) return;
+    onSend(draft.trim());
+    setDraft("");
+  };
+
+  return (
+    <section className="feed-panel">
+      <div className="feed-head">
+        <div className="thumb" style={{ backgroundImage: `url(${obra.thumb})` }}></div>
+        <div style={{ minWidth: 0 }}>
+          <div className="title">{obra.name}</div>
+          <div className="meta">
+            <span className="pip" style={{ background: obra.color }}></span>
+            {obra.stage} · {obra.progress}%· {obra.loc}
+          </div>
+        </div>
+        <div className="right">
+          <button className={"followbtn" + (obra.following ? " unfollow" : "")} style={{ width: "120px" }}>
+            {obra.following ? "Acompanhando" : "Acompanhar"}
+          </button>
+          <button className="iconbtn" title="Notificações">{I.bell}</button>
+          <button className="iconbtn" title="Mais">{I.more}</button>
+        </div>
+      </div>
+      <div className="feed-filters">
+        {FILTERS.map((f) =>
+        <button key={f.key} className={filter === f.key ? "active" : ""} onClick={() => setFilter(f.key)}>
+            <span>{f.label}</span>
+            {f.key !== "todas" && counts[f.types[0]] &&
+          <span className="count">{f.types.reduce((s, t) => s + (counts[t] || 0), 0)}</span>
+          }
+          </button>
+        )}
+      </div>
+      <div className="feed-body" ref={ref}>
+        {filtered.length === 0 &&
+        <div style={{ padding: 30, textAlign: "center", color: "var(--text-3)" }}>Nenhuma atualização neste filtro.</div>
+        }
+        {filtered.map((e, i) => {
+          if (e.day) return (
+            <div key={"d" + i} className="day-sep">
+              <span>{e.day}</span>
+              <span className="line"></span>
+            </div>);
+
+          const t = TYPE[e.type];
+          return (
+            <article key={e.id} className="ev">
+              <div className="dot">{t.ic}</div>
+              <div className="head">
+                <span className="who">{e.who}</span>
+                {e.type === "progress" && <span>atualizou <b>{e.stage}</b></span>}
+                {e.type === "photo" && <span>compartilhou uma foto</span>}
+                {e.type === "file" && <span>anexou um arquivo</span>}
+                {e.type === "inspection" && <span>registrou vistoria</span>}
+                {e.type === "comment" && <span>comentou</span>}
+                {e.type === "approval" && <span>{e.title || "solicitou aprovação"}</span>}
+                {e.type === "alert" && <span>{e.title || "publicou alerta"}</span>}
+                {e.type === "milestone" && <span>{e.title || "atingiu um marco"}</span>}
+                <span className={"tag " + t.cls}>{t.label}</span>
+                <span className="time">{e.time}</span>
+              </div>
+              {e.type === "progress" &&
+              <div className="progress-card">
+                  <div className="pct">{e.to}%</div>
+                  <div style={{ flex: 1 }}>
+                    <div className="stage">{e.stage}</div>
+                    <div className="delta">+{e.to - e.from} pontos · cronograma adiantado</div>
+                    <div className="bar"><i style={{ width: e.to + "%" }}></i></div>
+                  </div>
+                </div>
+              }
+              {(e.type === "comment" || e.type === "photo") && e.text &&
+              <div className="body"><div className="text">{e.text}</div></div>
+              }
+              {(e.type === "approval" || e.type === "alert" || e.type === "milestone" || e.type === "inspection") && e.text &&
+              <div className="body">
+                  {e.title && <div className="title">{e.title}</div>}
+                  <div className="text">{e.text}</div>
+                </div>
+              }
+              {e.photo &&
+              <div className="photo"><img src={e.photo} alt="" /></div>
+              }
+              {e.file &&
+              <div className="file-row">
+                  <div className="ic">{I.pdf}</div>
+                  <div style={{ flex: 1 }}>
+                    <div className="fname">{e.file.name}</div>
+                    <div className="fmeta">{e.file.size} · {e.file.type}</div>
+                  </div>
+                  <span className="download">{I.download}</span>
+                </div>
+              }
+              {e.checklist &&
+              <div className="body" style={{ display: "flex", gap: 14, alignItems: "center" }}>
+                  <div style={{ display: "flex", gap: 14 }}>
+                    <span style={{ color: "#15803d", fontWeight: 700 }}>✓ {e.checklist.ok} ok</span>
+                    {e.checklist.pending > 0 && <span style={{ color: "#b45309", fontWeight: 700 }}>● {e.checklist.pending} pendente</span>}
+                  </div>
+                </div>
+              }
+              {(e.likes !== undefined || e.comments !== undefined) &&
+              <div className="actions">
+                  <span className="heart">{I.heart}<span>{e.likes ?? 0}</span></span>
+                  <span>{I.comment}<span>{e.comments ?? 0}</span></span>
+                  <span>{I.send}</span>
+                </div>
+              }
+            </article>);
+
+        })}
+      </div>
+      <form className="composer" onSubmit={submit}>
+        <button type="button" className="iconbtn" title="Anexo">{I.clip}</button>
+        <button type="button" className="iconbtn" title="Foto">{I.camera}</button>
+        <div className="input-wrap">
+          <input
+            value={draft}
+            onChange={(e) => setDraft(e.target.value)}
+            placeholder={"Comentar em " + obra.name + "..."} />
+          
+          <button type="button" className="iconbtn" style={{ width: 28, height: 28 }}>{I.smile}</button>
+        </div>
+        <button type="submit" className="send" title="Publicar">{I.send}</button>
+      </form>
+    </section>);
+
+}
+
+function InfoPanel({ obra }) {
+  return (
+    <aside className="info-panel">
+      <div className="info-cover" style={{ backgroundImage: `url(${obra.cover})` }}>
+        {obra.live && <span className="badge"><span style={{ width: 6, height: 6, borderRadius: 3, background: "#22c55e" }}></span>Ao vivo</span>}
+      </div>
+      <div>
+        <div className="info-name">{obra.name}</div>
+        <div className="info-loc">{I.pin}<span>{obra.loc}</span></div>
+      </div>
+      <div className="quick-row">
+        <button style={{ height: "66px" }}>{I.cal}<span>Agenda</span></button>
+        <button style={{ height: "66px" }}>{I.lib}<span>Biblioteca</span></button>
+        <button style={{ height: "66px" }}>{I.team}<span>Equipe</span></button>
+        <button style={{ height: "66px" }}>{I.cog}<span>Notificar</span></button>
+      </div>
+      <div className="info-section">
+        <h4>Status atual</h4>
+        <div className="row"><span className="key">Etapa</span><span className="val">{obra.stage}</span></div>
+        <div className="row"><span className="key">Avanço</span><span className="val">{obra.progress}%</span></div>
+        <div className="stage-bar"><i style={{ width: obra.progress + "%" }}></i></div>
+      </div>
+      <div className="info-section">
+        <h4>Resumo de hoje</h4>
+        <div className="row"><span className="key">Atualizações</span><span className="val">{obra.unread || "—"}</span></div>
+        <div className="row"><span className="key">Fotos publicadas</span><span className="val">2</span></div>
+        <div className="row"><span className="key">Documentos</span><span className="val">1</span></div>
+        <div className="row"><span className="key">Vistorias</span><span className="val">1</span></div>
+      </div>
+      <div className="info-section">
+        <h4>Equipe</h4>
+        {obra.team.map((m, i) =>
+        <div key={i} className="team-row">
+            <div className="av" style={{ backgroundImage: `url(${m.img})` }}></div>
+            <div>
+              <div className="who">{m.name}</div>
+              <div className="role">{m.role}</div>
+            </div>
+          </div>
+        )}
+      </div>
+    </aside>);
+
+}
+
+function ThemeSwitch({ theme, setTheme }) {
+  return (
+    <div className="theme-switch" role="group" aria-label="Tema">
+      <button className={theme === "light" ? "active" : ""} onClick={() => setTheme("light")} aria-label="Modo claro">{I.sun}</button>
+      <button className={theme === "dark" ? "active" : ""} onClick={() => setTheme("dark")} aria-label="Modo escuro">{I.moon}</button>
+    </div>);
+
+}
+
+function App() {
+  const [theme, setTheme] = useState(() => localStorage.getItem("mis-theme") || "light");
+  const [activeId, setActiveId] = useState("villa");
+  const [filter, setFilter] = useState("todas");
+  const [feedFilter, setFeedFilter] = useState("todas");
+  const [feeds, setFeeds] = useState(FEEDS);
+
+  useEffect(() => {
+    document.documentElement.setAttribute("data-theme", theme);
+    localStorage.setItem("mis-theme", theme);
+  }, [theme]);
+
+  useEffect(() => {setFeedFilter("todas");}, [activeId]);
+
+  const obra = OBRAS.find((o) => o.id === activeId);
+  const events = feeds[activeId] || [];
+
+  const post = (text) => {
+    const t = new Date();
+    const time = t.getHours().toString().padStart(2, "0") + ":" + t.getMinutes().toString().padStart(2, "0");
+    setFeeds((prev) => {
+      const list = prev[activeId] || [];
+      // insert at top, after the first day separator (or as new day)
+      const newEv = { id: Date.now(), type: "comment", who: "Carlos Mendes", whoImg: PHOTOS.carlos, time, text, likes: 0, comments: 0 };
+      const out = [...list];
+      // find first day sep
+      const i = out.findIndex((x) => x.day);
+      if (i === 0) out.splice(1, 0, newEv);else
+      out.unshift({ day: "Hoje" }, newEv);
+      return { ...prev, [activeId]: out };
+    });
+  };
+
+  return (
+    <div className="app">
+      <Sidebar />
+      <main className="main">
+        <Topbar />
+        <div className="center">
+          <ObraList activeId={activeId} setActiveId={setActiveId} filter={filter} setFilter={setFilter} />
+          <FeedPanel obra={obra} events={events} filter={feedFilter} setFilter={setFeedFilter} onSend={post} />
+          <InfoPanel obra={obra} />
+        </div>
+      </main>
+      <ThemeSwitch theme={theme} setTheme={setTheme} />
+    </div>);
+
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+</script>
+<script>
+  window.MIS_SHARED_BRIDGE_CONFIG = {
+    source: 'atualizacoes',
+    pageLabel: 'Atualizações',
+    fallbackMessage: 'Tela de atualizações ativa',
+    navLinkSelector: 'a[href="/alertas/"]',
+    navPageLabel: 'Alertas',
+    navMessage: 'Abrindo alertas'
+  };
+</script>
+<script src="/shared/bridge.js"></script>
+</body>
+</html>
