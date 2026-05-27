@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="MIS — Plataforma de coordenação inteligente para gestão de obras. Tudo conectado, sincronizado e sob controle.">
+  <title>MIS — Gestão Autônoma de Obras</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="bp-grid">
+
+<!-- ══════════════════════════════════════════
+     NAV
+══════════════════════════════════════════ -->
+<header class="nav" id="nav" role="banner">
+  <div class="nav-inner">
+    <a href="#hero" class="nav-logo" aria-label="MIS — página inicial">
+      <span class="nav-logo-mark" aria-hidden="true">M</span>
+      MIS
+    </a>
+
+    <nav class="nav-links" aria-label="Menu principal">
+      <a href="#modulos">Serviços</a>
+      <a href="#portfolio">Obras</a>
+      <a href="#fluxo">Como funciona</a>
+    </nav>
+
+    <div class="nav-actions">
+      <button class="btn btn-ghost" onclick="showLogin()" aria-label="Entrar na plataforma">Entrar</button>
+      <button class="btn btn-primary" onclick="showLogin()">Solicitar demo</button>
+    </div>
+  </div>
+</header>
+
+
+<!-- ══════════════════════════════════════════
+     LANDING PAGE
+══════════════════════════════════════════ -->
+<main id="landing">
+
+  <!-- ── HERO ─────────────────────────────── -->
+  <section id="hero" aria-labelledby="hero-heading">
+    <div class="hero-inner">
+
+      <!-- Left: Copy -->
+      <div class="hero-text">
+        <div class="chip" role="note">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true">
+            <circle cx="12" cy="12" r="3"/>
+            <path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/>
+          </svg>
+          Plataforma de coordenação inteligente
+        </div>
+
+        <h1 class="hero-title" id="hero-heading">Gestão Autônoma.</h1>
+
+        <p class="hero-sub">
+          A nova lógica da construção: tudo conectado, sincronizado e sob controle.
+        </p>
+
+        <div class="hero-ctas">
+          <button class="btn btn-primary" onclick="showLogin()">
+            Acessar plataforma
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+              <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+          </button>
+          <button class="btn btn-ghost">Ver demonstração</button>
+        </div>
+      </div>
+
+      <!-- Right: Visual -->
+      <div class="hero-visual" role="img" aria-label="Planta baixa interativa com indicadores de progresso da obra">
+
+        <!-- Main card -->
+        <div class="hero-card">
+          <div class="hero-card-bg"></div>
+          <svg viewBox="0 0 500 370" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;display:block;position:relative;z-index:1">
+            <defs>
+              <linearGradient id="roomA" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#0466c8" stop-opacity=".07"/>
+                <stop offset="100%" stop-color="#0353a4" stop-opacity=".03"/>
+              </linearGradient>
+              <linearGradient id="roomB" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#002855" stop-opacity=".05"/>
+                <stop offset="100%" stop-color="#023e7d" stop-opacity=".02"/>
+              </linearGradient>
+            </defs>
+
+            <!-- Outer floor plate -->
+            <rect x="42" y="38" width="416" height="294" rx="6" fill="#eef2f8" stroke="rgba(4,102,200,.14)" stroke-width="1.5"/>
+
+            <!-- Room dividers -->
+            <line x1="42"  y1="180" x2="458" y2="180" stroke="rgba(4,102,200,.15)" stroke-width="1.2" stroke-dasharray="5 4"/>
+            <line x1="248" y1="38"  x2="248" y2="332" stroke="rgba(4,102,200,.15)" stroke-width="1.2" stroke-dasharray="5 4"/>
+            <line x1="42"  y1="258" x2="248" y2="258" stroke="rgba(4,102,200,.1)"  stroke-width="1"   stroke-dasharray="4 4"/>
+
+            <!-- Room fills -->
+            <rect x="43"  y="39"  width="204" height="140" rx="0" fill="url(#roomA)"/>
+            <rect x="249" y="39"  width="208" height="140" rx="0" fill="url(#roomB)"/>
+            <rect x="43"  y="181" width="204" height="76"  rx="0" fill="url(#roomB)"/>
+            <rect x="249" y="181" width="208" height="150" rx="0" fill="url(#roomA)"/>
+
+            <!-- Room labels -->
+            <text x="145" y="115" text-anchor="middle" fill="rgba(3,83,164,.45)" font-family="Urbanist,sans-serif" font-size="11" font-weight="600" letter-spacing="1.5">COZINHA</text>
+            <text x="353" y="115" text-anchor="middle" fill="rgba(3,83,164,.45)" font-family="Urbanist,sans-serif" font-size="11" font-weight="600" letter-spacing="1.5">SALA</text>
+            <text x="145" y="224" text-anchor="middle" fill="rgba(3,83,164,.35)" font-family="Urbanist,sans-serif" font-size="10" font-weight="500" letter-spacing="1.2">BANHEIRO</text>
+            <text x="145" y="295" text-anchor="middle" fill="rgba(3,83,164,.45)" font-family="Urbanist,sans-serif" font-size="11" font-weight="600" letter-spacing="1.5">QUARTO 1</text>
+            <text x="353" y="270" text-anchor="middle" fill="rgba(3,83,164,.45)" font-family="Urbanist,sans-serif" font-size="11" font-weight="600" letter-spacing="1.5">QUARTO 2</text>
+
+            <!-- Furniture: sofa -->
+            <rect x="272" y="140" width="90" height="34" rx="7" fill="#dce4f0" stroke="rgba(4,102,200,.2)" stroke-width="1"/>
+            <rect x="275" y="127" width="84" height="18" rx="6" fill="#cdd6e8" stroke="rgba(4,102,200,.2)" stroke-width="1"/>
+            <!-- Coffee table -->
+            <ellipse cx="345" cy="168" rx="20" ry="11" fill="#e4ebf5" stroke="rgba(4,102,200,.18)" stroke-width="1"/>
+            <!-- Kitchen counter -->
+            <rect x="56"  y="56"  width="130" height="22" rx="4" fill="#dce4f0" stroke="rgba(4,102,200,.2)" stroke-width="1"/>
+            <rect x="60"  y="60"  width="32"  height="14" rx="3" fill="#cdd6e8"/>
+            <rect x="98"  y="60"  width="22"  height="14" rx="3" fill="#cdd6e8"/>
+            <!-- Bed 1 -->
+            <rect x="60"  y="270" width="66" height="50" rx="6" fill="#dce4f0" stroke="rgba(4,102,200,.2)" stroke-width="1"/>
+            <rect x="60"  y="270" width="66" height="16" rx="5" fill="#cdd6e8"/>
+            <!-- Bed 2 -->
+            <rect x="268" y="196" width="66" height="50" rx="6" fill="#dce4f0" stroke="rgba(4,102,200,.2)" stroke-width="1"/>
+            <rect x="268" y="196" width="66" height="16" rx="5" fill="#cdd6e8"/>
+
+            <!-- Door indicators -->
+            <path d="M248 180 Q228 180 228 200" fill="none" stroke="rgba(4,102,200,.3)" stroke-width="1.2"/>
+            <path d="M248 38 Q228 38 228 58" fill="none" stroke="rgba(4,102,200,.3)" stroke-width="1.2"/>
+
+            <!-- Corner anchor dots -->
+            <circle cx="248" cy="38"  r="3.5" fill="rgba(4,102,200,.35)"/>
+            <circle cx="42"  cy="180" r="3.5" fill="rgba(4,102,200,.35)"/>
+            <circle cx="458" cy="180" r="3.5" fill="rgba(4,102,200,.35)"/>
+            <circle cx="248" cy="332" r="3.5" fill="rgba(4,102,200,.35)"/>
+
+            <!-- Blueprint header -->
+            <text x="250" y="24" text-anchor="middle" fill="rgba(4,102,200,.4)" font-family="Urbanist,sans-serif" font-size="9" font-weight="700" letter-spacing="3">PLANTA BAIXA · TIPO A · MIS GESTÃO</text>
+          </svg>
+        </div>
+
+        <!-- Floating: Progresso -->
+        <div class="stat-card stat-progresso" aria-label="Progresso da obra: 72.3%">
+          <div class="stat-label">Progresso</div>
+          <div class="stat-value">72.3<sub>%</sub></div>
+        </div>
+
+        <!-- Floating: Status -->
+        <div class="stat-card stat-status" aria-label="Status: Em dia">
+          <span class="dot dot-good"></span>
+          Em dia
+        </div>
+
+        <!-- Floating: Obras Ativas -->
+        <div class="stat-card stat-obras" aria-label="5 obras ativas">
+          <div class="stat-label">Obras Ativas</div>
+          <div class="stat-value">5</div>
+        </div>
+
+      </div><!-- /hero-visual -->
+    </div><!-- /hero-inner -->
+  </section>
+
+
+  <!-- ── MODULES ───────────────────────────── -->
+  <section id="modulos" class="section" aria-labelledby="modulos-heading">
+    <div class="section-inner">
+      <div class="section-header">
+        <p class="eyebrow" aria-hidden="true">Módulos</p>
+        <h2 id="modulos-heading">Tudo que sua obra precisa</h2>
+        <p>Do orçamento à entrega, cada etapa da cadeia construtiva é monitorada e coordenada em tempo real.</p>
+      </div>
+
+      <div class="modules-grid">
+
+        <div class="module-card fade-up">
+          <div class="icon-tile" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/>
+            </svg>
+          </div>
+          <h3>Coordenação de Obras</h3>
+          <p>Gestão integrada de todas as frentes de execução com rastreabilidade total</p>
+        </div>
+
+        <div class="module-card fade-up">
+          <div class="icon-tile" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+              <line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/>
+            </svg>
+          </div>
+          <h3>Planejamento & Cronograma</h3>
+          <p>Visão macro e micro do timeline, marcos e dependências entre etapas</p>
+        </div>
+
+        <div class="module-card fade-up">
+          <div class="icon-tile" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+            </svg>
+          </div>
+          <h3>Suprimentos & Compras</h3>
+          <p>Engenharia reversa de prazos para antecipar problemas antes que aconteçam</p>
+        </div>
+
+        <div class="module-card fade-up">
+          <div class="icon-tile" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+            </svg>
+          </div>
+          <h3>Acompanhamento de Execução</h3>
+          <p>Feed visual com fotos, vídeos e evidências da evolução diária da obra</p>
+        </div>
+
+        <div class="module-card fade-up">
+          <div class="icon-tile" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+              <circle cx="9" cy="7" r="4"/>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+            </svg>
+          </div>
+          <h3>Equipe & Fornecedores</h3>
+          <p>Rede operacional viva conectando colaboradores e prestadores de serviço</p>
+        </div>
+
+        <div class="module-card fade-up">
+          <div class="icon-tile" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            </svg>
+          </div>
+          <h3>Rastreabilidade & Qualidade</h3>
+          <p>Registro completo de decisões, aprovações e validações para auditoria</p>
+        </div>
+
+      </div><!-- /modules-grid -->
+    </div>
+  </section>
+
+
+  <!-- ── FLOW ──────────────────────────────── -->
+  <section id="fluxo" class="section" aria-labelledby="fluxo-heading">
+    <div class="section-inner">
+      <div class="section-header">
+        <p class="eyebrow" aria-hidden="true">Fluxo Inteligente</p>
+        <h2 id="fluxo-heading">Da concepção à entrega</h2>
+      </div>
+
+      <div class="steps-row" role="list" aria-label="Etapas do fluxo de obra">
+
+        <div class="step active" role="listitem" tabindex="0" aria-label="Etapa 1: Projeto" data-step="0">
+          <div class="step-bubble" aria-hidden="true">01</div>
+          <span class="step-label">Projeto</span>
+        </div>
+
+        <div class="step-connector" aria-hidden="true">
+          <svg width="22" height="12" viewBox="0 0 22 12" fill="none">
+            <path d="M1 6h20M14 1l7 5-7 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+
+        <div class="step" role="listitem" tabindex="0" aria-label="Etapa 2: Orçamento" data-step="1">
+          <div class="step-bubble" aria-hidden="true">02</div>
+          <span class="step-label">Orçamento</span>
+        </div>
+
+        <div class="step-connector" aria-hidden="true">
+          <svg width="22" height="12" viewBox="0 0 22 12" fill="none">
+            <path d="M1 6h20M14 1l7 5-7 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+
+        <div class="step" role="listitem" tabindex="0" aria-label="Etapa 3: Planejamento" data-step="2">
+          <div class="step-bubble" aria-hidden="true">03</div>
+          <span class="step-label">Planejamento</span>
+        </div>
+
+        <div class="step-connector" aria-hidden="true">
+          <svg width="22" height="12" viewBox="0 0 22 12" fill="none">
+            <path d="M1 6h20M14 1l7 5-7 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+
+        <div class="step" role="listitem" tabindex="0" aria-label="Etapa 4: Suprimentos" data-step="3">
+          <div class="step-bubble" aria-hidden="true">04</div>
+          <span class="step-label">Suprimentos</span>
+        </div>
+
+        <div class="step-connector" aria-hidden="true">
+          <svg width="22" height="12" viewBox="0 0 22 12" fill="none">
+            <path d="M1 6h20M14 1l7 5-7 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+
+        <div class="step" role="listitem" tabindex="0" aria-label="Etapa 5: Execução" data-step="4">
+          <div class="step-bubble" aria-hidden="true">05</div>
+          <span class="step-label">Execução</span>
+        </div>
+
+        <div class="step-connector" aria-hidden="true">
+          <svg width="22" height="12" viewBox="0 0 22 12" fill="none">
+            <path d="M1 6h20M14 1l7 5-7 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+
+        <div class="step" role="listitem" tabindex="0" aria-label="Etapa 6: Entrega" data-step="5">
+          <div class="step-bubble" aria-hidden="true">06</div>
+          <span class="step-label">Entrega</span>
+        </div>
+
+      </div><!-- /steps-row -->
+    </div>
+  </section>
+
+
+  <!-- ── PORTFOLIO ─────────────────────────── -->
+  <section id="portfolio" class="section" aria-labelledby="portfolio-heading">
+    <div class="section-inner">
+      <div class="section-header">
+        <p class="eyebrow" aria-hidden="true">Portfólio</p>
+        <h2 id="portfolio-heading">Obras em andamento</h2>
+      </div>
+    </div>
+
+    <!-- Rail injected by JS -->
+    <div class="rail" id="portfolio-rail" role="list" aria-label="Obras em andamento — clique para expandir"></div>
+
+  </section>
+
+</main><!-- /landing -->
+
+
+<!-- ══════════════════════════════════════════
+     FOOTER
+══════════════════════════════════════════ -->
+<footer role="contentinfo">
+  <div class="nav-logo">
+    <span class="nav-logo-mark" style="width:28px;height:28px;font-size:.82rem;border-radius:8px" aria-hidden="true">M</span>
+    MIS
+    <span style="font-weight:400;color:var(--muted);margin-left:.3rem">Soluções Construtivas</span>
+  </div>
+  <span>© 2026 MIS. Todos os direitos reservados.</span>
+</footer>
+
+
+<!-- ══════════════════════════════════════════
+     LOGIN VIEW  (full-screen overlay)
+══════════════════════════════════════════ -->
+<div id="login-view" role="dialog" aria-modal="true" aria-labelledby="login-heading">
+
+  <div class="login-card">
+    <button class="back-btn" onclick="hideLogin()" aria-label="Voltar para a página inicial">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+        <path d="M19 12H5M12 5l-7 7 7 7"/>
+      </svg>
+      Voltar
+    </button>
+
+    <div class="login-logo" aria-hidden="true">M</div>
+
+    <h2 id="login-heading">Acessar plataforma</h2>
+    <p class="sub">Entre com suas credenciais</p>
+
+    <div class="form-group">
+      <label class="form-label" for="email">E-mail</label>
+      <div class="form-input-wrap">
+        <input
+          class="form-input"
+          type="email"
+          id="email"
+          name="email"
+          placeholder="seu@email.com"
+          autocomplete="email"
+          required
+        >
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label" for="senha">Senha</label>
+      <div class="form-input-wrap">
+        <input
+          class="form-input"
+          type="password"
+          id="senha"
+          name="senha"
+          placeholder="••••••"
+          autocomplete="current-password"
+          style="padding-right: 3rem"
+        >
+        <button class="toggle-pass" type="button" onclick="togglePass()" aria-label="Mostrar / ocultar senha">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+            <circle cx="12" cy="12" r="3"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <button
+      class="btn btn-primary btn-block"
+      id="login-btn"
+      type="button"
+      onclick="handleLogin(event)"
+    >
+      Entrar
+    </button>
+
+    <p class="login-link">
+      Não tem conta? <a href="#" onclick="return false;">Solicitar acesso</a>
+    </p>
+  </div><!-- /login-card -->
+
+  <footer class="login-footer" role="contentinfo">
+    <div class="nav-logo">
+      <span class="nav-logo-mark" style="width:26px;height:26px;font-size:.78rem;border-radius:7px" aria-hidden="true">M</span>
+      MIS
+      <span style="font-weight:400;color:var(--muted);margin-left:.3rem">Soluções Construtivas</span>
+    </div>
+    <span>© 2026 MIS. Todos os direitos reservados.</span>
+  </footer>
+
+</div><!-- /login-view -->
+
+
+<script src="main.js"></script>
+</body>
+</html>
