@@ -2,7 +2,7 @@ const http = require('http');
 const fs = require('fs');
 const path = require('path');
 
-const { APPS, HOST, PORT, buildUrl } = require('./config/server.config');
+const { APPS, BIND_HOST, PORT, buildUrl } = require('./config/server.config');
 const ROOT = __dirname;
 
 const MIME_TYPES = {
@@ -93,11 +93,21 @@ const server = http.createServer((req, res) => {
   });
 });
 
-server.listen(PORT, HOST, () => {
+server.on('error', (err) => {
+  if (err.code === 'EADDRINUSE') {
+    console.error(`Porta ${PORT} já está em uso em ${buildUrl()}. Pare o processo em execução ou escolha outra porta.`);
+  } else {
+    console.error(err);
+  }
+  process.exit(1);
+});
+
+server.listen(PORT, BIND_HOST, () => {
   const appPaths = APPS.map((app) => `${app.route}`);
 
   console.log(`Servidor unificado rodando em ${buildUrl()}`);
   console.log(`Aplicativos disponíveis: ${appPaths.join(', ')}`);
+  console.log(`Landing page: ${buildUrl('/landing_page/')}`);
   console.log(`Dashboard: ${buildUrl('/mis_dashboard/')}`);
   console.log(`Pendências: ${buildUrl('/mis_pendências/')}`);
 });

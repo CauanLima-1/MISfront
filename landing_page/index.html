@@ -10,7 +10,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
-<body class="bp-grid">
+<body class="bp-grid" data-screen-label="01 Landing Page">
 
 <!-- ══════════════════════════════════════════
      NAV
@@ -427,7 +427,14 @@
 
 </div><!-- /login-view -->
 
-
-<script src="main.js"></script>
+<script>
+  window.MIS_SHARED_BRIDGE_CONFIG = {
+    source: 'landing_page',
+    pageLabel: 'Landing Page',
+    fallbackMessage: 'Tela de landing page ativa'
+  };
+</script>
+<script src="/shared/bridge.js"></script>
+<script src="Main.js"></script>
 </body>
 </html>
