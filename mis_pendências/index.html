@@ -499,10 +499,10 @@ function Sidebar() {
         <span className="logo-text">MIS</span>
       </div>
       <nav className="nav">
-        <a href="MIS Dashboard.html">{I.feed}<span>Feed</span></a>
+        <a href="/mis_dashboard/">{I.feed}<span>Feed</span></a>
         <a href="#">{I.proj}<span>Projetos</span></a>
-        <a href="#">{I.dash}<span>Dashboard</span></a>
-        <a className="active" href="Pendências.html">{I.check}<span>Pendências</span><span className="badge" style={{color:"#fff",opacity:.85}}>7</span></a>
+        <a href="/mis_dashboard/">{I.dash}<span>Dashboard</span></a>
+        <a className="active" href="/mis_pendências/">{I.check}<span>Pendências</span><span className="badge" style={{color:"#fff",opacity:.85}}>7</span></a>
         <a href="Alertas.html">{I.bell}<span>Alertas</span><span className="badge">5</span></a>
         <a href="Atualizações.html">{I.msg}<span>Atualizações</span><span className="badge">24</span></a>
         <a href="#">{I.team}<span>Equipe</span></a>
@@ -770,5 +770,16 @@ function App() {
 
 ReactDOM.createRoot(document.getElementById("root")).render(<App />);
 </script>
+<script>
+  window.MIS_SHARED_BRIDGE_CONFIG = {
+    source: 'mis_pendências',
+    pageLabel: 'Pendências',
+    fallbackMessage: 'Tela de pendências ativa',
+    navLinkSelector: 'a[href="/mis_dashboard/"]',
+    navPageLabel: 'Dashboard',
+    navMessage: 'Voltando para o dashboard'
+  };
+</script>
+<script src="/shared/bridge.js"></script>
 </body>
 </html>

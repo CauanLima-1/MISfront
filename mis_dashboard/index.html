@@ -18,7 +18,7 @@
         <a class="active">Feed</a>
         <a>Projetos</a>
         <a>Dashboard</a>
-        <a>Pendências</a>
+        <a href="/mis_pendências/">Pendências</a>
         <a>Alertas</a>
         <a>Mensagens</a>
         <a>Equipe</a>
@@ -178,6 +178,16 @@
     </main>
   </div>
 
-  <script src="script.js"></script>
+  <script>
+    window.MIS_SHARED_BRIDGE_CONFIG = {
+      source: 'mis_dashboard',
+      pageLabel: 'Dashboard',
+      fallbackMessage: 'Dashboard ativo',
+      navLinkSelector: 'a[href="/mis_pendências/"]',
+      navPageLabel: 'Pendências',
+      navMessage: 'Navegando para a tela de pendências'
+    };
+  </script>
+  <script src="/shared/bridge.js"></script>
 </body>
 </html>

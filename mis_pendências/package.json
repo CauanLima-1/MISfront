@@ -1,10 +1,9 @@
 {
   "name": "mis_pendencias",
   "version": "1.0.0",
-  "description": "Servidor local mínimo para visualização das pendências MIS",
-  "main": "server.js",
+  "description": "Redirect para o servidor unificado do MIS",
   "scripts": {
-    "start": "node server.js"
+    "start": "node ../server.js"
   },
   "keywords": [
     "pendencias",
