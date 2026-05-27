@@ -1,0 +1,17 @@
+{
+  "name": "mis_pendencias",
+  "version": "1.0.0",
+  "description": "Servidor local mínimo para visualização das pendências MIS",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "keywords": [
+    "pendencias",
+    "local",
+    "static",
+    "mis"
+  ],
+  "author": "",
+  "license": "MIT"
+}
