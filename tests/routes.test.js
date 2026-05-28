@@ -195,6 +195,28 @@ test('main pages share the same primary app navigation', async () => {
   }
 });
 
+test('main pages use the same topbar theme control pattern', async () => {
+  const pages = [
+    'feed.html',
+    'projetos.html',
+    'upload.html',
+    'suprimentos.html',
+    'pendencias.html',
+    'alertas.html',
+    'atualizacoes.html'
+  ];
+
+  for (const page of pages) {
+    const html = await fs.readFile(path.join(ROOT, page), 'utf8');
+
+    assert.equal(html.includes('class="theme-toggle"') || html.includes('className="theme-toggle"'), true, `${page} should use theme-toggle`);
+    assert.equal(html.includes('data-theme-btn="light"') || html.includes('setTheme("light")'), true, `${page} should expose light mode`);
+    assert.equal(html.includes('data-theme-btn="dark"') || html.includes('setTheme("dark")'), true, `${page} should expose dark mode`);
+    assert.equal(html.includes('id="themeToggle"'), false, `${page} should not use the old single theme toggle`);
+    assert.equal(html.includes('id="modeToggle"'), false, `${page} should not use the old mode toggle`);
+  }
+});
+
 test('main page navigation links resolve from their own locations', async () => {
   const pages = [
     ['index.html', `${SITE_BASE_PATH}/index.html`],

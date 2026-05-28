@@ -1699,10 +1699,13 @@
 
     function setTheme(theme) {
       html.setAttribute("data-theme", theme);
+      localStorage.setItem("mis-theme", theme);
       themeButtons.forEach((btn) => {
         btn.classList.toggle("active", btn.dataset.themeBtn === theme);
       });
     }
+
+    setTheme(localStorage.getItem("mis-theme") || "light");
 
     themeButtons.forEach((btn) => {
       btn.addEventListener("click", () => setTheme(btn.dataset.themeBtn));

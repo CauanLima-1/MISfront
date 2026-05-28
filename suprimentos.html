@@ -948,13 +948,10 @@ body.dark .item{
   <main class="content">
 
     <!-- TOPBAR -->
-
     <div class="topbar">
 
       <div class="search-box">
-
-        🔍
-
+        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
         <input
         type="text"
         placeholder="Buscar materiais, obras ou fornecedores...">
@@ -964,25 +961,26 @@ body.dark .item{
       <div class="top-actions">
 
         <button class="new-btn">
-          + Novo pedido
+          <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+          Novo pedido
         </button>
 
-        <div class="mode-toggle" id="modeToggle">
-          🌙
+        <div class="theme-toggle" aria-label="Alternar tema">
+          <button type="button" class="active" data-theme-btn="light">&#9728; Claro</button>
+          <button type="button" data-theme-btn="dark">&#9790; Escuro</button>
         </div>
 
         <div class="icon-btn">
-
-          🔔
-
+          <svg viewBox="0 0 24 24"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/><path d="M10 21h4"/></svg>
           <div class="notification">4</div>
 
         </div>
 
-        <img class="avatar"
-        src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=400">
-
-        <span>⌄</span>
+        <div class="profile">
+          <img class="avatar"
+          src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=400">
+          <span>&#8964;</span>
+        </div>
 
       </div>
 
@@ -1376,19 +1374,15 @@ works.forEach(work => {
    DARK MODE
 ========================================== */
 
-const modeToggle = document.getElementById('modeToggle');
-
-modeToggle.addEventListener('click', () => {
-
-  document.body.classList.toggle('dark');
-
-  if(document.body.classList.contains('dark')){
-    modeToggle.innerHTML = '☀';
-  }else{
-    modeToggle.innerHTML = '🌙';
-  }
-
-});
+const themeButtons = document.querySelectorAll('[data-theme-btn]');
+function setTheme(theme) {
+  document.documentElement.setAttribute('data-theme', theme);
+  document.body.classList.toggle('dark', theme === 'dark');
+  themeButtons.forEach(btn => btn.classList.toggle('active', btn.dataset.themeBtn === theme));
+  localStorage.setItem('mis-theme', theme);
+}
+setTheme(localStorage.getItem('mis-theme') || 'light');
+themeButtons.forEach(btn => btn.addEventListener('click', () => setTheme(btn.dataset.themeBtn)));
 
 /* ==========================================
    CHIPS
