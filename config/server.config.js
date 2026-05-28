@@ -18,8 +18,9 @@ const APPS = [
   },
   {
     name: 'pendencias',
-    alias: 'mis_pendências',
+    alias: 'mis_pendencias',
     route: '/mis_pendências/',
+    aliasRoutes: ['/mis_pendencias/'],
     dir: 'mis_pendências'
   },
   {

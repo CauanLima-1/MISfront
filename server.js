@@ -18,6 +18,18 @@ const MIME_TYPES = {
   '.ico': 'image/x-icon'
 };
 
+function getAppRoutes(app) {
+  return [app.route, ...(app.aliasRoutes || [])];
+}
+
+function getAppIndexPath(app) {
+  if (app.file) {
+    return path.join(ROOT, app.file);
+  }
+
+  return path.join(ROOT, app.dir, 'index.html');
+}
+
 function resolveFilePath(requestPath) {
   if (requestPath === '/') {
     return path.join(ROOT, 'mis_dashboard', 'index.html');
@@ -29,28 +41,23 @@ function resolveFilePath(requestPath) {
   }
 
   for (const app of APPS) {
-    const route = app.route;
-    const routeWithoutSlash = route.replace(/\/$/, '');
+    for (const route of getAppRoutes(app)) {
+      const routeWithoutSlash = route.replace(/\/$/, '');
 
-    if (requestPath === routeWithoutSlash) {
-      if (app.file) {
-        return path.join(ROOT, app.file);
+      if (requestPath === routeWithoutSlash) {
+        return getAppIndexPath(app);
       }
-      return path.join(ROOT, app.dir, 'index.html');
-    }
 
-    if (requestPath.startsWith(route)) {
-      const subPath = requestPath.slice(route.length);
-      if (subPath === '') {
-        if (app.file) {
-          return path.join(ROOT, app.file);
+      if (requestPath.startsWith(route)) {
+        const subPath = requestPath.slice(route.length);
+        if (subPath === '') {
+          return getAppIndexPath(app);
         }
-        return path.join(ROOT, app.dir, 'index.html');
+        if (app.file) {
+          return null;
+        }
+        return path.join(ROOT, app.dir, subPath);
       }
-      if (app.file) {
-        return null;
-      }
-      return path.join(ROOT, app.dir, subPath);
     }
   }
 
@@ -59,14 +66,16 @@ function resolveFilePath(requestPath) {
 
 const server = http.createServer((req, res) => {
   const url = new URL(req.url, buildUrl());
-  let requestPath = decodeURIComponent(url.pathname);
+  const requestPath = decodeURIComponent(url.pathname);
 
   for (const app of APPS) {
-    const routeWithoutSlash = app.route.replace(/\/$/, '');
-    if (requestPath === routeWithoutSlash) {
-      res.writeHead(301, { Location: app.route });
-      res.end();
-      return;
+    for (const route of getAppRoutes(app)) {
+      const routeWithoutSlash = route.replace(/\/$/, '');
+      if (requestPath === routeWithoutSlash) {
+        res.writeHead(301, { Location: app.route });
+        res.end();
+        return;
+      }
     }
   }
 
@@ -112,11 +121,13 @@ server.on('error', (err) => {
 });
 
 server.listen(PORT, BIND_HOST, () => {
-  const appPaths = APPS.map((app) => `${app.route}`);
+  const appPaths = APPS.map((app) => app.route);
 
   console.log(`Servidor unificado rodando em ${buildUrl()}`);
   console.log(`Aplicativos disponíveis: ${appPaths.join(', ')}`);
   console.log(`Landing page: ${buildUrl('/landing_page/')}`);
   console.log(`Dashboard: ${buildUrl('/mis_dashboard/')}`);
   console.log(`Pendências: ${buildUrl('/mis_pendências/')}`);
+  console.log(`Alertas: ${buildUrl('/alertas/')}`);
+  console.log(`Atualizações: ${buildUrl('/atualizacoes/')}`);
 });

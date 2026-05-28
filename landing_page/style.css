@@ -172,6 +172,31 @@ h1, h2, h3 { line-height: 1.15; letter-spacing: -.022em; color: var(--ink); }
   max-width: 38ch; margin-bottom: 2.25rem; line-height: 1.7;
 }
 .hero-ctas { display: flex; gap: 1rem; flex-wrap: wrap; }
+.hero-shortcuts {
+  display: flex;
+  gap: .75rem;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+}
+.shortcut-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: .72rem 1.1rem;
+  border-radius: var(--r-full);
+  background: rgba(255,255,255,.72);
+  border: 1px solid var(--line);
+  color: var(--ink-soft);
+  font-size: .84rem;
+  font-weight: 600;
+  box-shadow: var(--shadow-sm);
+  transition: transform .2s ease, border-color .2s ease, color .2s ease;
+}
+.shortcut-link:hover {
+  transform: translateY(-1px);
+  border-color: var(--line-hover);
+  color: var(--ink);
+}
 
 /* Hero Visual */
 .hero-visual {

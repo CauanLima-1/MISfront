@@ -208,11 +208,8 @@ function handleLogin(e) {
   btn.disabled   = true;
   btn.textContent = 'Entrando…';
   setTimeout(() => {
-    btn.disabled   = false;
-    btn.textContent = 'Entrar';
-    emailEl.style.borderColor = '';
-    emailEl.style.boxShadow   = '';
-  }, 1600);
+    window.location.href = '/mis_dashboard/';
+  }, 800);
 }
 
 /* ─── Scroll Animations ─────────────────────── */

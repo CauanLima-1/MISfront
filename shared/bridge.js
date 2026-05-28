@@ -1,4 +1,4 @@
-const SHARED_STATE_KEY = 'mis-shared-state';
+﻿const SHARED_STATE_KEY = 'mis-shared-state';
 
 const banner = document.createElement('div');
 banner.style.cssText = 'margin:12px 0;padding:10px 12px;border-radius:10px;border:1px solid rgba(96,165,250,0.28);background:rgba(14,116,144,0.16);color:#d0f2ff;font-size:12px;';
@@ -68,3 +68,4 @@ if (config.navLinkSelector && config.navMessage) {
     });
   });
 }
+
