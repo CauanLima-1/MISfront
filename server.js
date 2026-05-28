@@ -32,7 +32,7 @@ function getAppIndexPath(app) {
 
 function resolveFilePath(requestPath) {
   if (requestPath === '/') {
-    return path.join(ROOT, 'mis_dashboard', 'index.html');
+    return path.join(ROOT, 'index.html');
   }
 
   if (requestPath.startsWith('/shared/')) {

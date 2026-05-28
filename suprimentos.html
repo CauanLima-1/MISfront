@@ -1,0 +1,1498 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>MIS • Suprimentos</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+
+/* =========================================================
+   RESET
+========================================================= */
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+:root{
+
+  --bg:#eef0f3;
+  --sidebar:#f4f5f7;
+  --card:#f7f8fa;
+  --card-2:#ffffffcc;
+
+  --text:#1c1f26;
+  --text-light:#6f7785;
+
+  --line:#dde1e7;
+
+  --shadow:
+  10px 10px 25px rgba(0,0,0,.05),
+  -10px -10px 25px rgba(255,255,255,.7);
+
+  --shadow-soft:
+  0 10px 30px rgba(15,23,42,.06);
+
+  --green:#0d3d2f;
+  --green-2:#0c5a43;
+
+  --blue:#1d9bf0;
+  --orange:#ffb648;
+  --red:#ff5b5b;
+  --purple:#7b61ff;
+
+  --radius-xl:34px;
+  --radius-lg:24px;
+  --radius-md:18px;
+
+}
+
+body.dark{
+
+  --bg:#11161d;
+  --sidebar:#171d26;
+  --card:#1c2430;
+  --card-2:#202938cc;
+
+  --text:#f3f5f7;
+  --text-light:#9ea8b7;
+
+  --line:#2c3645;
+
+  --shadow:
+  0 20px 40px rgba(0,0,0,.35);
+
+  --shadow-soft:
+  0 15px 35px rgba(0,0,0,.4);
+
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  background:var(--bg);
+  font-family:'Inter',sans-serif;
+  color:var(--text);
+  transition:.35s ease;
+}
+
+/* =========================================================
+   APP
+========================================================= */
+
+.app{
+  display:flex;
+  min-height:100vh;
+  gap:26px;
+  padding:24px;
+}
+
+/* =========================================================
+   SIDEBAR
+========================================================= */
+
+.sidebar{
+
+  width:255px;
+  min-width:255px;
+
+  background:var(--sidebar);
+
+  border-radius:38px;
+
+  padding:24px 18px;
+
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+
+  box-shadow:var(--shadow);
+
+  position:sticky;
+  top:24px;
+
+  height:calc(100vh - 48px);
+
+  overflow:hidden;
+
+}
+
+.logo{
+
+  width:76px;
+  height:76px;
+
+  border-radius:50%;
+
+  background:
+  radial-gradient(circle at top,#123d5e,#020c16);
+
+  color:white;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  font-size:30px;
+  font-weight:800;
+
+  margin-bottom:32px;
+
+}
+
+.menu{
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+}
+
+.menu-text{
+  font-size:15px;
+  font-weight:600;
+  letter-spacing:-0.2px;
+}
+
+.menu-item{
+
+  height:56px;
+
+  border-radius:18px;
+
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+
+  padding:0 18px;
+
+  cursor:pointer;
+
+  transition:.25s ease;
+
+  color:var(--text);
+
+  font-size:15px;
+  font-weight:500;
+
+}
+
+.menu-item:hover{
+  transform:translateY(-2px);
+  background:rgba(255,255,255,.35);
+}
+
+body.dark .menu-item:hover{
+  background:#232d3d;
+}
+
+.menu-item.active{
+
+  background:linear-gradient(135deg,#0d4d39,#061a14);
+
+  color:white;
+
+  box-shadow:
+  0 10px 25px rgba(5,31,22,.4);
+
+}
+
+.menu-left{
+  display:flex;
+  align-items:center;
+  gap:14px;
+}
+
+.menu-icon{
+  font-size:18px;
+}
+
+.badge{
+  width:26px;
+  height:26px;
+  border-radius:50%;
+  background:#ffe7e7;
+  color:var(--red);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:12px;
+  font-weight:700;
+}
+
+.user-card{
+
+  background:var(--card);
+
+  border-radius:22px;
+
+  padding:14px;
+
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+
+  box-shadow:var(--shadow-soft);
+
+}
+
+.user-left{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.avatar{
+  width:46px;
+  height:46px;
+  border-radius:50%;
+  object-fit:cover;
+}
+
+.user-info h4{
+  font-size:14px;
+}
+
+.user-info p{
+  font-size:12px;
+  color:var(--text-light);
+  margin-top:3px;
+}
+
+/* =========================================================
+   CONTENT
+========================================================= */
+
+.content{
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  gap:26px;
+}
+
+/* =========================================================
+   TOPBAR
+========================================================= */
+
+.topbar{
+
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+
+}
+
+.search-box{
+
+  width:540px;
+  height:60px;
+
+  background:var(--card);
+
+  border-radius:24px;
+
+  display:flex;
+  align-items:center;
+
+  padding:0 22px;
+
+  box-shadow:var(--shadow-soft);
+
+}
+
+.search-box input{
+
+  width:100%;
+  border:none;
+  outline:none;
+  background:none;
+
+  padding-left:16px;
+
+  font-size:15px;
+
+  color:var(--text);
+
+}
+
+.search-box input::placeholder{
+  color:var(--text-light);
+}
+
+.top-actions{
+  display:flex;
+  align-items:center;
+  gap:16px;
+}
+
+.new-btn{
+
+  height:56px;
+  padding:0 28px;
+
+  border:none;
+  border-radius:50px;
+
+  background:#1b1f26;
+
+  color:white;
+
+  font-weight:600;
+
+  cursor:pointer;
+
+  transition:.3s ease;
+
+  box-shadow:
+  0 10px 25px rgba(0,0,0,.18);
+
+}
+
+.new-btn:hover{
+  transform:translateY(-2px) scale(1.02);
+}
+
+body.dark .new-btn{
+  background:#0f141b;
+}
+
+.mode-toggle,
+.icon-btn{
+
+  width:52px;
+  height:52px;
+
+  border-radius:50%;
+
+  background:var(--card);
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  cursor:pointer;
+
+  box-shadow:var(--shadow-soft);
+
+  position:relative;
+
+  transition:.25s ease;
+
+}
+
+.mode-toggle:hover,
+.icon-btn:hover{
+  transform:translateY(-2px);
+}
+
+.notification{
+
+  position:absolute;
+
+  top:2px;
+  right:2px;
+
+  width:20px;
+  height:20px;
+
+  border-radius:50%;
+
+  background:var(--red);
+
+  color:white;
+
+  font-size:11px;
+  font-weight:700;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+}
+
+/* =========================================================
+   STORIES
+========================================================= */
+
+.stories-wrapper{
+
+  background:var(--card);
+
+  border-radius:38px;
+
+  padding:24px;
+
+  box-shadow:var(--shadow-soft);
+
+}
+
+.section-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:24px;
+}
+
+.section-head h2{
+  font-size:30px;
+}
+
+.view-all{
+  color:var(--text-light);
+  font-weight:600;
+  cursor:pointer;
+}
+
+.stories{
+  display:flex;
+  gap:26px;
+  overflow:auto;
+  padding-bottom:4px;
+}
+
+.story{
+  min-width:92px;
+  text-align:center;
+}
+
+.story-ring{
+
+  width:88px;
+  height:88px;
+
+  border-radius:50%;
+
+  padding:3px;
+
+  background:
+  linear-gradient(135deg,#8a7dff,#ff6a3d,#15d49b);
+
+  margin:auto;
+
+}
+
+.story-ring img{
+
+  width:100%;
+  height:100%;
+
+  object-fit:cover;
+
+  border-radius:50%;
+
+  border:4px solid var(--card);
+
+}
+
+.story p{
+  margin-top:10px;
+  font-size:14px;
+}
+
+/* =========================================================
+   SUMMARY
+========================================================= */
+
+.summary-grid{
+
+  display:grid;
+
+  grid-template-columns:repeat(5,1fr);
+
+  gap:20px;
+
+}
+
+.summary-card{
+
+  background:var(--card);
+
+  border-radius:28px;
+
+  padding:22px;
+
+  box-shadow:var(--shadow-soft);
+
+  transition:.25s ease;
+
+}
+
+.summary-card:hover{
+  transform:translateY(-4px);
+}
+
+.summary-top{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+
+.summary-icon{
+  font-size:24px;
+}
+
+.summary-title{
+  color:var(--text-light);
+  margin-top:18px;
+  font-size:14px;
+}
+
+.summary-value{
+  font-size:36px;
+  font-weight:800;
+  margin-top:6px;
+}
+
+/* =========================================================
+   FILTERS
+========================================================= */
+
+.filters-wrap{
+  display:flex;
+  flex-direction:column;
+  gap:16px;
+}
+
+.filter-row{
+  display:flex;
+  gap:12px;
+  flex-wrap:wrap;
+}
+
+.chip{
+
+  padding:13px 22px;
+
+  border-radius:40px;
+
+  background:var(--card);
+
+  color:var(--text-light);
+
+  font-weight:600;
+
+  cursor:pointer;
+
+  transition:.25s ease;
+
+  box-shadow:var(--shadow-soft);
+
+}
+
+.chip:hover{
+  transform:translateY(-2px);
+}
+
+.chip.active{
+
+  background:linear-gradient(135deg,#1d9bf0,#1286d8);
+
+  color:white;
+
+}
+
+/* =========================================================
+   WORK GRID
+========================================================= */
+
+.works-grid{
+
+  display:grid;
+
+  grid-template-columns:repeat(3,1fr);
+
+  gap:24px;
+
+}
+
+.work-card{
+
+  background:var(--card);
+
+  border-radius:34px;
+
+  padding:22px;
+
+  box-shadow:var(--shadow-soft);
+
+  transition:.3s ease;
+
+}
+
+.work-card:hover{
+  transform:translateY(-6px);
+}
+
+.work-header{
+
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+
+  margin-bottom:20px;
+
+}
+
+.work-left{
+  display:flex;
+  gap:14px;
+}
+
+.work-left img{
+  width:60px;
+  height:60px;
+  border-radius:50%;
+  object-fit:cover;
+}
+
+.work-info h3{
+  font-size:22px;
+}
+
+.work-info p{
+  color:var(--text-light);
+  margin-top:5px;
+  font-size:14px;
+}
+
+.work-badges{
+  display:flex;
+  gap:10px;
+  margin-top:12px;
+}
+
+.mini-badge{
+
+  padding:8px 14px;
+
+  border-radius:30px;
+
+  font-size:12px;
+  font-weight:700;
+
+}
+
+.red{
+  background:#ffe8e8;
+  color:#ff4b4b;
+}
+
+.orange{
+  background:#fff2db;
+  color:#ff9800;
+}
+
+.green{
+  background:#dcfff0;
+  color:#0e9b65;
+}
+
+.blue{
+  background:#dff2ff;
+  color:#198fe4;
+}
+
+.purple{
+  background:#efe8ff;
+  color:#7a4dff;
+}
+
+.expand-btn{
+
+  width:42px;
+  height:42px;
+
+  border:none;
+
+  border-radius:50%;
+
+  background:var(--bg);
+
+  cursor:pointer;
+
+  color:var(--text);
+
+}
+
+.items{
+
+  display:flex;
+  flex-direction:column;
+  gap:14px;
+
+}
+
+.item{
+
+  background:rgba(255,255,255,.35);
+
+  border:1px solid var(--line);
+
+  border-radius:22px;
+
+  padding:16px;
+
+  transition:.25s ease;
+
+}
+
+body.dark .item{
+  background:#202937;
+}
+
+.item:hover{
+  transform:translateX(4px);
+}
+
+.item-top{
+
+  display:flex;
+  justify-content:space-between;
+  gap:16px;
+
+}
+
+.item-left{
+  display:flex;
+  gap:14px;
+}
+
+.dot{
+
+  width:10px;
+  height:10px;
+
+  border-radius:50%;
+
+  margin-top:8px;
+
+}
+
+.dot.red{ background:var(--red); }
+.dot.orange{ background:var(--orange); }
+.dot.green{ background:#14c784; }
+.dot.blue{ background:var(--blue); }
+.dot.purple{ background:var(--purple); }
+
+.item-name{
+  font-weight:700;
+  line-height:1.4;
+}
+
+.item-qty{
+  color:var(--text-light);
+  font-size:14px;
+  margin-top:5px;
+}
+
+.item-right{
+  display:flex;
+  align-items:flex-start;
+  gap:10px;
+}
+
+.priority{
+  font-size:11px;
+  font-weight:700;
+  padding:7px 12px;
+  border-radius:20px;
+}
+
+.alert{
+  color:var(--red);
+  font-size:16px;
+}
+
+.item-description{
+
+  margin-top:12px;
+
+  color:var(--text-light);
+
+  font-size:13px;
+
+  line-height:1.5;
+
+}
+
+.hidden{
+  display:none;
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media(max-width:1600px){
+
+  .works-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+}
+
+@media(max-width:1200px){
+
+  .app{
+    flex-direction:column;
+  }
+
+  .sidebar{
+    width:100%;
+    height:auto;
+    position:relative;
+  }
+
+  .summary-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .works-grid{
+    grid-template-columns:1fr;
+  }
+
+  .topbar{
+    flex-direction:column;
+    align-items:stretch;
+    gap:20px;
+  }
+
+  .search-box{
+    width:100%;
+  }
+
+}
+
+@media(max-width:768px){
+
+  .summary-grid{
+    grid-template-columns:1fr;
+  }
+
+  .section-head h2{
+    font-size:24px;
+  }
+
+  .stories{
+    gap:16px;
+  }
+
+}
+
+</style>
+</head>
+<body>
+
+<div class="app">
+
+  <!-- SIDEBAR -->
+
+  <aside class="sidebar">
+
+  <div>
+
+    <div class="logo">MIS</div>
+
+    <div class="menu">
+
+      <div class="menu-item">
+        <div class="menu-left">
+          <span class="menu-icon">🏠</span>
+          <span>Feed</span>
+        </div>
+      </div>
+
+      <div class="menu-item">
+        <div class="menu-left">
+          <span class="menu-icon">📁</span>
+          <span>Projetos</span>
+        </div>
+      </div>
+
+      <div class="menu-item">
+        <div class="menu-left">
+          <span class="menu-icon">📊</span>
+          <span>Dashboard</span>
+        </div>
+      </div>
+
+      <div class="menu-item">
+        <div class="menu-left">
+          <span class="menu-icon">✔</span>
+          <span>Pendências</span>
+        </div>
+
+        <div class="badge">7</div>
+      </div>
+
+      <div class="menu-item">
+        <div class="menu-left">
+          <span class="menu-icon">🔔</span>
+          <span>Alertas</span>
+        </div>
+
+        <div class="badge">5</div>
+      </div>
+
+      <div class="menu-item">
+        <div class="menu-left">
+          <span class="menu-icon">💬</span>
+          <span>Mensagens</span>
+        </div>
+      </div>
+
+      <div class="menu-item">
+        <div class="menu-left">
+          <span class="menu-icon">👥</span>
+          <span>Equipe</span>
+        </div>
+      </div>
+
+      <!-- SUPRIMENTOS NO LUGAR DA BIBLIOTECA -->
+
+      <div class="menu-item active">
+        <div class="menu-left">
+          <span class="menu-icon">📦</span>
+          <span>Suprimentos</span>
+        </div>
+      </div>
+
+      <div class="menu-item">
+        <div class="menu-left">
+          <span class="menu-icon">📄</span>
+          <span>Relatórios</span>
+        </div>
+      </div>
+
+      <div class="menu-item">
+        <div class="menu-left">
+          <span class="menu-icon">⚙</span>
+          <span>Configurações</span>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="user-card">
+
+    <div class="user-left">
+
+      <img class="avatar"
+      src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=400">
+
+      <div class="user-info">
+        <h4>Carlos Mendes</h4>
+        <p>Engenheiro Civil</p>
+      </div>
+
+    </div>
+
+    <span>⌄</span>
+
+  </div>
+
+  </aside>
+
+  <!-- CONTENT -->
+
+  <main class="content">
+
+    <!-- TOPBAR -->
+
+    <div class="topbar">
+
+      <div class="search-box">
+
+        🔍
+
+        <input
+        type="text"
+        placeholder="Buscar materiais, obras ou fornecedores...">
+
+      </div>
+
+      <div class="top-actions">
+
+        <button class="new-btn">
+          + Novo pedido
+        </button>
+
+        <div class="mode-toggle" id="modeToggle">
+          🌙
+        </div>
+
+        <div class="icon-btn">
+
+          🔔
+
+          <div class="notification">4</div>
+
+        </div>
+
+        <img class="avatar"
+        src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=400">
+
+        <span>⌄</span>
+
+      </div>
+
+    </div>
+
+    <!-- SUMMARY -->
+
+    <section class="summary-grid">
+
+      <div class="summary-card">
+        <div class="summary-top">
+          <div class="summary-icon">📦</div>
+        </div>
+        <div class="summary-title">Itens totais</div>
+        <div class="summary-value">86</div>
+      </div>
+
+      <div class="summary-card">
+        <div class="summary-top">
+          <div class="summary-icon">🚨</div>
+        </div>
+        <div class="summary-title">Críticos</div>
+        <div class="summary-value" style="color:var(--red)">7</div>
+      </div>
+
+      <div class="summary-card">
+        <div class="summary-top">
+          <div class="summary-icon">⚠</div>
+        </div>
+        <div class="summary-title">Atenção</div>
+        <div class="summary-value" style="color:var(--orange)">14</div>
+      </div>
+
+      <div class="summary-card">
+        <div class="summary-top">
+          <div class="summary-icon">🛒</div>
+        </div>
+        <div class="summary-title">Em compra</div>
+        <div class="summary-value" style="color:var(--purple)">23</div>
+      </div>
+
+      <div class="summary-card">
+        <div class="summary-top">
+          <div class="summary-icon">✔</div>
+        </div>
+        <div class="summary-title">Entregues</div>
+        <div class="summary-value" style="color:#13b86f">42</div>
+      </div>
+
+    </section>
+
+    <!-- FILTERS -->
+
+    <section class="filters-wrap">
+
+      <div class="filter-row">
+
+        <div class="chip active">Todos</div>
+        <div class="chip">Civil</div>
+        <div class="chip">Arquitetura</div>
+        <div class="chip">Elétrica</div>
+        <div class="chip">Hidráulica</div>
+        <div class="chip">Acabamento</div>
+        <div class="chip">Pintura</div>
+        <div class="chip">Ferragens</div>
+
+      </div>
+
+      <div class="filter-row">
+
+        <div class="chip active">Todos</div>
+        <div class="chip">Materiais</div>
+        <div class="chip">Serviços</div>
+        <div class="chip">Equipamentos</div>
+        <div class="chip">Urgentes</div>
+        <div class="chip">Aguardando entrega</div>
+
+      </div>
+
+    </section>
+
+    <!-- WORKS -->
+
+    <section class="works-grid" id="worksGrid"></section>
+
+  </main>
+
+</div>
+
+<script>
+
+const works = [
+
+{
+  name:"Residência Jardins",
+  city:"São Paulo, SP",
+  total:"12 itens",
+  critical:"2 críticos",
+  image:"https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=1200",
+
+  items:[
+    {
+      name:"Cimento CP-II",
+      qty:"30 sacos",
+      status:"Crítico",
+      description:"Entrega urgente",
+      color:"red"
+    },
+    {
+      name:"Massa corrida",
+      qty:"18 baldes",
+      status:"Atenção",
+      description:"Comprar esta semana",
+      color:"orange"
+    },
+    {
+      name:"Areia média",
+      qty:"5 m³",
+      status:"Normal",
+      description:"Em estoque parcial",
+      color:"blue"
+    },
+    {
+      name:"Argamassa ACIII",
+      qty:"25 sacos",
+      status:"Crítico",
+      description:"Obra parada sem reposição",
+      color:"red"
+    }
+  ]
+},
+
+{
+  name:"Corporate Tower",
+  city:"Curitiba, PR",
+  total:"9 itens",
+  critical:"1 crítico",
+  image:"https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1200",
+
+  items:[
+    {
+      name:"Cabos elétricos 10mm",
+      qty:"300 m",
+      status:"Crítico",
+      description:"Necessário para instalações",
+      color:"red"
+    },
+    {
+      name:"Disjuntores",
+      qty:"24 un",
+      status:"Atenção",
+      description:"Aguardando cotação",
+      color:"orange"
+    },
+    {
+      name:"Luminárias LED",
+      qty:"40 un",
+      status:"Em compra",
+      description:"Pedido aprovado",
+      color:"purple"
+    }
+  ]
+},
+
+{
+  name:"Penthouse Itaim",
+  city:"São Paulo, SP",
+  total:"7 itens",
+  critical:"0 críticos",
+  image:"https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?q=80&w=1200",
+
+  items:[
+    {
+      name:"Porcelanato premium",
+      qty:"80 m²",
+      status:"Normal",
+      description:"Entrega programada",
+      color:"green"
+    },
+    {
+      name:"Torneiras monocomando",
+      qty:"4 un",
+      status:"Atenção",
+      description:"Validar modelo",
+      color:"orange"
+    },
+    {
+      name:"Tinta acetinada",
+      qty:"10 latas",
+      status:"Entregue",
+      description:"Compra concluída",
+      color:"green"
+    }
+  ]
+},
+
+{
+  name:"Vila Nova Residence",
+  city:"Florianópolis, SC",
+  total:"10 itens",
+  critical:"1 crítico",
+  image:"https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=1200",
+
+  items:[
+    {
+      name:"Vergalhão 10mm",
+      qty:"150 barras",
+      status:"Crítico",
+      description:"Reposição imediata",
+      color:"red"
+    },
+    {
+      name:"Brita 1",
+      qty:"8 m³",
+      status:"Atenção",
+      description:"Cotação pendente",
+      color:"orange"
+    },
+    {
+      name:"Concreto usinado",
+      qty:"20 m³",
+      status:"Em compra",
+      description:"Agendar entrega",
+      color:"purple"
+    }
+  ]
+},
+
+{
+  name:"Loft Panorama",
+  city:"Belo Horizonte, MG",
+  total:"8 itens",
+  critical:"3 críticos",
+  image:"https://images.unsplash.com/photo-1494526585095-c41746248156?q=80&w=1200",
+
+  items:[
+    {
+      name:"Gesso acartonado",
+      qty:"45 placas",
+      status:"Crítico",
+      description:"Equipe aguardando material",
+      color:"red"
+    },
+    {
+      name:"Perfis metálicos",
+      qty:"80 un",
+      status:"Crítico",
+      description:"Compra pendente",
+      color:"red"
+    },
+    {
+      name:"Lã acústica",
+      qty:"30 m²",
+      status:"Crítico",
+      description:"Validar fornecedor",
+      color:"red"
+    }
+  ]
+},
+
+{
+  name:"Est. Greenview",
+  city:"Campinas, SP",
+  total:"6 itens",
+  critical:"0 críticos",
+  image:"https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?q=80&w=1200",
+
+  items:[
+    {
+      name:"Tubos PVC",
+      qty:"90 m",
+      status:"Em compra",
+      description:"Pedido aprovado",
+      color:"purple"
+    },
+    {
+      name:"Conexões hidráulicas",
+      qty:"60 un",
+      status:"Atenção",
+      description:"Conferir medidas",
+      color:"orange"
+    },
+    {
+      name:"Silicone vedante",
+      qty:"10 un",
+      status:"Normal",
+      description:"Disponível",
+      color:"green"
+    }
+  ]
+}
+
+];
+
+const worksGrid = document.getElementById('worksGrid');
+
+works.forEach(work => {
+
+  const card = document.createElement('div');
+  card.className = 'work-card';
+
+  card.innerHTML = `
+
+    <div class="work-header">
+
+      <div class="work-left">
+
+        <img src="${work.image}">
+
+        <div class="work-info">
+
+          <h3>${work.name}</h3>
+
+          <p>${work.city} • ${work.total}</p>
+
+          <div class="work-badges">
+
+            <div class="mini-badge red">
+              ${work.critical}
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <button class="expand-btn">
+        ⌄
+      </button>
+
+    </div>
+
+    <div class="items">
+
+      ${work.items.map(item => `
+
+        <div class="item">
+
+          <div class="item-top">
+
+            <div class="item-left">
+
+              <div class="dot ${item.color}"></div>
+
+              <div>
+
+                <div class="item-name">
+                  ${item.name}
+                </div>
+
+                <div class="item-qty">
+                  ${item.qty}
+                </div>
+
+              </div>
+
+            </div>
+
+            <div class="item-right">
+
+              <div class="priority ${item.color}">
+                ${item.status}
+              </div>
+
+              ${item.status === 'Crítico'
+              ? '<div class="alert">⚠</div>'
+              : ''}
+
+            </div>
+
+          </div>
+
+          <div class="item-description">
+            ${item.description}
+          </div>
+
+        </div>
+
+      `).join('')}
+
+    </div>
+
+  `;
+
+  worksGrid.appendChild(card);
+
+});
+
+/* ==========================================
+   DARK MODE
+========================================== */
+
+const modeToggle = document.getElementById('modeToggle');
+
+modeToggle.addEventListener('click', () => {
+
+  document.body.classList.toggle('dark');
+
+  if(document.body.classList.contains('dark')){
+    modeToggle.innerHTML = '☀';
+  }else{
+    modeToggle.innerHTML = '🌙';
+  }
+
+});
+
+/* ==========================================
+   CHIPS
+========================================== */
+
+const chips = document.querySelectorAll('.chip');
+
+chips.forEach(chip => {
+
+  chip.addEventListener('click', () => {
+
+    const parent = chip.parentElement;
+
+    parent.querySelectorAll('.chip').forEach(c => {
+      c.classList.remove('active');
+    });
+
+    chip.classList.add('active');
+
+  });
+
+});
+
+/* ==========================================
+   EXPAND
+========================================== */
+
+document.addEventListener('click', e => {
+
+  if(e.target.classList.contains('expand-btn')){
+
+    const card = e.target.closest('.work-card');
+    const items = card.querySelector('.items');
+
+    items.classList.toggle('hidden');
+
+    e.target.innerHTML =
+    items.classList.contains('hidden')
+    ? '›'
+    : '⌄';
+
+  }
+
+});
+
+</script>
+
+</body>
+</html>
