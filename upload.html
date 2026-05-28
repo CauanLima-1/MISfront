@@ -1,0 +1,1260 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MIS — Upload de Projetos</title>
+
+  <style>
+    :root {
+      --bg: #d9dcda;
+      --bg-soft: #e7e9e8;
+      --card: rgba(238, 240, 239, 0.72);
+      --card-solid: #eef0ef;
+      --text: #151817;
+      --muted: #6f7674;
+      --line: rgba(255,255,255,0.55);
+      --green: #063b25;
+      --green-2: #0b5a39;
+      --blue: #1298d4;
+      --red: #e0473c;
+      --orange: #f0a21a;
+      --purple: #6c4de6;
+      --shadow: 18px 18px 45px rgba(119, 126, 124, 0.22),
+                -14px -14px 35px rgba(255,255,255,0.62);
+      --shadow-soft: 10px 10px 24px rgba(120, 128, 126, 0.18),
+                     -8px -8px 22px rgba(255,255,255,0.55);
+    }
+
+    body.dark {
+      --bg: #111820;
+      --bg-soft: #161f29;
+      --card: rgba(28, 38, 48, 0.78);
+      --card-solid: #1c2630;
+      --text: #edf4f2;
+      --muted: #98a5a2;
+      --line: rgba(255,255,255,0.08);
+      --green: #0ecf83;
+      --green-2: #0a8f5d;
+      --shadow: 18px 18px 45px rgba(0,0,0,0.38),
+                -12px -12px 28px rgba(255,255,255,0.03);
+      --shadow-soft: 10px 10px 24px rgba(0,0,0,0.35),
+                     -8px -8px 20px rgba(255,255,255,0.025);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at top left, rgba(255,255,255,0.55), transparent 32%),
+        radial-gradient(circle at bottom right, rgba(255,255,255,0.26), transparent 34%),
+        var(--bg);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text);
+      overflow-x: hidden;
+      transition: .35s ease;
+    }
+
+    .app {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 290px 1fr;
+    }
+
+    .sidebar {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      padding: 34px 22px 28px;
+      background: rgba(232, 234, 233, 0.36);
+      backdrop-filter: blur(24px);
+      border-right: 1px solid rgba(255,255,255,0.38);
+      box-shadow: 16px 0 34px rgba(97, 105, 102, 0.12);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    body.dark .sidebar {
+      background: rgba(18, 25, 32, 0.82);
+      border-right-color: rgba(255,255,255,0.06);
+    }
+
+    .logo {
+      width: 82px;
+      height: 82px;
+      margin: 0 auto 28px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      color: white;
+      font-weight: 800;
+      font-size: 25px;
+      letter-spacing: .6px;
+      background:
+        radial-gradient(circle at 35% 20%, #ffffff 0, rgba(255,255,255,.25) 10%, transparent 28%),
+        radial-gradient(circle at 55% 78%, #1d5b71 0, #071319 55%, #020608 100%);
+      box-shadow:
+        inset 0 0 0 2px rgba(255,255,255,.28),
+        0 18px 34px rgba(0,0,0,.24);
+    }
+
+    .nav {
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+    }
+
+    .nav-item {
+      height: 58px;
+      border-radius: 24px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      padding: 0 22px;
+      color: var(--text);
+      font-weight: 650;
+      font-size: 15px;
+      cursor: pointer;
+      transition: .25s ease;
+      position: relative;
+    }
+
+    .nav-item:hover {
+      background: rgba(255,255,255,0.32);
+      transform: translateX(3px);
+    }
+
+    .nav-item.active {
+      background: linear-gradient(135deg, #0a3e29, #041d13);
+      color: #fff;
+      box-shadow: 0 12px 28px rgba(3, 41, 25, 0.34);
+    }
+
+    .badge {
+      margin-left: auto;
+      min-width: 29px;
+      height: 29px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      font-size: 13px;
+      font-weight: 750;
+      color: #e13f35;
+      background: rgba(255,255,255,.42);
+    }
+
+    .user-card {
+      height: 68px;
+      border-radius: 26px;
+      background: rgba(238,240,239,.52);
+      box-shadow: var(--shadow-soft);
+      border: 1px solid rgba(255,255,255,.42);
+      display: flex;
+      align-items: center;
+      padding: 12px;
+      gap: 12px;
+    }
+
+    body.dark .user-card {
+      background: rgba(30, 41, 52, .82);
+      border-color: rgba(255,255,255,.06);
+    }
+
+    .avatar {
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      background:
+        linear-gradient(135deg, rgba(255,255,255,.15), transparent),
+        url("https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=120&q=80");
+      background-size: cover;
+      background-position: center;
+      flex-shrink: 0;
+    }
+
+    .user-info {
+      flex: 1;
+      line-height: 1.15;
+    }
+
+    .user-info strong {
+      display: block;
+      font-size: 14px;
+    }
+
+    .user-info span {
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .main {
+      padding: 34px 34px 46px;
+    }
+
+    .topbar {
+      height: 70px;
+      display: flex;
+      align-items: center;
+      gap: 22px;
+      margin-bottom: 26px;
+    }
+
+    .search {
+      width: min(640px, 44vw);
+      height: 64px;
+      border-radius: 34px;
+      background: rgba(238,240,239,.58);
+      border: 1px solid rgba(255,255,255,.42);
+      box-shadow: var(--shadow-soft);
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 0 24px;
+      color: var(--muted);
+    }
+
+    body.dark .search {
+      background: rgba(30, 40, 50, .74);
+      border-color: rgba(255,255,255,.06);
+    }
+
+    .search input {
+      border: 0;
+      outline: 0;
+      background: transparent;
+      flex: 1;
+      color: var(--text);
+      font-size: 16px;
+    }
+
+    .search input::placeholder {
+      color: var(--muted);
+    }
+
+    .shortcut {
+      width: 52px;
+      height: 34px;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(0,0,0,.06);
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .top-actions {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      gap: 18px;
+    }
+
+    .primary-btn {
+      height: 55px;
+      padding: 0 29px;
+      border: 0;
+      border-radius: 28px;
+      background: linear-gradient(135deg, #202423, #060807);
+      color: white;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 750;
+      font-size: 15px;
+      cursor: pointer;
+      box-shadow: 0 13px 25px rgba(0,0,0,.24);
+      transition: .25s ease;
+    }
+
+    .primary-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 18px 34px rgba(0,0,0,.28);
+    }
+
+    .toggle {
+      height: 52px;
+      width: 98px;
+      border-radius: 32px;
+      background: rgba(238,240,239,.62);
+      box-shadow: var(--shadow-soft);
+      border: 1px solid rgba(255,255,255,.42);
+      display: flex;
+      align-items: center;
+      padding: 6px;
+      cursor: pointer;
+    }
+
+    body.dark .toggle {
+      background: rgba(31, 42, 52, .8);
+      border-color: rgba(255,255,255,.06);
+    }
+
+    .toggle span {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: #fff;
+      box-shadow: 0 8px 18px rgba(0,0,0,.14);
+      transition: transform .28s ease;
+    }
+
+    body.dark .toggle span {
+      transform: translateX(46px);
+      background: #111820;
+    }
+
+    .circle-btn {
+      width: 54px;
+      height: 54px;
+      border-radius: 50%;
+      background: rgba(238,240,239,.62);
+      border: 1px solid rgba(255,255,255,.42);
+      box-shadow: var(--shadow-soft);
+      display: grid;
+      place-items: center;
+      position: relative;
+      cursor: pointer;
+    }
+
+    body.dark .circle-btn {
+      background: rgba(31, 42, 52, .8);
+      border-color: rgba(255,255,255,.06);
+    }
+
+    .notification-badge {
+      position: absolute;
+      top: -7px;
+      right: -5px;
+      background: #e0382f;
+      color: #fff;
+      min-width: 25px;
+      height: 25px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .profile {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .page-head {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin-bottom: 22px;
+    }
+
+    .page-head h1 {
+      font-size: 38px;
+      letter-spacing: -1px;
+      margin-bottom: 8px;
+    }
+
+    .page-head p {
+      color: var(--muted);
+      font-size: 16px;
+    }
+
+    .head-actions {
+      display: flex;
+      gap: 14px;
+    }
+
+    .pill-btn {
+      height: 48px;
+      border-radius: 24px;
+      border: 1px solid rgba(255,255,255,.45);
+      background: rgba(238,240,239,.58);
+      box-shadow: var(--shadow-soft);
+      padding: 0 22px;
+      font-weight: 700;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+    }
+
+    body.dark .pill-btn {
+      background: rgba(30, 40, 50, .74);
+      border-color: rgba(255,255,255,.06);
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 1.35fr .75fr;
+      gap: 24px;
+      align-items: start;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid rgba(255,255,255,.45);
+      box-shadow: var(--shadow);
+      border-radius: 34px;
+      backdrop-filter: blur(20px);
+      transition: .25s ease;
+    }
+
+    body.dark .card {
+      border-color: rgba(255,255,255,.06);
+    }
+
+    .card:hover {
+      transform: translateY(-3px);
+    }
+
+    .upload-card {
+      padding: 26px;
+      min-height: 560px;
+    }
+
+    .section-title {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      align-items: flex-start;
+      margin-bottom: 22px;
+    }
+
+    .section-title h2 {
+      font-size: 22px;
+      letter-spacing: -.3px;
+      margin-bottom: 6px;
+    }
+
+    .section-title p {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .upload-zone {
+      min-height: 290px;
+      border-radius: 32px;
+      border: 1.5px dashed rgba(11,90,57,.38);
+      background:
+        radial-gradient(circle at top, rgba(18,152,212,.12), transparent 45%),
+        rgba(255,255,255,.28);
+      display: grid;
+      place-items: center;
+      text-align: center;
+      padding: 32px;
+      position: relative;
+      overflow: hidden;
+      transition: .25s ease;
+      cursor: pointer;
+    }
+
+    body.dark .upload-zone {
+      background:
+        radial-gradient(circle at top, rgba(18,152,212,.13), transparent 45%),
+        rgba(255,255,255,.035);
+      border-color: rgba(14,207,131,.28);
+    }
+
+    .upload-zone.dragover {
+      transform: scale(.992);
+      border-color: var(--blue);
+      background:
+        radial-gradient(circle at top, rgba(18,152,212,.18), transparent 50%),
+        rgba(255,255,255,.38);
+    }
+
+    .upload-icon {
+      width: 92px;
+      height: 92px;
+      margin: 0 auto 20px;
+      border-radius: 32px;
+      display: grid;
+      place-items: center;
+      color: var(--blue);
+      background: rgba(18,152,212,.12);
+      box-shadow:
+        inset 0 0 0 1px rgba(18,152,212,.16),
+        0 18px 38px rgba(18,152,212,.16);
+    }
+
+    .upload-zone h3 {
+      font-size: 26px;
+      margin-bottom: 9px;
+      letter-spacing: -.4px;
+    }
+
+    .upload-zone p {
+      color: var(--muted);
+      max-width: 520px;
+      line-height: 1.55;
+      margin: 0 auto 22px;
+    }
+
+    .upload-link {
+      color: var(--green-2);
+      font-weight: 800;
+    }
+
+    .file-input {
+      display: none;
+    }
+
+    .format-row {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .format {
+      height: 34px;
+      padding: 0 14px;
+      border-radius: 99px;
+      display: inline-flex;
+      align-items: center;
+      color: var(--muted);
+      background: rgba(255,255,255,.36);
+      border: 1px solid rgba(255,255,255,.42);
+      font-size: 13px;
+      font-weight: 750;
+    }
+
+    body.dark .format {
+      background: rgba(255,255,255,.04);
+      border-color: rgba(255,255,255,.07);
+    }
+
+    .form-grid {
+      margin-top: 24px;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+
+    .field {
+      min-height: 74px;
+      border-radius: 24px;
+      background: rgba(255,255,255,.32);
+      border: 1px solid rgba(255,255,255,.38);
+      padding: 14px 18px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 7px;
+    }
+
+    body.dark .field {
+      background: rgba(255,255,255,.035);
+      border-color: rgba(255,255,255,.06);
+    }
+
+    .field label {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .field input,
+    .field select {
+      border: 0;
+      outline: 0;
+      background: transparent;
+      color: var(--text);
+      font-size: 15px;
+      font-weight: 700;
+      width: 100%;
+    }
+
+    .field select option {
+      color: #111;
+    }
+
+    .side-stack {
+      display: grid;
+      gap: 24px;
+    }
+
+    .side-card {
+      padding: 24px;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+      margin-top: 20px;
+    }
+
+    .stat {
+      min-height: 112px;
+      border-radius: 26px;
+      background: rgba(255,255,255,.32);
+      border: 1px solid rgba(255,255,255,.38);
+      padding: 18px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    body.dark .stat {
+      background: rgba(255,255,255,.035);
+      border-color: rgba(255,255,255,.06);
+    }
+
+    .stat::after {
+      content: "";
+      position: absolute;
+      right: -25px;
+      top: -25px;
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: var(--accent);
+      opacity: .12;
+    }
+
+    .stat span {
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 750;
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 29px;
+      margin-top: 10px;
+      letter-spacing: -.8px;
+    }
+
+    .files {
+      margin-top: 20px;
+      display: grid;
+      gap: 14px;
+    }
+
+    .file-item {
+      border-radius: 24px;
+      background: rgba(255,255,255,.32);
+      border: 1px solid rgba(255,255,255,.38);
+      padding: 14px;
+      display: grid;
+      grid-template-columns: 44px 1fr auto;
+      align-items: center;
+      gap: 13px;
+    }
+
+    body.dark .file-item {
+      background: rgba(255,255,255,.035);
+      border-color: rgba(255,255,255,.06);
+    }
+
+    .file-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 16px;
+      display: grid;
+      place-items: center;
+      background: rgba(18,152,212,.12);
+      color: var(--blue);
+    }
+
+    .file-info strong {
+      display: block;
+      font-size: 14px;
+      margin-bottom: 4px;
+      max-width: 260px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .file-info span {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .file-status {
+      font-size: 12px;
+      font-weight: 800;
+      color: var(--green-2);
+      background: rgba(11,90,57,.1);
+      border: 1px solid rgba(11,90,57,.16);
+      height: 28px;
+      padding: 0 11px;
+      display: inline-flex;
+      align-items: center;
+      border-radius: 99px;
+    }
+
+    .progress-box {
+      margin-top: 18px;
+      border-radius: 28px;
+      background: rgba(255,255,255,.32);
+      border: 1px solid rgba(255,255,255,.38);
+      padding: 18px;
+      display: none;
+    }
+
+    body.dark .progress-box {
+      background: rgba(255,255,255,.035);
+      border-color: rgba(255,255,255,.06);
+    }
+
+    .progress-box.active {
+      display: block;
+    }
+
+    .progress-head {
+      display: flex;
+      justify-content: space-between;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 800;
+      margin-bottom: 12px;
+    }
+
+    .progress-bar {
+      height: 12px;
+      border-radius: 99px;
+      background: rgba(110,122,119,.16);
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      width: 0%;
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--green-2), var(--blue), var(--purple));
+      transition: width .25s ease;
+    }
+
+    .checklist {
+      margin-top: 20px;
+      display: grid;
+      gap: 12px;
+    }
+
+    .check {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--muted);
+      font-weight: 700;
+      font-size: 14px;
+    }
+
+    .check i {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: rgba(11,90,57,.12);
+      color: var(--green-2);
+      font-style: normal;
+      font-size: 13px;
+      font-weight: 900;
+    }
+
+    .bottom-actions {
+      margin-top: 24px;
+      display: flex;
+      justify-content: flex-end;
+      gap: 14px;
+    }
+
+    .secondary-btn {
+      height: 52px;
+      padding: 0 24px;
+      border: 1px solid rgba(255,255,255,.45);
+      background: rgba(238,240,239,.54);
+      border-radius: 28px;
+      color: var(--text);
+      font-weight: 800;
+      cursor: pointer;
+      box-shadow: var(--shadow-soft);
+    }
+
+    body.dark .secondary-btn {
+      background: rgba(30, 40, 50, .74);
+      border-color: rgba(255,255,255,.06);
+    }
+
+    svg {
+      width: 21px;
+      height: 21px;
+      stroke: currentColor;
+      stroke-width: 1.8;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .big-svg {
+      width: 44px;
+      height: 44px;
+    }
+
+    @media (max-width: 1250px) {
+      .app {
+        grid-template-columns: 240px 1fr;
+      }
+
+      .layout {
+        grid-template-columns: 1fr;
+      }
+
+      .search {
+        width: 42vw;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <div>
+        <div class="logo">MIS</div>
+
+        <nav class="nav">
+          <div class="nav-item">
+            <svg viewBox="0 0 24 24"><path d="M4 5h16v14H4z"/><path d="M8 9h8M8 13h5"/></svg>
+            Feed
+          </div>
+
+          <div class="nav-item active">
+            <svg viewBox="0 0 24 24"><path d="M4 4h7v7H4zM13 4h7v7h-7zM4 13h7v7H4zM13 13h7v7h-7z"/></svg>
+            Projetos
+          </div>
+
+          <div class="nav-item">
+            <svg viewBox="0 0 24 24"><path d="M4 19V5"/><path d="M4 19h16"/><path d="M8 16v-5"/><path d="M12 16V8"/><path d="M16 16v-7"/></svg>
+            Dashboard
+          </div>
+
+          <div class="nav-item">
+            <svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><path d="M3.3 7 12 12l8.7-5"/><path d="M12 22V12"/></svg>
+            Suprimentos
+          </div>
+
+          <div class="nav-item">
+            <svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+            Pendências
+            <span class="badge">7</span>
+          </div>
+
+          <div class="nav-item">
+            <svg viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>
+            Alertas
+            <span class="badge">5</span>
+          </div>
+
+          <div class="nav-item">
+            <svg viewBox="0 0 24 24"><path d="M21 15a4 4 0 0 1-4 4H7l-4 4V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z"/></svg>
+            Mensagens
+          </div>
+
+          <div class="nav-item">
+            <svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-8 0v2"/><circle cx="12" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/></svg>
+            Equipe
+          </div>
+
+          <div class="nav-item">
+            <svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5z"/></svg>
+            Biblioteca
+          </div>
+
+          <div class="nav-item">
+            <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M8 13h8M8 17h5"/></svg>
+            Relatórios
+          </div>
+
+          <div class="nav-item">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06A1.65 1.65 0 0 0 15 19.4a1.65 1.65 0 0 0-1 .6 1.65 1.65 0 0 0-.33 1.82V22a2 2 0 1 1-4 0v-.18A1.65 1.65 0 0 0 8 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.6 15a1.65 1.65 0 0 0-.6-1 1.65 1.65 0 0 0-1.82-.33H2a2 2 0 1 1 0-4h.18A1.65 1.65 0 0 0 4.6 8a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.6a1.65 1.65 0 0 0 1-.6 1.65 1.65 0 0 0 .33-1.82V2a2 2 0 1 1 4 0v.18A1.65 1.65 0 0 0 16 4.6a1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9"/></svg>
+            Configurações
+          </div>
+        </nav>
+      </div>
+
+      <div class="user-card">
+        <div class="avatar"></div>
+        <div class="user-info">
+          <strong>Carlos Mendes</strong>
+          <span>Engenheiro Civil</span>
+        </div>
+        <span>⌄</span>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div class="search">
+          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+          <input placeholder="Buscar projetos, arquivos ou responsáveis..." />
+          <div class="shortcut">⌘ K</div>
+        </div>
+
+        <div class="top-actions">
+          <button class="primary-btn">
+            <span style="font-size:22px;line-height:0;">+</span>
+            Novo projeto
+          </button>
+
+          <div class="toggle" id="themeToggle" title="Alternar tema">
+            <span id="themeIcon">☀️</span>
+          </div>
+
+          <div class="circle-btn">
+            <svg viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>
+            <div class="notification-badge">4</div>
+          </div>
+
+          <div class="profile">
+            <div class="avatar"></div>
+            <span>⌄</span>
+          </div>
+        </div>
+      </header>
+
+      <section class="page-head">
+        <div>
+          <h1>Upload de Projetos</h1>
+          <p>Envie arquivos técnicos, plantas, documentos e imagens para iniciar a organização da obra.</p>
+        </div>
+
+        <div class="head-actions">
+          <div class="pill-btn">Arquivos recentes</div>
+          <div class="pill-btn">Modelo de pasta ⌄</div>
+        </div>
+      </section>
+
+      <section class="layout">
+        <article class="card upload-card">
+          <div class="section-title">
+            <div>
+              <h2>Novo pacote de projeto</h2>
+              <p>Faça upload dos documentos da obra. Os arquivos serão classificados por tipo, etapa e prioridade.</p>
+            </div>
+            <div class="pill-btn">Rascunho salvo</div>
+          </div>
+
+          <label class="upload-zone" id="uploadZone" for="fileInput">
+            <div>
+              <div class="upload-icon">
+                <svg class="big-svg" viewBox="0 0 24 24">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                  <path d="M17 8l-5-5-5 5"/>
+                  <path d="M12 3v12"/>
+                </svg>
+              </div>
+              <h3>Arraste seus arquivos aqui</h3>
+              <p>
+                Envie plantas, PDFs, planilhas, fotos de obra, memoriais descritivos ou documentos técnicos.
+                <span class="upload-link">Clique para selecionar</span>.
+              </p>
+              <div class="format-row">
+                <span class="format">PDF</span>
+                <span class="format">DWG</span>
+                <span class="format">XLSX</span>
+                <span class="format">DOCX</span>
+                <span class="format">PNG/JPG</span>
+                <span class="format">ZIP</span>
+              </div>
+            </div>
+          </label>
+
+          <input class="file-input" type="file" id="fileInput" multiple />
+
+          <div class="progress-box" id="progressBox">
+            <div class="progress-head">
+              <span>Processando upload</span>
+              <span id="progressText">0%</span>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill" id="progressFill"></div>
+            </div>
+          </div>
+
+          <div class="form-grid">
+            <div class="field">
+              <label>Nome do projeto</label>
+              <input value="Residência Jardins — Etapa 02" />
+            </div>
+
+            <div class="field">
+              <label>Tipo de obra</label>
+              <select>
+                <option>Residencial</option>
+                <option>Comercial</option>
+                <option>Corporativo</option>
+                <option>Industrial</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label>Responsável técnico</label>
+              <input value="Mariana Costa" />
+            </div>
+
+            <div class="field">
+              <label>Categoria principal</label>
+              <select>
+                <option>Arquitetura</option>
+                <option>Estrutural</option>
+                <option>Elétrica</option>
+                <option>Hidráulica</option>
+                <option>Acabamento</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label>Cidade / UF</label>
+              <input value="São Paulo, SP" />
+            </div>
+
+            <div class="field">
+              <label>Prioridade</label>
+              <select>
+                <option>Alta</option>
+                <option>Média</option>
+                <option>Baixa</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="bottom-actions">
+            <button class="secondary-btn">Cancelar</button>
+            <button class="primary-btn" id="sendBtn">Enviar projeto</button>
+          </div>
+        </article>
+
+        <aside class="side-stack">
+          <article class="card side-card">
+            <div class="section-title">
+              <div>
+                <h2>Status do upload</h2>
+                <p>Resumo dos arquivos enviados nesta sessão.</p>
+              </div>
+            </div>
+
+            <div class="stats">
+              <div class="stat" style="--accent:#1298d4;">
+                <span>Arquivos</span>
+                <strong id="fileCount">0</strong>
+              </div>
+
+              <div class="stat" style="--accent:#0b5a39;">
+                <span>Validados</span>
+                <strong id="validCount">0</strong>
+              </div>
+
+              <div class="stat" style="--accent:#f0a21a;">
+                <span>Pendentes</span>
+                <strong id="pendingCount">3</strong>
+              </div>
+
+              <div class="stat" style="--accent:#6c4de6;">
+                <span>Pastas</span>
+                <strong>6</strong>
+              </div>
+            </div>
+
+            <div class="checklist">
+              <div class="check"><i>✓</i> Estrutura de pastas criada</div>
+              <div class="check"><i>✓</i> Permissões configuradas</div>
+              <div class="check"><i>✓</i> Projeto vinculado à obra</div>
+              <div class="check"><i>•</i> Aguardando arquivos técnicos</div>
+            </div>
+          </article>
+
+          <article class="card side-card">
+            <div class="section-title">
+              <div>
+                <h2>Arquivos adicionados</h2>
+                <p>Lista dinâmica dos documentos enviados.</p>
+              </div>
+            </div>
+
+            <div class="files" id="fileList">
+              <div class="file-item">
+                <div class="file-icon">
+                  <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
+                </div>
+                <div class="file-info">
+                  <strong>Planta baixa térreo.pdf</strong>
+                  <span>PDF · 4.8 MB</span>
+                </div>
+                <span class="file-status">Pronto</span>
+              </div>
+
+              <div class="file-item">
+                <div class="file-icon">
+                  <svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4z"/></svg>
+                </div>
+                <div class="file-info">
+                  <strong>Memorial descritivo.docx</strong>
+                  <span>DOCX · 1.2 MB</span>
+                </div>
+                <span class="file-status">Pronto</span>
+              </div>
+            </div>
+          </article>
+        </aside>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    const body = document.body;
+    const themeToggle = document.getElementById("themeToggle");
+    const themeIcon = document.getElementById("themeIcon");
+
+    themeToggle.addEventListener("click", () => {
+      body.classList.toggle("dark");
+      themeIcon.textContent = body.classList.contains("dark") ? "🌙" : "☀️";
+    });
+
+    const uploadZone = document.getElementById("uploadZone");
+    const fileInput = document.getElementById("fileInput");
+    const fileList = document.getElementById("fileList");
+    const fileCount = document.getElementById("fileCount");
+    const validCount = document.getElementById("validCount");
+    const pendingCount = document.getElementById("pendingCount");
+    const progressBox = document.getElementById("progressBox");
+    const progressFill = document.getElementById("progressFill");
+    const progressText = document.getElementById("progressText");
+    const sendBtn = document.getElementById("sendBtn");
+
+    let filesState = [];
+
+    function formatSize(bytes) {
+      if (bytes < 1024) return bytes + " B";
+      if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + " KB";
+      return (bytes / (1024 * 1024)).toFixed(1) + " MB";
+    }
+
+    function getFileIcon(fileName) {
+      const ext = fileName.split(".").pop().toLowerCase();
+      if (["jpg", "jpeg", "png", "webp"].includes(ext)) {
+        return '<svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>';
+      }
+      if (["zip", "rar"].includes(ext)) {
+        return '<svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4z"/></svg>';
+      }
+      return '<svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>';
+    }
+
+    function renderFiles() {
+      fileList.innerHTML = "";
+
+      if (filesState.length === 0) {
+        fileList.innerHTML = `
+          <div class="file-item">
+            <div class="file-icon">
+              <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
+            </div>
+            <div class="file-info">
+              <strong>Planta baixa térreo.pdf</strong>
+              <span>PDF · 4.8 MB</span>
+            </div>
+            <span class="file-status">Pronto</span>
+          </div>
+
+          <div class="file-item">
+            <div class="file-icon">
+              <svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4z"/></svg>
+            </div>
+            <div class="file-info">
+              <strong>Memorial descritivo.docx</strong>
+              <span>DOCX · 1.2 MB</span>
+            </div>
+            <span class="file-status">Pronto</span>
+          </div>
+        `;
+      } else {
+        filesState.forEach(file => {
+          const ext = file.name.split(".").pop().toUpperCase();
+          fileList.insertAdjacentHTML("beforeend", `
+            <div class="file-item">
+              <div class="file-icon">${getFileIcon(file.name)}</div>
+              <div class="file-info">
+                <strong>${file.name}</strong>
+                <span>${ext} · ${formatSize(file.size)}</span>
+              </div>
+              <span class="file-status">Pronto</span>
+            </div>
+          `);
+        });
+      }
+
+      const total = filesState.length;
+      fileCount.textContent = total;
+      validCount.textContent = total;
+      pendingCount.textContent = total > 0 ? "0" : "3";
+    }
+
+    function fakeProgress() {
+      progressBox.classList.add("active");
+      let value = 0;
+      progressFill.style.width = "0%";
+      progressText.textContent = "0%";
+
+      const timer = setInterval(() => {
+        value += Math.floor(Math.random() * 14) + 8;
+        if (value >= 100) {
+          value = 100;
+          clearInterval(timer);
+        }
+
+        progressFill.style.width = value + "%";
+        progressText.textContent = value + "%";
+      }, 180);
+    }
+
+    function handleFiles(files) {
+      filesState = Array.from(files);
+      renderFiles();
+      fakeProgress();
+    }
+
+    fileInput.addEventListener("change", e => {
+      handleFiles(e.target.files);
+    });
+
+    uploadZone.addEventListener("dragover", e => {
+      e.preventDefault();
+      uploadZone.classList.add("dragover");
+    });
+
+    uploadZone.addEventListener("dragleave", () => {
+      uploadZone.classList.remove("dragover");
+    });
+
+    uploadZone.addEventListener("drop", e => {
+      e.preventDefault();
+      uploadZone.classList.remove("dragover");
+      handleFiles(e.dataTransfer.files);
+    });
+
+    sendBtn.addEventListener("click", () => {
+      fakeProgress();
+      sendBtn.textContent = "Projeto enviado";
+      setTimeout(() => {
+        sendBtn.textContent = "Enviar projeto";
+      }, 1800);
+    });
+  </script>
+</body>
+</html>
