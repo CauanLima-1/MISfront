@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MIS — Projetos</title>
+
+  <style>
+    :root{
+      --bg:#d9dcda; --card:rgba(238,240,239,.72); --solid:#eef0ef;
+      --text:#151817; --muted:#6f7674; --green:#063b25; --green2:#0b5a39;
+      --blue:#1298d4; --red:#e0473c; --orange:#f0a21a; --purple:#6c4de6;
+      --shadow:18px 18px 45px rgba(119,126,124,.22),-14px -14px 35px rgba(255,255,255,.62);
+      --soft:10px 10px 24px rgba(120,128,126,.18),-8px -8px 22px rgba(255,255,255,.55);
+    }
+
+    body.dark{
+      --bg:#111820; --card:rgba(28,38,48,.78); --solid:#1c2630;
+      --text:#edf4f2; --muted:#98a5a2; --green:#0ecf83; --green2:#0a8f5d;
+      --shadow:18px 18px 45px rgba(0,0,0,.38),-12px -12px 28px rgba(255,255,255,.03);
+      --soft:10px 10px 24px rgba(0,0,0,.35),-8px -8px 20px rgba(255,255,255,.025);
+    }
+
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{
+      min-height:100vh;
+      background:
+        radial-gradient(circle at top left,rgba(255,255,255,.55),transparent 32%),
+        radial-gradient(circle at bottom right,rgba(255,255,255,.28),transparent 34%),
+        var(--bg);
+      font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      color:var(--text);
+      transition:.35s;
+      overflow-x:hidden;
+    }
+
+    .app{display:grid;grid-template-columns:290px 1fr;min-height:100vh}
+
+    .sidebar{
+      position:sticky;top:0;height:100vh;padding:34px 22px 28px;
+      background:rgba(232,234,233,.36);backdrop-filter:blur(24px);
+      border-right:1px solid rgba(255,255,255,.38);
+      box-shadow:16px 0 34px rgba(97,105,102,.12);
+      display:flex;flex-direction:column;justify-content:space-between;
+    }
+
+    body.dark .sidebar{background:rgba(18,25,32,.82);border-right-color:rgba(255,255,255,.06)}
+
+    .logo{
+      width:82px;height:82px;margin:0 auto 28px;border-radius:50%;
+      display:grid;place-items:center;color:white;font-weight:800;font-size:25px;
+      background:
+        radial-gradient(circle at 35% 20%,#fff 0,rgba(255,255,255,.25) 10%,transparent 28%),
+        radial-gradient(circle at 55% 78%,#1d5b71 0,#071319 55%,#020608 100%);
+      box-shadow:inset 0 0 0 2px rgba(255,255,255,.28),0 18px 34px rgba(0,0,0,.24);
+    }
+
+    .nav{display:flex;flex-direction:column;gap:9px}
+    .nav-item{
+      height:58px;border-radius:24px;display:flex;align-items:center;gap:15px;
+      padding:0 22px;font-weight:650;font-size:15px;cursor:pointer;transition:.25s;
+      position:relative;color:var(--text);
+    }
+    .nav-item:hover{background:rgba(255,255,255,.32);transform:translateX(3px)}
+    .nav-item.active{
+      background:linear-gradient(135deg,#0a3e29,#041d13);
+      color:white;box-shadow:0 12px 28px rgba(3,41,25,.34);
+    }
+    .nav-item svg{width:21px;height:21px;stroke:currentColor;stroke-width:1.8;fill:none;stroke-linecap:round;stroke-linejoin:round}
+    .badge{
+      margin-left:auto;min-width:29px;height:29px;border-radius:50%;display:grid;place-items:center;
+      font-size:13px;font-weight:750;color:#e13f35;background:rgba(255,255,255,.42);
+    }
+
+    .user-card{
+      height:68px;border-radius:26px;background:rgba(238,240,239,.52);
+      box-shadow:var(--soft);border:1px solid rgba(255,255,255,.42);
+      display:flex;align-items:center;padding:12px;gap:12px;
+    }
+    body.dark .user-card{background:rgba(30,41,52,.82);border-color:rgba(255,255,255,.06)}
+    .avatar{
+      width:45px;height:45px;border-radius:50%;
+      background:url("https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=120&q=80") center/cover;
+      flex-shrink:0;
+    }
+    .user-info{flex:1;line-height:1.15}
+    .user-info strong{display:block;font-size:14px}
+    .user-info span{font-size:12px;color:var(--muted)}
+
+    .main{padding:34px 34px 46px}
+
+    .topbar{height:70px;display:flex;align-items:center;gap:22px;margin-bottom:26px}
+    .search{
+      width:min(640px,44vw);height:64px;border-radius:34px;background:rgba(238,240,239,.58);
+      border:1px solid rgba(255,255,255,.42);box-shadow:var(--soft);
+      display:flex;align-items:center;gap:16px;padding:0 24px;color:var(--muted);
+    }
+    body.dark .search{background:rgba(30,40,50,.74);border-color:rgba(255,255,255,.06)}
+    .search input{border:0;outline:0;background:transparent;flex:1;color:var(--text);font-size:16px}
+    .search input::placeholder{color:var(--muted)}
+    .shortcut{
+      width:52px;height:34px;border-radius:14px;display:grid;place-items:center;
+      border:1px solid rgba(0,0,0,.06);color:var(--muted);font-size:14px;
+    }
+
+    .top-actions{margin-left:auto;display:flex;align-items:center;gap:18px}
+    .primary-btn{
+      height:55px;padding:0 29px;border:0;border-radius:28px;
+      background:linear-gradient(135deg,#202423,#060807);color:white;
+      display:flex;align-items:center;gap:12px;font-weight:750;font-size:15px;
+      cursor:pointer;box-shadow:0 13px 25px rgba(0,0,0,.24);transition:.25s;
+    }
+    .primary-btn:hover{transform:translateY(-2px);box-shadow:0 18px 34px rgba(0,0,0,.28)}
+
+    .toggle{
+      height:52px;width:98px;border-radius:32px;background:rgba(238,240,239,.62);
+      box-shadow:var(--soft);border:1px solid rgba(255,255,255,.42);
+      display:flex;align-items:center;padding:6px;cursor:pointer;
+    }
+    body.dark .toggle{background:rgba(31,42,52,.8);border-color:rgba(255,255,255,.06)}
+    .toggle span{
+      width:40px;height:40px;border-radius:50%;display:grid;place-items:center;
+      background:#fff;box-shadow:0 8px 18px rgba(0,0,0,.14);transition:.28s;
+    }
+    body.dark .toggle span{transform:translateX(46px);background:#111820}
+
+    .circle-btn{
+      width:54px;height:54px;border-radius:50%;background:rgba(238,240,239,.62);
+      border:1px solid rgba(255,255,255,.42);box-shadow:var(--soft);
+      display:grid;place-items:center;position:relative;cursor:pointer;
+    }
+    body.dark .circle-btn{background:rgba(31,42,52,.8);border-color:rgba(255,255,255,.06)}
+    .circle-btn svg,.search svg{width:21px;height:21px;stroke:currentColor;stroke-width:1.8;fill:none;stroke-linecap:round;stroke-linejoin:round}
+    .notification-badge{
+      position:absolute;top:-7px;right:-5px;background:#e0382f;color:white;
+      min-width:25px;height:25px;border-radius:50%;display:grid;place-items:center;font-size:12px;font-weight:800;
+    }
+    .profile{display:flex;align-items:center;gap:12px}
+
+    .page-head{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:22px}
+    .page-head h1{font-size:38px;letter-spacing:-1px;margin-bottom:8px}
+    .page-head p{color:var(--muted);font-size:16px}
+    .head-actions{display:flex;gap:14px}
+    .pill-btn,.chip{
+      height:48px;border-radius:24px;border:1px solid rgba(255,255,255,.45);
+      background:rgba(238,240,239,.58);box-shadow:var(--soft);
+      padding:0 22px;font-weight:700;color:var(--text);
+      display:flex;align-items:center;gap:10px;cursor:pointer;transition:.25s;
+    }
+    body.dark .pill-btn, body.dark .chip{background:rgba(30,40,50,.74);border-color:rgba(255,255,255,.06)}
+    .chip.active{background:linear-gradient(135deg,#0a3e29,#041d13);color:white}
+
+    .stories{
+      padding:24px 26px;margin-bottom:22px;border-radius:34px;background:var(--card);
+      border:1px solid rgba(255,255,255,.45);box-shadow:var(--shadow);backdrop-filter:blur(20px);
+    }
+    body.dark .stories{border-color:rgba(255,255,255,.06)}
+    .stories-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
+    .stories-head h2{font-size:20px}
+    .stories-head span{font-weight:800;font-size:14px}
+
+    .story-row{display:flex;align-items:center;gap:34px;overflow:hidden}
+    .story{text-align:center;min-width:105px}
+    .story-img{
+      width:86px;height:86px;margin:0 auto 10px;border-radius:50%;padding:4px;
+      background:conic-gradient(var(--c1),var(--c2),var(--c1));
+      box-shadow:0 10px 20px rgba(0,0,0,.12);
+    }
+    .story-img div{width:100%;height:100%;border-radius:50%;border:4px solid var(--solid);background:var(--img) center/cover}
+    .story strong{font-size:14px}
+
+    .kpis{display:grid;grid-template-columns:repeat(5,1fr);gap:18px;margin-bottom:22px}
+    .kpi{
+      min-height:135px;padding:22px;border-radius:30px;background:var(--card);
+      border:1px solid rgba(255,255,255,.45);box-shadow:var(--shadow);position:relative;overflow:hidden;
+    }
+    body.dark .kpi{border-color:rgba(255,255,255,.06)}
+    .kpi:after{
+      content:"";position:absolute;right:-28px;top:-28px;width:88px;height:88px;border-radius:50%;
+      background:var(--accent);opacity:.12;
+    }
+    .kpi span{color:var(--muted);font-size:13px;font-weight:800}
+    .kpi strong{display:block;font-size:32px;margin-top:12px;letter-spacing:-.8px}
+    .kpi small{display:block;color:var(--muted);font-weight:700;margin-top:7px}
+
+    .toolbar{
+      display:flex;justify-content:space-between;align-items:center;margin-bottom:22px;gap:18px;
+    }
+    .filters{display:flex;flex-wrap:wrap;gap:12px}
+    .view-toggle{
+      display:flex;gap:8px;padding:6px;border-radius:28px;background:rgba(238,240,239,.58);
+      border:1px solid rgba(255,255,255,.45);box-shadow:var(--soft);
+    }
+    body.dark .view-toggle{background:rgba(30,40,50,.74);border-color:rgba(255,255,255,.06)}
+    .view-toggle button{
+      width:44px;height:38px;border:0;border-radius:20px;background:transparent;color:var(--muted);
+      cursor:pointer;font-size:18px;
+    }
+    .view-toggle button.active{background:rgba(255,255,255,.54);color:var(--green2)}
+    body.dark .view-toggle button.active{background:rgba(255,255,255,.08)}
+
+    .projects-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+    .projects-grid.list{grid-template-columns:1fr}
+    .projects-grid.list .project-card{display:grid;grid-template-columns:360px 1fr}
+    .projects-grid.list .project-cover{height:100%}
+
+    .project-card{
+      min-height:520px;border-radius:34px;background:var(--card);border:1px solid rgba(255,255,255,.45);
+      box-shadow:var(--shadow);overflow:hidden;backdrop-filter:blur(20px);transition:.25s;
+    }
+    body.dark .project-card{border-color:rgba(255,255,255,.06)}
+    .project-card:hover{transform:translateY(-4px)}
+    .project-cover{
+      height:220px;background:linear-gradient(to bottom,rgba(0,0,0,.05),rgba(0,0,0,.35)),var(--img) center/cover;
+      position:relative;padding:22px;display:flex;align-items:flex-end;
+    }
+    .status{
+      height:34px;padding:0 15px;border-radius:99px;display:inline-flex;align-items:center;
+      color:white;font-size:13px;font-weight:800;background:var(--status);
+      box-shadow:0 10px 20px rgba(0,0,0,.18);
+    }
+    .menu-dots{
+      position:absolute;top:20px;right:20px;width:42px;height:42px;border-radius:50%;
+      background:rgba(255,255,255,.72);display:grid;place-items:center;font-weight:900;color:#111;
+      backdrop-filter:blur(10px);
+    }
+
+    .project-body{padding:23px}
+    .project-top{display:flex;gap:14px;align-items:flex-start;margin-bottom:18px}
+    .mini-thumb{
+      width:54px;height:54px;border-radius:19px;background:var(--img) center/cover;box-shadow:0 8px 16px rgba(0,0,0,.14);
+      flex-shrink:0;
+    }
+    .project-title{flex:1}
+    .project-title h3{font-size:20px;margin-bottom:5px;letter-spacing:-.3px}
+    .project-title p{font-size:13px;color:var(--muted);font-weight:700}
+
+    .progress-line{margin:18px 0}
+    .progress-head{display:flex;justify-content:space-between;margin-bottom:10px;color:var(--muted);font-size:13px;font-weight:800}
+    .bar{height:8px;border-radius:99px;background:rgba(110,122,119,.16);overflow:hidden}
+    .bar span{display:block;height:100%;width:var(--p);border-radius:inherit;background:linear-gradient(90deg,var(--green2),var(--blue),var(--purple))}
+
+    .meta-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:18px}
+    .meta{
+      padding:14px;border-radius:22px;background:rgba(255,255,255,.32);border:1px solid rgba(255,255,255,.38);
+    }
+    body.dark .meta{background:rgba(255,255,255,.035);border-color:rgba(255,255,255,.06)}
+    .meta span{display:block;color:var(--muted);font-size:12px;font-weight:800;margin-bottom:5px}
+    .meta strong{font-size:14px}
+
+    .team-row{display:flex;align-items:center;justify-content:space-between;margin-top:20px}
+    .team{display:flex}
+    .team i{
+      width:34px;height:34px;border-radius:50%;border:3px solid var(--solid);margin-left:-9px;
+      background:var(--img) center/cover;
+    }
+    .team i:first-child{margin-left:0}
+    .open-btn{
+      height:40px;padding:0 16px;border:0;border-radius:99px;background:rgba(11,90,57,.11);
+      color:var(--green2);font-weight:850;cursor:pointer;
+    }
+
+    .drawer{
+      max-height:0;overflow:hidden;transition:.35s ease;border-top:1px solid transparent;
+    }
+    .project-card.open .drawer{
+      max-height:260px;border-top-color:rgba(120,128,126,.14);margin-top:18px;padding-top:16px;
+    }
+    .task{display:flex;align-items:center;justify-content:space-between;padding:10px 0;color:var(--muted);font-size:13px;font-weight:750}
+    .task b{color:var(--text)}
+    .task .dot{width:9px;height:9px;border-radius:50%;background:var(--c);display:inline-block;margin-right:8px}
+
+    @media(max-width:1350px){
+      .app{grid-template-columns:240px 1fr}
+      .projects-grid{grid-template-columns:repeat(2,1fr)}
+      .kpis{grid-template-columns:repeat(3,1fr)}
+    }
+  </style>
+</head>
+
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <div>
+        <div class="logo">MIS</div>
+        <nav class="nav">
+          <div class="nav-item">
+            <svg viewBox="0 0 24 24"><path d="M4 5h16v14H4z"/><path d="M8 9h8M8 13h5"/></svg> Feed
+          </div>
+          <div class="nav-item active">
+            <svg viewBox="0 0 24 24"><path d="M4 4h7v7H4zM13 4h7v7h-7zM4 13h7v7H4zM13 13h7v7h-7z"/></svg> Projetos
+          </div>
+          <div class="nav-item">
+            <svg viewBox="0 0 24 24"><path d="M4 19V5"/><path d="M4 19h16"/><path d="M8 16v-5"/><path d="M12 16V8"/><path d="M16 16v-7"/></svg> Dashboard
+          </div>
+          <div class="nav-item">
+            <svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4z"/><path d="M3.3 7 12 12l8.7-5"/><path d="M12 22V12"/></svg> Suprimentos
+          </div>
+          <div class="nav-item">
+            <svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg> Pendências <span class="badge">7</span>
+          </div>
+          <div class="nav-item">
+            <svg viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg> Alertas <span class="badge">5</span>
+          </div>
+          <div class="nav-item">
+            <svg viewBox="0 0 24 24"><path d="M21 15a4 4 0 0 1-4 4H7l-4 4V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z"/></svg> Mensagens
+          </div>
+          <div class="nav-item">
+            <svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-8 0v2"/><circle cx="12" cy="7" r="4"/></svg> Equipe
+          </div>
+          <div class="nav-item">
+            <svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5z"/></svg> Biblioteca
+          </div>
+          <div class="nav-item">
+            <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg> Relatórios
+          </div>
+          <div class="nav-item">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82"/></svg> Configurações
+          </div>
+        </nav>
+      </div>
+
+      <div class="user-card">
+        <div class="avatar"></div>
+        <div class="user-info">
+          <strong>Carlos Mendes</strong>
+          <span>Engenheiro Civil</span>
+        </div>
+        <span>⌄</span>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div class="search">
+          <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+          <input id="searchInput" placeholder="Buscar obras, pessoas ou atualizações..." />
+          <div class="shortcut">⌘ K</div>
+        </div>
+
+        <div class="top-actions">
+          <button class="primary-btn"><span style="font-size:22px">+</span>Novo projeto</button>
+          <div class="toggle" id="themeToggle"><span id="themeIcon">☀️</span></div>
+          <div class="circle-btn">
+            <svg viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>
+            <div class="notification-badge">4</div>
+          </div>
+          <div class="profile"><div class="avatar"></div><span>⌄</span></div>
+        </div>
+      </header>
+
+      <section class="page-head">
+        <div>
+          <h1>Projetos</h1>
+          <p>Gerencie obras, equipes, prazos, documentos e evolução física de cada projeto.</p>
+        </div>
+        <div class="head-actions">
+          <div class="pill-btn">Mais recentes ⌄</div>
+          <div class="pill-btn">Exportar</div>
+        </div>
+      </section>
+
+      <section class="stories">
+        <div class="stories-head">
+          <h2>Stories de obras</h2>
+          <span>Ver todos</span>
+        </div>
+        <div class="story-row">
+          <div class="story"><div class="story-img" style="--c1:#20b27a;--c2:#6c4de6"><div style="--img:url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=180&q=80')"></div></div><strong>Sua obra</strong></div>
+          <div class="story"><div class="story-img" style="--c1:#6c4de6;--c2:#1298d4"><div style="--img:url('https://images.unsplash.com/photo-1494526585095-c41746248156?auto=format&fit=crop&w=180&q=80')"></div></div><strong>Jardins</strong></div>
+          <div class="story"><div class="story-img" style="--c1:#ff6a2a;--c2:#1298d4"><div style="--img:url('https://images.unsplash.com/photo-1486325212027-8081e485255e?auto=format&fit=crop&w=180&q=80')"></div></div><strong>Corporate</strong></div>
+          <div class="story"><div class="story-img" style="--c1:#20b27a;--c2:#1298d4"><div style="--img:url('https://images.unsplash.com/photo-1518005020951-eccb494ad742?auto=format&fit=crop&w=180&q=80')"></div></div><strong>Villa Aurora</strong></div>
+          <div class="story"><div class="story-img" style="--c1:#e0473c;--c2:#6c4de6"><div style="--img:url('https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=180&q=80')"></div></div><strong>Loft Panorama</strong></div>
+          <div class="story"><div class="story-img" style="--c1:#1298d4;--c2:#6c4de6"><div style="--img:url('https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=180&q=80')"></div></div><strong>Greenview</strong></div>
+        </div>
+      </section>
+
+      <section class="kpis">
+        <article class="kpi" style="--accent:#0b5a39"><span>Total de projetos</span><strong>18</strong><small>12 ativos agora</small></article>
+        <article class="kpi" style="--accent:#1298d4"><span>Em andamento</span><strong>9</strong><small>+2 nesta semana</small></article>
+        <article class="kpi" style="--accent:#f0a21a"><span>Em atenção</span><strong>4</strong><small>Exigem validação</small></article>
+        <article class="kpi" style="--accent:#e0473c"><span>Críticos</span><strong>2</strong><small>Risco de atraso</small></article>
+        <article class="kpi" style="--accent:#6c4de6"><span>Concluídos</span><strong>5</strong><small>Últimos 60 dias</small></article>
+      </section>
+
+      <section class="toolbar">
+        <div class="filters">
+          <button class="chip active" data-filter="Todos">Todos</button>
+          <button class="chip" data-filter="Em andamento">Em andamento</button>
+          <button class="chip" data-filter="Atenção">Atenção</button>
+          <button class="chip" data-filter="Crítico">Críticos</button>
+          <button class="chip" data-filter="Concluído">Concluídos</button>
+        </div>
+        <div class="view-toggle">
+          <button class="active" id="gridBtn">▦</button>
+          <button id="listBtn">☰</button>
+        </div>
+      </section>
+
+      <section class="projects-grid" id="projectsGrid"></section>
+    </main>
+  </div>
+
+  <script>
+    const projects = [
+      {
+        name:"Villa Aurora", city:"Florianópolis, SC", status:"Em andamento", color:"#0b5a39", progress:72,
+        stage:"Estrutura - Fundação", budget:"R$ 420k", deadline:"18 dias", team:4,
+        img:"https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=900&q=80",
+        tasks:[["Fundação concluída","#0b5a39"],["Concreto agendado","#1298d4"],["Vistoria pendente","#f0a21a"]]
+      },
+      {
+        name:"Residencial Jardins", city:"São Paulo, SP", status:"Atenção", color:"#f0a21a", progress:48,
+        stage:"Acabamento - Revestimentos", budget:"R$ 680k", deadline:"32 dias", team:6,
+        img:"https://images.unsplash.com/photo-1494526585095-c41746248156?auto=format&fit=crop&w=900&q=80",
+        tasks:[["Comprar argamassa","#e0473c"],["Revisar fornecedor","#f0a21a"],["Equipe ativa","#0b5a39"]]
+      },
+      {
+        name:"Corporate Tower", city:"Curitiba, PR", status:"Crítico", color:"#e0473c", progress:25,
+        stage:"Instalações elétricas", budget:"R$ 1.2M", deadline:"9 dias", team:8,
+        img:"https://images.unsplash.com/photo-1486325212027-8081e485255e?auto=format&fit=crop&w=900&q=80",
+        tasks:[["Cabos elétricos pendentes","#e0473c"],["Prazo em risco","#e0473c"],["Cotação aguardando","#f0a21a"]]
+      },
+      {
+        name:"Penthouse Itaim", city:"São Paulo, SP", status:"Concluído", color:"#1298d4", progress:100,
+        stage:"Entrega final", budget:"R$ 510k", deadline:"Finalizado", team:3,
+        img:"https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=900&q=80",
+        tasks:[["Checklist completo","#0b5a39"],["Fotos entregues","#1298d4"],["Cliente aprovado","#0b5a39"]]
+      },
+      {
+        name:"Loft Panorama", city:"Belo Horizonte, MG", status:"Crítico", color:"#e0473c", progress:36,
+        stage:"Drywall e gesso", budget:"R$ 355k", deadline:"14 dias", team:5,
+        img:"https://images.unsplash.com/photo-1518005020951-eccb494ad742?auto=format&fit=crop&w=900&q=80",
+        tasks:[["Gesso atrasado","#e0473c"],["Perfis pendentes","#e0473c"],["Equipe aguardando","#f0a21a"]]
+      },
+      {
+        name:"Est. Greenview", city:"Campinas, SP", status:"Em andamento", color:"#0b5a39", progress:63,
+        stage:"Hidráulica", budget:"R$ 770k", deadline:"26 dias", team:7,
+        img:"https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=900&q=80",
+        tasks:[["Tubos em compra","#1298d4"],["Conexões validadas","#0b5a39"],["Registro aprovado","#0b5a39"]]
+      }
+    ];
+
+    const grid = document.getElementById("projectsGrid");
+    const searchInput = document.getElementById("searchInput");
+    let currentFilter = "Todos";
+
+    function avatars(count){
+      const imgs = [
+        "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=90&q=80",
+        "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=90&q=80",
+        "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=90&q=80",
+        "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=90&q=80"
+      ];
+      return imgs.slice(0, Math.min(count,4)).map(img => `<i style="--img:url('${img}')"></i>`).join("");
+    }
+
+    function render(){
+      const q = searchInput.value.toLowerCase();
+      const filtered = projects.filter(p => {
+        const matchFilter = currentFilter === "Todos" || p.status === currentFilter;
+        const matchSearch = `${p.name} ${p.city} ${p.stage}`.toLowerCase().includes(q);
+        return matchFilter && matchSearch;
+      });
+
+      grid.innerHTML = filtered.map((p, index) => `
+        <article class="project-card" data-index="${index}">
+          <div class="project-cover" style="--img:url('${p.img}')">
+            <span class="status" style="--status:${p.color}">${p.status}</span>
+            <div class="menu-dots">•••</div>
+          </div>
+
+          <div class="project-body">
+            <div class="project-top">
+              <div class="mini-thumb" style="--img:url('${p.img}')"></div>
+              <div class="project-title">
+                <h3>${p.name}</h3>
+                <p>${p.city}</p>
+              </div>
+            </div>
+
+            <div class="progress-line">
+              <div class="progress-head">
+                <span>${p.stage}</span>
+                <strong>${p.progress}%</strong>
+              </div>
+              <div class="bar"><span style="--p:${p.progress}%"></span></div>
+            </div>
+
+            <div class="meta-grid">
+              <div class="meta"><span>Orçamento</span><strong>${p.budget}</strong></div>
+              <div class="meta"><span>Prazo</span><strong>${p.deadline}</strong></div>
+              <div class="meta"><span>Equipe</span><strong>${p.team} pessoas</strong></div>
+              <div class="meta"><span>Atualização</span><strong>Hoje</strong></div>
+            </div>
+
+            <div class="team-row">
+              <div class="team">${avatars(p.team)}</div>
+              <button class="open-btn" onclick="toggleCard(this)">Ver detalhes</button>
+            </div>
+
+            <div class="drawer">
+              ${p.tasks.map(t => `
+                <div class="task">
+                  <span><i class="dot" style="--c:${t[1]}"></i><b>${t[0]}</b></span>
+                  <span>⌄</span>
+                </div>
+              `).join("")}
+            </div>
+          </div>
+        </article>
+      `).join("");
+    }
+
+    function toggleCard(btn){
+      const card = btn.closest(".project-card");
+      card.classList.toggle("open");
+      btn.textContent = card.classList.contains("open") ? "Ocultar" : "Ver detalhes";
+    }
+
+    document.querySelectorAll(".chip").forEach(chip => {
+      chip.addEventListener("click", () => {
+        document.querySelectorAll(".chip").forEach(c => c.classList.remove("active"));
+        chip.classList.add("active");
+        currentFilter = chip.dataset.filter;
+        render();
+      });
+    });
+
+    searchInput.addEventListener("input", render);
+
+    document.getElementById("themeToggle").addEventListener("click", () => {
+      document.body.classList.toggle("dark");
+      document.getElementById("themeIcon").textContent = document.body.classList.contains("dark") ? "🌙" : "☀️";
+    });
+
+    document.getElementById("gridBtn").addEventListener("click", () => {
+      grid.classList.remove("list");
+      gridBtn.classList.add("active");
+      listBtn.classList.remove("active");
+    });
+
+    document.getElementById("listBtn").addEventListener("click", () => {
+      grid.classList.add("list");
+      listBtn.classList.add("active");
+      gridBtn.classList.remove("active");
+    });
+
+    render();
+  </script>
+</body>
+</html>
