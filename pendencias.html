@@ -127,10 +127,15 @@
   .nav::-webkit-scrollbar { width: 6px; }
   .nav::-webkit-scrollbar-thumb { background: rgba(0,0,0,.08); border-radius: 4px; }
   .nav a {
-    display: flex; align-items: center; gap: 14px;
-    padding: 14px 18px; border-radius: 16px;
-    color: #222; text-decoration: none;
-    font-size: 14.5px; font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 18px;
+    border-radius: 16px;
+    color: #222;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
     transition: background .15s, color .15s;
   }
   .nav a:hover { background: #f3f3f3; color: var(--text); }
@@ -165,8 +170,16 @@
     flex: none;
     background-size: cover; background-position: center;
   }
-  .user-card .name { font-size: 15px; font-weight: 600; color: var(--text); line-height: 1.15; }
-  .user-card .role { font-size: 12px; color: var(--text-3); }
+  .user-card .name {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+    line-height: 1.15;
+  }
+  .user-card .role {
+    font-size: 11px;
+    color: var(--text-3);
+  }
   .user-card .chev { margin-left: auto; color: var(--text-3); }
 
   /* ===== Main ===== */
@@ -199,7 +212,14 @@
     border-color: rgba(255,255,255,0.08);
     box-shadow: inset 0 1px 0 rgba(255,255,255,0.06);
   }
-  .search input { flex: 1; background: transparent; border: 0; outline: 0; color: var(--text); font: 500 14.5px var(--font); }
+  .search input {
+    flex: 1;
+    background: transparent;
+    border: 0;
+    outline: 0;
+    color: var(--text);
+    font: 500 13px var(--font);
+  }
   .search input::placeholder { color: var(--text-3); }
   .kbd {
     font-size: 12.5px; color: var(--text-3); display: inline-flex; gap: 4px;
@@ -209,11 +229,17 @@
   }
   .top-actions { margin-left: auto; display: flex; align-items: center; gap: 18px; }
   .btn-primary {
-    display: inline-flex; align-items: center; gap: 8px;
-    background: var(--novo-bg); color: var(--novo-fg);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--novo-bg);
+    color: var(--novo-fg);
     border: 0;
-    height: 52px; padding: 0 28px; border-radius: 50px;
-    font: 600 14px var(--font); cursor: pointer;
+    height: 52px;
+    padding: 0 28px;
+    border-radius: 50px;
+    font: 600 13px var(--font);
+    cursor: pointer;
     box-shadow: 0 10px 25px rgba(0,0,0,0.15);
   }
   .icon-btn {
@@ -240,8 +266,18 @@
 
   /* ===== Page header ===== */
   .page-head { display: flex; align-items: flex-end; gap: 20px; padding: 0; }
-  .page-head h1 { margin: 0; font-size: 28px; font-weight: 700; letter-spacing: -0.4px; color: var(--text); }
-  .page-head .sub { color: var(--text-3); font-size: 14px; margin-top: 6px; }
+  .page-head h1 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: -0.4px;
+    color: var(--text);
+  }
+  .page-head .sub {
+    color: var(--text-3);
+    font-size: 13px;
+    margin-top: 6px;
+  }
   .page-head .right { margin-left: auto; display: flex; gap: 10px; }
 
   /* ===== Stats ===== */
@@ -254,14 +290,28 @@
     box-shadow: inset 0 1px 0 rgba(255,255,255,0.7), 0 10px 30px rgba(0,0,0,0.04);
     position: relative; overflow: hidden;
   }
-  .stat .label { font-size: 13px; color: var(--text-2); display: flex; align-items: center; gap: 8px; }
+  .stat .label {
+    font-size: 12px;
+    color: var(--text-2);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
   .stat .label .ico {
     width: 28px; height: 28px; border-radius: 8px;
     display: grid; place-items: center;
     background: var(--card-2);
   }
-  .stat .num { font-size: 32px; font-weight: 800; color: var(--text); letter-spacing: -0.5px; }
-  .stat .delta { font-size: 12px; color: var(--text-3); }
+  .stat .num {
+    font-size: 26px;
+    font-weight: 800;
+    color: var(--text);
+    letter-spacing: -0.5px;
+  }
+  .stat .delta {
+    font-size: 11px;
+    color: var(--text-3);
+  }
   .stat .delta.up { color: #15803d; }
   .stat .delta.down { color: #b91c1c; }
   .stat.tone-red .ico   { background: rgba(239,68,68,.18);  color: #ef4444; }
@@ -279,10 +329,16 @@
     border-radius: 0;
   }
   .tabs button {
-    border: 0; background: #f6f6f6; cursor: pointer;
-    padding: 14px 24px; border-radius: 30px;
-    font: 600 14px var(--font); color: var(--text-2);
-    display: inline-flex; align-items: center; gap: 8px;
+    border: 0;
+    background: #f6f6f6;
+    cursor: pointer;
+    padding: 14px 24px;
+    border-radius: 30px;
+    font: 600 13px var(--font);
+    color: var(--text-2);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
   }
   .tabs button .count {
     font-size: 11px; padding: 2px 7px; border-radius: 10px;
@@ -296,10 +352,17 @@
   .tabs button.active .count { background: rgba(255,255,255,.15); color: #fff; }
   .right-tools { margin-left: auto; display: flex; align-items: center; gap: 16px; }
   .select {
-    background: rgba(255,255,255,0.7); border: 0;
-    height: 46px; padding: 0 20px; border-radius: 20px;
-    display: inline-flex; align-items: center; gap: 8px;
-    font: 500 14px var(--font); color: var(--text); cursor: pointer;
+    background: rgba(255,255,255,0.7);
+    border: 0;
+    height: 46px;
+    padding: 0 20px;
+    border-radius: 20px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font: 500 13px var(--font);
+    color: var(--text);
+    cursor: pointer;
   }
   .view-toggle { display: inline-flex; gap: 4px; padding: 4px; background: rgba(255,255,255,0.7); border: 0; border-radius: 14px; }
   .view-toggle button {
@@ -330,12 +393,27 @@
     color: transparent; transition: all .15s;
   }
   .check.checked { background: #16a34a; border-color: #16a34a; color: #fff; }
-  .task .title { font-size: 14.5px; font-weight: 600; color: var(--text); line-height: 1.3; }
-  .task .sub { font-size: 12.5px; color: var(--text-3); margin-top: 3px; display: flex; align-items: center; gap: 6px; }
+  .task .title {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text);
+    line-height: 1.3;
+  }
+  .task .sub {
+    font-size: 11px;
+    color: var(--text-3);
+    margin-top: 3px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
   .chip {
-    display: inline-flex; align-items: center; gap: 6px;
-    font: 600 12px var(--font);
-    padding: 5px 10px; border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font: 600 11px var(--font);
+    padding: 5px 10px;
+    border-radius: 999px;
   }
   .chip.prio-critical { background: rgba(239,68,68,.15); color: #b91c1c; }
   .chip.prio-high     { background: rgba(249,115,22,.18); color: #c2410c; }
@@ -349,19 +427,39 @@
 
   .assignee { display: flex; align-items: center; gap: 10px; min-width: 0; }
   .assignee .avatar { width: 32px; height: 32px; }
-  .assignee .who { font-size: 13px; font-weight: 600; color: var(--text); line-height: 1.1; }
-  .assignee .role { font-size: 11.5px; color: var(--text-3); }
+  .assignee .who {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text);
+    line-height: 1.1;
+  }
+  .assignee .role {
+    font-size: 10.5px;
+    color: var(--text-3);
+  }
 
   .due { display: flex; flex-direction: column; gap: 3px; }
-  .due .when { font-size: 13px; font-weight: 600; color: var(--text); }
-  .due .ago  { font-size: 11.5px; color: var(--text-3); }
+  .due .when {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text);
+  }
+  .due .ago {
+    font-size: 10.5px;
+    color: var(--text-3);
+  }
   .due.overdue .when { color: #b91c1c; }
   html[data-theme="dark"] .due.overdue .when { color: #fca5a5; }
 
   .progress { display: flex; align-items: center; gap: 8px; }
   .progress .bar { flex: 1; height: 4px; background: color-mix(in oklab, var(--card-2) 50%, var(--border)); border-radius: 4px; overflow: hidden; }
   .progress .bar > i { display: block; height: 100%; border-radius: 4px; background: var(--green); }
-  .progress .pct { font: 700 12px var(--font); color: var(--text-2); min-width: 30px; text-align: right; }
+  .progress .pct {
+    font: 700 11px var(--font);
+    color: var(--text-2);
+    min-width: 30px;
+    text-align: right;
+  }
 
   .more { color: var(--text-3); cursor: pointer; display: grid; place-items: center; }
 
@@ -375,7 +473,11 @@
     min-height: 200px;
   }
   .kanban-col .head { display: flex; align-items: center; gap: 8px; padding: 4px 6px 6px; }
-  .kanban-col .head .name { font-weight: 700; font-size: 13.5px; color: var(--text); }
+  .kanban-col .head .name {
+    font-weight: 700;
+    font-size: 12.5px;
+    color: var(--text);
+  }
   .kanban-col .head .count { font-size: 11.5px; padding: 2px 8px; border-radius: 10px; background: var(--card-2); color: var(--text-2); font-weight: 600; }
   .kanban-col .head .pip { width: 10px; height: 10px; border-radius: 50%; }
   .kc.todo .pip { background: #94a3b8; }
@@ -395,12 +497,30 @@
     border-color: rgba(255,255,255,0.08);
   }
   .kcard:hover { box-shadow: var(--shadow); }
-  .kcard .title { font-size: 13.5px; font-weight: 600; color: var(--text); line-height: 1.35; }
-  .kcard .proj { font-size: 11.5px; color: var(--text-3); display: flex; align-items: center; gap: 6px; }
+  .kcard .title {
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--text);
+    line-height: 1.35;
+  }
+  .kcard .proj {
+    font-size: 10.5px;
+    color: var(--text-3);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
   .kcard .proj .swatch { width: 8px; height: 8px; border-radius: 3px; }
   .kcard .foot { display: flex; align-items: center; gap: 8px; }
   .kcard .foot .avatar { width: 24px; height: 24px; }
-  .kcard .foot .due { margin-left: auto; font-size: 11.5px; color: var(--text-3); display: inline-flex; align-items: center; gap: 4px; }
+  .kcard .foot .due {
+    margin-left: auto;
+    font-size: 10.5px;
+    color: var(--text-3);
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
   .kcard .foot .due.overdue { color: #b91c1c; }
   html[data-theme="dark"] .kcard .foot .due.overdue { color: #fca5a5; }
 
@@ -819,7 +939,6 @@ ReactDOM.createRoot(document.getElementById("root")).render(<App />);
 <script src="/MISfront/shared/bridge.js"></script>
 </body>
 </html>
-
 
 
 

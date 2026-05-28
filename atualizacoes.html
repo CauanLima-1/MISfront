@@ -201,6 +201,23 @@
     height: 52px; padding: 0 28px; border-radius: 50px;
     font: 600 14px var(--font); cursor: pointer;
     box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    transition: opacity .18s ease, transform .18s ease, box-shadow .18s ease;
+  }
+  .btn-primary svg {
+    width: 18px;
+    height: 18px;
+    flex: none;
+  }
+  .btn-primary:not(:disabled):hover {
+    transform: translateY(-1px);
+    box-shadow: 0 14px 30px rgba(0,0,0,0.18);
+  }
+  .btn-primary:disabled,
+  .btn-primary.is-read {
+    opacity: .55;
+    cursor: default;
+    transform: none;
+    box-shadow: 0 8px 18px rgba(0,0,0,0.08);
   }
   .icon-btn {
     width: 48px; height: 48px; border-radius: 50%;
@@ -628,7 +645,7 @@ const I = {
   more: <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="1.7" /><circle cx="12" cy="12" r="1.7" /><circle cx="19" cy="12" r="1.7" /></svg>,
   pin: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M12 22s7-6 7-12a7 7 0 0 0-14 0c0 6 7 12 7 12z" /><circle cx="12" cy="10" r="2.5" /></svg>,
   cal: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" style={{ width: "6px" }}><rect x="3" y="5" width="18" height="16" rx="2" /><path d="M16 3v4M8 3v4M3 10h18" /></svg>,
-  read: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ width: "8px", height: "38px" }}><path d="M2 12l5 5L17 7" /><path d="M7 17L17 7" /></svg>,
+  read: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6L9 17l-5-5" /><path d="M21 12a9 9 0 1 1-3.2-6.9" /></svg>,
   filter: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M3 5h18l-7 9v6l-4-2v-4L3 5z" /></svg>,
   sun: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><circle cx="12" cy="12" r="4" /><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" /></svg>,
   moon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z" /></svg>
@@ -788,7 +805,7 @@ const FEEDS = {
 
 };
 
-function Sidebar() {
+function Sidebar({ totalUnread }) {
   return (
     <aside className="sidebar">
       <div className="logo-row">
@@ -799,7 +816,7 @@ function Sidebar() {
         <a href="#">{I.proj}<span>Projetos</span></a>
         <a href="/MISfront/pendencias.html">{I.check}<span>Pendências</span><span className="badge">7</span></a>
         <a href="/MISfront/alertas.html">{I.bell}<span>Alertas</span><span className="badge">5</span></a>
-        <a className="active" href="/MISfront/atualizacoes.html">{I.bolt}<span>Atualizações</span><span className="badge">24</span></a>
+        <a className="active" href="/MISfront/atualizacoes.html">{I.bolt}<span>Atualizações</span>{totalUnread > 0 && <span className="badge">{totalUnread}</span>}</a>
         <a href="#">{I.team}<span>Equipe</span></a>
         <a href="#">{I.lib}<span>Biblioteca</span></a>
         <a href="#">{I.rep}<span>Relatórios</span></a>
@@ -817,7 +834,9 @@ function Sidebar() {
 
 }
 
-function Topbar() {
+function Topbar({ totalUnread, onMarkAllRead }) {
+  const hasUnread = totalUnread > 0;
+
   return (
     <div className="topbar">
       <div className="search">
@@ -826,8 +845,20 @@ function Topbar() {
         <span className="kbd">⌘ K</span>
       </div>
       <div className="top-actions">
-        <button className="btn-primary">{I.read}<span>Marcar tudo como lido</span></button>
-        <button className="icon-btn">{I.bell}<span className="dot">4</span></button>
+        <button
+          type="button"
+          className={"btn-primary" + (!hasUnread ? " is-read" : "")}
+          onClick={onMarkAllRead}
+          disabled={!hasUnread}
+          title={hasUnread ? "Marcar todas as atualizações como lidas" : "Tudo já está lido"}
+        >
+          {I.read}
+          <span>{hasUnread ? "Marcar tudo como lido" : "Tudo lido"}</span>
+        </button>
+        <button className="icon-btn">
+          {I.bell}
+          {hasUnread && <span className="dot">{totalUnread}</span>}
+        </button>
         <button className="user-trigger">
           <span className="avatar" style={{ backgroundImage: `url(${PHOTOS.carlos})` }}></span>
           <span style={{ color: "var(--text-2)" }}>{I.chev}</span>
@@ -837,16 +868,16 @@ function Topbar() {
 
 }
 
-function ObraList({ activeId, setActiveId, filter, setFilter }) {
+function ObraList({ obras, activeId, setActiveId, filter, setFilter }) {
   const list = useMemo(() => {
-    let l = OBRAS;
+    let l = obras;
     if (filter === "novidades") l = l.filter((o) => o.unread > 0);
     if (filter === "seguindo") l = l.filter((o) => o.following);
     if (filter === "live") l = l.filter((o) => o.live);
     return l;
-  }, [filter]);
+  }, [obras, filter]);
 
-  const total = OBRAS.reduce((s, o) => s + o.unread, 0);
+  const total = obras.reduce((s, o) => s + o.unread, 0);
 
   return (
     <section className="obra-panel">
@@ -1120,6 +1151,7 @@ function App() {
   const [filter, setFilter] = useState("todas");
   const [feedFilter, setFeedFilter] = useState("todas");
   const [feeds, setFeeds] = useState(FEEDS);
+  const [obras, setObras] = useState(OBRAS);
 
   useEffect(() => {
     document.documentElement.setAttribute("data-theme", theme);
@@ -1128,8 +1160,13 @@ function App() {
 
   useEffect(() => {setFeedFilter("todas");}, [activeId]);
 
-  const obra = OBRAS.find((o) => o.id === activeId);
+  const totalUnread = useMemo(() => obras.reduce((sum, o) => sum + (o.unread || 0), 0), [obras]);
+  const obra = obras.find((o) => o.id === activeId) || obras[0];
   const events = feeds[activeId] || [];
+
+  const markAllAsRead = () => {
+    setObras((prev) => prev.map((o) => ({ ...o, unread: 0 })));
+  };
 
   const post = (text) => {
     const t = new Date();
@@ -1149,11 +1186,11 @@ function App() {
 
   return (
     <div className="app">
-      <Sidebar />
+      <Sidebar totalUnread={totalUnread} />
       <main className="main">
-        <Topbar />
+        <Topbar totalUnread={totalUnread} onMarkAllRead={markAllAsRead} />
         <div className="center">
-          <ObraList activeId={activeId} setActiveId={setActiveId} filter={filter} setFilter={setFilter} />
+          <ObraList obras={obras} activeId={activeId} setActiveId={setActiveId} filter={filter} setFilter={setFilter} />
           <FeedPanel obra={obra} events={events} filter={feedFilter} setFilter={setFeedFilter} onSend={post} />
           <InfoPanel obra={obra} />
         </div>
@@ -1178,7 +1215,6 @@ ReactDOM.createRoot(document.getElementById("root")).render(<App />);
 <script src="/MISfront/shared/bridge.js"></script>
 </body>
 </html>
-
 
 
 
