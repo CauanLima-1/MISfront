@@ -399,6 +399,15 @@ body.dark {
   flex-direction: column !important;
   gap: 26px !important;
   overflow: hidden !important;
+  scrollbar-width: none !important;
+}
+
+.sidebar::-webkit-scrollbar,
+.nav::-webkit-scrollbar,
+.menu::-webkit-scrollbar {
+  width: 0 !important;
+  height: 0 !important;
+  display: none !important;
 }
 
 .main,
@@ -462,7 +471,12 @@ body.dark {
   flex: 1 1 auto !important;
   min-height: 0 !important;
   overflow: hidden !important;
+  scrollbar-width: none !important;
   padding-right: 2px !important;
+}
+
+.performance-card {
+  display: none !important;
 }
 
 .nav a,

@@ -217,6 +217,13 @@ test('main pages use the same topbar theme control pattern', async () => {
   }
 });
 
+test('feed sidebar does not show the general performance card', async () => {
+  const html = await fs.readFile(path.join(ROOT, 'feed.html'), 'utf8');
+
+  assert.equal(html.includes('Performance geral'), false);
+  assert.equal(html.includes('class="performance-card"'), false);
+});
+
 test('main page navigation links resolve from their own locations', async () => {
   const pages = [
     ['index.html', `${SITE_BASE_PATH}/index.html`],
