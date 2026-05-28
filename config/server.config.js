@@ -17,6 +17,24 @@ const APPS = [
     file: 'feed.html'
   },
   {
+    name: 'projetos',
+    alias: 'projetos',
+    route: '/projetos.html',
+    file: 'projetos.html'
+  },
+  {
+    name: 'upload',
+    alias: 'upload',
+    route: '/upload.html',
+    file: 'upload.html'
+  },
+  {
+    name: 'suprimentos',
+    alias: 'suprimentos',
+    route: '/suprimentos.html',
+    file: 'suprimentos.html'
+  },
+  {
     name: 'pendencias',
     alias: 'pendencias',
     route: '/pendencias.html',

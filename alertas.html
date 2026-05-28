@@ -464,6 +464,7 @@
     .stats { grid-template-columns: repeat(2, 1fr); }
   }
 </style>
+  <link rel="stylesheet" href="/MISfront/shared/feed-theme.css">
 </head>
 <body data-screen-label="03 Alertas">
 <div id="root"></div>
@@ -586,12 +587,12 @@ function Sidebar() {
       </div>
       <nav className="nav">
         <a href="/MISfront/feed.html">{I.feed}<span>MIS Feed</span></a>
-        <a href="#">{I.proj}<span>Projetos</span></a>
+        <a href="/MISfront/projetos.html">{I.proj}<span>Projetos</span></a>
         <a href="/MISfront/pendencias.html">{I.check}<span>Pendências</span><span className="badge">7</span></a>
         <a className="active" href="/MISfront/alertas.html">{I.bell}<span>Alertas</span><span className="badge">5</span></a>
         <a href="/MISfront/atualizacoes.html">{I.msg}<span>Atualizações</span><span className="badge">24</span></a>
         <a href="#">{I.team}<span>Equipe</span></a>
-        <a href="#">{I.lib}<span>Biblioteca</span></a>
+        <a href="/MISfront/suprimentos.html">{I.lib}<span>Suprimentos</span></a>
         <a href="#">{I.rep}<span>Relatórios</span></a>
         <a href="#">{I.cog}<span>Configurações</span></a>
       </nav>
@@ -838,7 +839,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(<App />);
     source: 'alertas',
     pageLabel: 'Alertas',
     fallbackMessage: 'Tela de alertas ativa',
-    navLinkSelector: 'a[href="/MISfront/"], a[href="/MISfront/feed.html"], a[href="/MISfront/pendencias.html"], a[href="/MISfront/atualizacoes.html"]',
+    navLinkSelector: 'a[href="/MISfront/"], a[href="/MISfront/feed.html"], a[href="/MISfront/pendencias.html"], a[href="/MISfront/atualizacoes.html"], a[href="/MISfront/projetos.html"], a[href="/MISfront/upload.html"], a[href="/MISfront/suprimentos.html"], a[href="/MISfront/alertas.html"]',
     navPageLabel: 'Plataforma MIS',
     navMessage: 'Abrindo outra tela da plataforma'
   };

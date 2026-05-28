@@ -143,6 +143,9 @@ server.listen(PORT, BIND_HOST, () => {
   console.log(`Aplicativos disponíveis: ${appPaths.join(', ')}`);
   console.log(`Landing page: ${buildUrl('/landing_page/')}`);
   console.log(`MIS Feed: ${buildUrl('/feed.html')}`);
+  console.log(`Projetos: ${buildUrl('/projetos.html')}`);
+  console.log(`Upload: ${buildUrl('/upload.html')}`);
+  console.log(`Suprimentos: ${buildUrl('/suprimentos.html')}`);
   console.log(`Pendencias: ${buildUrl('/pendencias.html')}`);
   console.log(`Alertas: ${buildUrl('/alertas.html')}`);
   console.log(`Atualizacoes: ${buildUrl('/atualizacoes.html')}`);

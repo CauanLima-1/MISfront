@@ -70,6 +70,9 @@ test('all public app routes respond successfully', async () => {
   const routes = [
     `${SITE_BASE_PATH}/`,
     `${SITE_BASE_PATH}/feed.html`,
+    `${SITE_BASE_PATH}/projetos.html`,
+    `${SITE_BASE_PATH}/upload.html`,
+    `${SITE_BASE_PATH}/suprimentos.html`,
     `${SITE_BASE_PATH}/pendencias.html`,
     `${SITE_BASE_PATH}/alertas.html`,
     `${SITE_BASE_PATH}/atualizacoes.html`
@@ -89,10 +92,40 @@ test('shared bridge script is served from the absolute route', async () => {
   assert.match(response.contentType, /application\/javascript/);
 });
 
+test('shared feed visual theme is served and loaded by every page', async () => {
+  const response = await request(`${SITE_BASE_PATH}/shared/feed-theme.css`);
+
+  assert.equal(response.statusCode, 200);
+  assert.match(response.contentType, /text\/css/);
+
+  const pages = [
+    'index.html',
+    'feed.html',
+    'projetos.html',
+    'upload.html',
+    'suprimentos.html',
+    'pendencias.html',
+    'alertas.html',
+    'atualizacoes.html'
+  ];
+
+  for (const page of pages) {
+    const html = await fs.readFile(path.join(ROOT, page), 'utf8');
+    assert.equal(
+      html.includes('href="/MISfront/shared/feed-theme.css"'),
+      true,
+      `${page} should load the shared Feed theme`
+    );
+  }
+});
+
 test('main pages do not use dashboard routes or stale index-file app links', async () => {
   const pages = [
     'index.html',
     'feed.html',
+    'projetos.html',
+    'upload.html',
+    'suprimentos.html',
     'pendencias.html',
     'alertas.html',
     'atualizacoes.html'
@@ -102,14 +135,18 @@ test('main pages do not use dashboard routes or stale index-file app links', asy
     '/MISfront/mis_feed/',
     'mis_dashboard/index.html',
     '../mis_dashboard/index.html',
-    '/mis_dashboard/'
+    '/mis_dashboard/',
+    'Dashboard',
+    'Biblioteca'
   ];
 
   for (const page of pages) {
     const html = await fs.readFile(path.join(ROOT, page), 'utf8');
     for (const link of staleLinks) {
       assert.equal(
-        html.includes(`href="${link}"`),
+        link === 'Dashboard' || link === 'Biblioteca'
+          ? html.includes(link)
+          : html.includes(`href="${link}"`),
         false,
         `${page} should not link to ${link}`
       );
@@ -121,6 +158,9 @@ test('main page navigation links resolve from their own locations', async () => 
   const pages = [
     ['index.html', `${SITE_BASE_PATH}/index.html`],
     ['feed.html', `${SITE_BASE_PATH}/feed.html`],
+    ['projetos.html', `${SITE_BASE_PATH}/projetos.html`],
+    ['upload.html', `${SITE_BASE_PATH}/upload.html`],
+    ['suprimentos.html', `${SITE_BASE_PATH}/suprimentos.html`],
     ['pendencias.html', `${SITE_BASE_PATH}/pendencias.html`],
     ['alertas.html', `${SITE_BASE_PATH}/alertas.html`],
     ['atualizacoes.html', `${SITE_BASE_PATH}/atualizacoes.html`]

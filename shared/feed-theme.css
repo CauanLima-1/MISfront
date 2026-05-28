@@ -1,0 +1,75 @@
+/* Shared MIS visual layer based on the Feed screen. */
+:root {
+  color-scheme: light dark;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  text-rendering: geometricPrecision;
+}
+
+a {
+  color: inherit;
+}
+
+.sidebar,
+.menu,
+.topbar,
+.search,
+.search-box,
+.stories,
+.post-card,
+.side-widget,
+.performance-card,
+.user-card,
+.stat,
+.summary-card,
+.work-card,
+.project-card,
+.upload-card,
+.side-card,
+.card,
+.upload-zone,
+.format,
+.field,
+.progress-box,
+.file-item,
+.kpi,
+.meta,
+.view-toggle,
+.pill-btn,
+.circle-btn,
+.icon-btn {
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+.nav a,
+.nav-item,
+.menu-item,
+.shortcut-link,
+.primary-btn,
+.new-project {
+  text-decoration: none;
+}
+
+.nav a,
+.nav-item,
+.menu-item {
+  transition: background .18s ease, color .18s ease, transform .18s ease, box-shadow .18s ease;
+}
+
+.nav a:hover,
+.nav-item:hover,
+.menu-item:hover {
+  transform: translateX(2px);
+}
+
+html[data-theme="dark"] img,
+body.dark img {
+  filter: saturate(.92) brightness(.9);
+}

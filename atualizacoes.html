@@ -602,6 +602,7 @@
     .center { grid-template-columns: 1fr; }
   }
 </style>
+  <link rel="stylesheet" href="/MISfront/shared/feed-theme.css">
 </head>
 <body data-screen-label="04 Atualizações">
 <div id="root"></div>
@@ -813,12 +814,12 @@ function Sidebar({ totalUnread }) {
       </div>
       <nav className="nav">
         <a href="/MISfront/feed.html">{I.feed}<span>MIS Feed</span></a>
-        <a href="#">{I.proj}<span>Projetos</span></a>
+        <a href="/MISfront/projetos.html">{I.proj}<span>Projetos</span></a>
         <a href="/MISfront/pendencias.html">{I.check}<span>Pendências</span><span className="badge">7</span></a>
         <a href="/MISfront/alertas.html">{I.bell}<span>Alertas</span><span className="badge">5</span></a>
         <a className="active" href="/MISfront/atualizacoes.html">{I.bolt}<span>Atualizações</span>{totalUnread > 0 && <span className="badge">{totalUnread}</span>}</a>
         <a href="#">{I.team}<span>Equipe</span></a>
-        <a href="#">{I.lib}<span>Biblioteca</span></a>
+        <a href="/MISfront/suprimentos.html">{I.lib}<span>Suprimentos</span></a>
         <a href="#">{I.rep}<span>Relatórios</span></a>
         <a href="#">{I.cog}<span>Configurações</span></a>
       </nav>
@@ -1103,7 +1104,7 @@ function InfoPanel({ obra }) {
       </div>
       <div className="quick-row">
         <button style={{ height: "66px" }}>{I.cal}<span>Agenda</span></button>
-        <button style={{ height: "66px" }}>{I.lib}<span>Biblioteca</span></button>
+        <button style={{ height: "66px" }}>{I.lib}<span>Suprimentos</span></button>
         <button style={{ height: "66px" }}>{I.team}<span>Equipe</span></button>
         <button style={{ height: "66px" }}>{I.cog}<span>Notificar</span></button>
       </div>
@@ -1207,7 +1208,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(<App />);
     source: 'atualizacoes',
     pageLabel: 'Atualizações',
     fallbackMessage: 'Tela de atualizações ativa',
-    navLinkSelector: 'a[href="/MISfront/"], a[href="/MISfront/feed.html"], a[href="/MISfront/pendencias.html"], a[href="/MISfront/alertas.html"]',
+    navLinkSelector: 'a[href="/MISfront/"], a[href="/MISfront/feed.html"], a[href="/MISfront/pendencias.html"], a[href="/MISfront/alertas.html"], a[href="/MISfront/projetos.html"], a[href="/MISfront/upload.html"], a[href="/MISfront/suprimentos.html"], a[href="/MISfront/atualizacoes.html"]',
     navPageLabel: 'Plataforma MIS',
     navMessage: 'Abrindo outra tela da plataforma'
   };
