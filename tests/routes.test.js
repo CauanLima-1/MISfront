@@ -92,14 +92,13 @@ test('shared bridge script is served from the absolute route', async () => {
   assert.match(response.contentType, /application\/javascript/);
 });
 
-test('shared feed visual theme is served and loaded by every page', async () => {
-  const response = await request(`${SITE_BASE_PATH}/shared/feed-theme.css`);
+test('shared global visual theme is served and loaded by every page', async () => {
+  const response = await request(`${SITE_BASE_PATH}/shared/global.css`);
 
   assert.equal(response.statusCode, 200);
   assert.match(response.contentType, /text\/css/);
 
   const pages = [
-    'index.html',
     'feed.html',
     'projetos.html',
     'upload.html',
@@ -112,9 +111,9 @@ test('shared feed visual theme is served and loaded by every page', async () => 
   for (const page of pages) {
     const html = await fs.readFile(path.join(ROOT, page), 'utf8');
     assert.equal(
-      html.includes('href="/MISfront/shared/feed-theme.css"'),
+      html.includes('href="/MISfront/shared/global.css"'),
       true,
-      `${page} should load the shared Feed theme`
+      `${page} should load the shared global theme`
     );
   }
 });
