@@ -522,11 +522,11 @@ body{
 
         <div>
 
-            <a class="logo" href="../landing_page/index.html" aria-label="Ir para a página inicial do MIS">MIS</a>
+            <a class="logo" href="/" aria-label="Ir para a página inicial do MIS">MIS</a>
 
             <div class="menu">
 
-                <a class="menu-item active" href="./index.html">
+                <a class="menu-item active" href="/mis_dashboard/">
                     <div class="menu-left">
                         <span>🏠</span>
                         <span>Feed</span>
@@ -540,14 +540,14 @@ body{
                     </div>
                 </a>
 
-                <a class="menu-item" href="./index.html">
+                <a class="menu-item" href="/mis_dashboard/">
                     <div class="menu-left">
                         <span>📊</span>
                         <span>Dashboard</span>
                     </div>
                 </a>
 
-                <a class="menu-item" href="../mis_pendências/index.html">
+                <a class="menu-item" href="/mis_pendências/">
                     <div class="menu-left">
                         <span>✔️</span>
                         <span>Pendências</span>
@@ -555,7 +555,7 @@ body{
                     <span class="badge">7</span>
                 </a>
 
-                <a class="menu-item" href="../Alertas.html">
+                <a class="menu-item" href="/alertas/">
                     <div class="menu-left">
                         <span>🔔</span>
                         <span>Alertas</span>
@@ -563,7 +563,7 @@ body{
                     <span class="badge">5</span>
                 </a>
 
-                <a class="menu-item" href="../Atualizações.html">
+                <a class="menu-item" href="/atualizacoes/">
                     <div class="menu-left">
                         <span>💬</span>
                         <span>Atualizações</span>
@@ -934,6 +934,17 @@ body{
 
 </div>
 
+<script>
+    window.MIS_SHARED_BRIDGE_CONFIG = {
+        source: 'mis_dashboard',
+        pageLabel: 'Dashboard',
+        fallbackMessage: 'Tela de dashboard ativa',
+        navLinkSelector: 'a[href="/"], a[href="/mis_pendências/"], a[href="/alertas/"], a[href="/atualizacoes/"]',
+        navPageLabel: 'Plataforma MIS',
+        navMessage: 'Abrindo outra tela da plataforma'
+    };
+</script>
+<script src="/shared/bridge.js"></script>
 </body>
 </html>
 

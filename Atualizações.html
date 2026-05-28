@@ -792,15 +792,15 @@ function Sidebar() {
   return (
     <aside className="sidebar">
       <div className="logo-row">
-        <a className="logo" href="./landing_page/index.html" aria-label="Ir para a página inicial do MIS">MIS</a>
+        <a className="logo" href="/" aria-label="Ir para a página inicial do MIS">MIS</a>
       </div>
       <nav className="nav">
-        <a href="./mis_dashboard/index.html">{I.feed}<span>Feed</span></a>
+        <a href="/mis_dashboard/">{I.feed}<span>Feed</span></a>
         <a href="#">{I.proj}<span>Projetos</span></a>
-        <a href="./mis_dashboard/index.html">{I.dash}<span>Dashboard</span></a>
-        <a href="./mis_pendências/index.html">{I.check}<span>Pendências</span><span className="badge">7</span></a>
-        <a href="./Alertas.html">{I.bell}<span>Alertas</span><span className="badge">5</span></a>
-        <a className="active" href="./Atualizações.html">{I.bolt}<span>Atualizações</span><span className="badge">24</span></a>
+        <a href="/mis_dashboard/">{I.dash}<span>Dashboard</span></a>
+        <a href="/mis_pendências/">{I.check}<span>Pendências</span><span className="badge">7</span></a>
+        <a href="/alertas/">{I.bell}<span>Alertas</span><span className="badge">5</span></a>
+        <a className="active" href="/atualizacoes/">{I.bolt}<span>Atualizações</span><span className="badge">24</span></a>
         <a href="#">{I.team}<span>Equipe</span></a>
         <a href="#">{I.lib}<span>Biblioteca</span></a>
         <a href="#">{I.rep}<span>Relatórios</span></a>
@@ -1171,7 +1171,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(<App />);
     source: 'atualizacoes',
     pageLabel: 'Atualizações',
     fallbackMessage: 'Tela de atualizações ativa',
-    navLinkSelector: 'a[href="./landing_page/index.html"], a[href="./mis_dashboard/index.html"], a[href="./mis_pendências/index.html"], a[href="./Alertas.html"]',
+    navLinkSelector: 'a[href="/"], a[href="/mis_dashboard/"], a[href="/mis_pendências/"], a[href="/alertas/"]',
     navPageLabel: 'Plataforma MIS',
     navMessage: 'Abrindo outra tela da plataforma'
   };
