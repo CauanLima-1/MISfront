@@ -156,16 +156,11 @@ body.dark img {
 
 .icon-btn,
 .circle-btn {
-  width: 52px;
-  height: 52px;
-  border: 1px solid rgba(255,255,255,.45);
   border-radius: 50%;
   display: grid;
   place-items: center;
   position: relative;
   color: inherit;
-  background: rgba(238,240,239,.62);
-  box-shadow: 0 12px 30px rgba(15,18,17,.08), inset 0 1px 0 rgba(255,255,255,.55);
   cursor: pointer;
 }
 
@@ -381,14 +376,16 @@ body.dark {
   grid-template-columns: var(--sidebar-w) minmax(0, 1fr) !important;
   gap: 0 !important;
   padding: 0 !important;
-  overflow-x: hidden !important;
+  overflow-x: clip !important;
 }
 
 .sidebar {
   width: auto !important;
   height: 100vh !important;
+  max-height: 100vh !important;
   position: sticky !important;
   top: 0 !important;
+  align-self: stretch !important;
   padding: 28px 22px 22px !important;
   border-radius: 0 !important;
   background: var(--sidebar) !important;
@@ -479,7 +476,6 @@ body.dark {
   display: none !important;
 }
 
-.nav a,
 .nav-item,
 .menu-item {
   width: 100% !important;
@@ -499,14 +495,12 @@ body.dark {
   text-decoration: none !important;
 }
 
-.nav a:hover,
 .nav-item:hover,
 .menu-item:hover {
   background: rgba(255,255,255,.20) !important;
   transform: none !important;
 }
 
-.nav a.active,
 .nav-item.active,
 .menu-item.active {
   color: #fff !important;
@@ -515,8 +509,7 @@ body.dark {
 }
 
 .nav .badge,
-.menu .badge,
-.badge {
+.menu .badge {
   margin-left: auto !important;
   min-width: 27px !important;
   height: 27px !important;
@@ -546,8 +539,7 @@ body.dark {
 }
 
 .search,
-.search-box,
-.obra-search {
+.search-box {
   width: min(620px, 48vw) !important;
   max-width: 620px !important;
   min-height: 58px !important;
@@ -564,8 +556,7 @@ body.dark {
 }
 
 .search input,
-.search-box input,
-.obra-search input {
+.search-box input {
   width: 100% !important;
   border: 0 !important;
   outline: 0 !important;
@@ -576,8 +567,7 @@ body.dark {
 }
 
 .search input::placeholder,
-.search-box input::placeholder,
-.obra-search input::placeholder {
+.search-box input::placeholder {
   color: var(--muted) !important;
   opacity: 1 !important;
 }
@@ -611,13 +601,8 @@ body.dark {
   text-decoration: none !important;
 }
 
-.icon-btn,
-.circle-btn,
-.mode-toggle,
 .theme-toggle,
 .toggle {
-  height: 54px !important;
-  min-height: 54px !important;
   border-radius: 999px !important;
   background: var(--surface) !important;
   border: 1px solid var(--line-soft) !important;
@@ -628,10 +613,11 @@ body.dark {
 .icon-btn,
 .circle-btn,
 .mode-toggle {
-  width: 54px !important;
+  border-radius: 50% !important;
   display: grid !important;
   place-items: center !important;
   position: relative !important;
+  color: var(--text) !important;
 }
 
 .theme-toggle {
