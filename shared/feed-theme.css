@@ -53,7 +53,9 @@ a {
 .menu-item,
 .shortcut-link,
 .primary-btn,
-.new-project {
+.new-project,
+.profile-top,
+.user-trigger {
   text-decoration: none;
 }
 
@@ -72,4 +74,209 @@ a {
 html[data-theme="dark"] img,
 body.dark img {
   filter: saturate(.92) brightness(.9);
+}
+
+/* Unified navigation and action bar polish across every screen. */
+.nav svg,
+.nav-item svg,
+.menu-item svg,
+.topbar svg,
+.top-actions svg {
+  width: 20px;
+  height: 20px;
+  flex: 0 0 auto;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.9;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.nav,
+.menu {
+  gap: 8px;
+}
+
+.nav a,
+.nav-item,
+.menu-item {
+  min-height: 52px;
+  border-radius: 18px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  color: inherit;
+}
+
+.nav a.active,
+.nav-item.active,
+.menu-item.active {
+  background: linear-gradient(180deg, #0b4a30, #06351f);
+  color: #fff;
+  box-shadow: 0 14px 28px rgba(5, 55, 34, .24);
+}
+
+.topbar {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.top-actions {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.primary-btn,
+.new-project,
+.btn-primary {
+  min-height: 52px;
+  border: 0;
+  border-radius: 999px;
+  padding: 0 24px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: #151917;
+  color: #fff;
+  font-weight: 750;
+  box-shadow: 0 14px 28px rgba(0,0,0,.16);
+  cursor: pointer;
+}
+
+.primary-btn:hover,
+.new-project:hover,
+.btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 18px 34px rgba(0,0,0,.20);
+}
+
+.icon-btn,
+.circle-btn {
+  width: 52px;
+  height: 52px;
+  border: 1px solid rgba(255,255,255,.45);
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  position: relative;
+  color: inherit;
+  background: rgba(238,240,239,.62);
+  box-shadow: 0 12px 30px rgba(15,18,17,.08), inset 0 1px 0 rgba(255,255,255,.55);
+  cursor: pointer;
+}
+
+.notif,
+.notification,
+.notification-badge,
+.icon-btn .dot {
+  position: absolute;
+  top: -5px;
+  right: -3px;
+  min-width: 22px;
+  height: 22px;
+  padding: 0 6px;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  background: #ef3029;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.theme-toggle,
+.toggle,
+.theme-switch {
+  border: 1px solid rgba(255,255,255,.45);
+  border-radius: 999px;
+  background: rgba(238,240,239,.62);
+  box-shadow: 0 12px 30px rgba(15,18,17,.08), inset 0 1px 0 rgba(255,255,255,.55);
+}
+
+.theme-toggle {
+  height: 52px;
+  padding: 5px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.theme-toggle button {
+  height: 40px;
+  min-width: 74px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  font-weight: 750;
+}
+
+.theme-toggle button.active {
+  background: rgba(255,255,255,.55);
+  box-shadow: 0 8px 16px rgba(0,0,0,.06);
+}
+
+.toggle {
+  width: 96px;
+  height: 52px;
+}
+
+.profile-top,
+.user-trigger,
+.profile {
+  min-height: 52px;
+  border: 1px solid rgba(255,255,255,.45);
+  border-radius: 999px;
+  padding: 6px 14px 6px 7px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: inherit;
+  background: rgba(238,240,239,.62);
+  box-shadow: 0 12px 30px rgba(15,18,17,.08), inset 0 1px 0 rgba(255,255,255,.55);
+  cursor: pointer;
+}
+
+.profile-top img,
+.profile .avatar,
+.user-trigger .avatar {
+  width: 40px;
+  height: 40px;
+}
+
+html[data-theme="dark"] .primary-btn,
+html[data-theme="dark"] .new-project,
+html[data-theme="dark"] .btn-primary,
+body.dark .primary-btn,
+body.dark .new-project,
+body.dark .btn-primary {
+  background: rgba(255,255,255,.07);
+  border: 1px solid rgba(255,255,255,.11);
+}
+
+html[data-theme="dark"] .icon-btn,
+html[data-theme="dark"] .circle-btn,
+html[data-theme="dark"] .theme-toggle,
+html[data-theme="dark"] .toggle,
+html[data-theme="dark"] .theme-switch,
+html[data-theme="dark"] .profile-top,
+html[data-theme="dark"] .user-trigger,
+html[data-theme="dark"] .profile,
+body.dark .icon-btn,
+body.dark .circle-btn,
+body.dark .theme-toggle,
+body.dark .toggle,
+body.dark .theme-switch,
+body.dark .profile-top,
+body.dark .user-trigger,
+body.dark .profile {
+  background: rgba(255,255,255,.05);
+  border-color: rgba(255,255,255,.10);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.06);
 }
