@@ -116,6 +116,13 @@ test('shared global visual theme is served and loaded by every page', async () =
       `${page} should load the shared global theme`
     );
   }
+
+  const landingHtml = await fs.readFile(path.join(ROOT, 'index.html'), 'utf8');
+  assert.equal(
+    landingHtml.includes('href="/MISfront/shared/global.css"'),
+    false,
+    'index.html is the landing page and should not load the app global theme'
+  );
 });
 
 test('main pages do not use dashboard routes or stale index-file app links', async () => {
