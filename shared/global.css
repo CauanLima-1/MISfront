@@ -461,7 +461,7 @@ body.dark {
   gap: 8px !important;
   flex: 1 1 auto !important;
   min-height: 0 !important;
-  overflow: hidden auto !important;
+  overflow: hidden !important;
   padding-right: 2px !important;
 }
 
