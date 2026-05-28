@@ -241,7 +241,13 @@
   .user-trigger .avatar { width: 48px; height: 48px; }
 
   /* Grid */
-  .center { flex: 1; min-height: 0; display: grid; grid-template-columns: 320px 1fr 320px; gap: 18px; }
+  .center {
+    flex: 1; min-height: 0;
+    display: grid;
+    grid-template-columns: minmax(280px, 320px) minmax(0, 1fr) minmax(260px, 300px);
+    gap: 18px;
+    align-items: start;
+  }
 
   /* Obra list */
   .obra-panel {
@@ -344,7 +350,10 @@
   .feed-head .title { font-size: 18px; font-weight: 800; color: var(--text); line-height: 1.1; letter-spacing: -.2px; }
   .feed-head .meta { font-size: 12.5px; color: var(--text-3); margin-top: 4px; display: flex; align-items: center; gap: 8px; }
   .feed-head .meta .pip { width: 7px; height: 7px; border-radius: 2px; }
-  .feed-head .right { margin-left: auto; display: flex; gap: 8px; align-items: center; }
+  .feed-head .right {
+    margin-left: auto; display: flex; gap: 8px; align-items: center;
+    flex-wrap: wrap; justify-content: flex-end;
+  }
   .feed-head .iconbtn {
     width: 38px; height: 38px; border-radius: 50%;
     background: var(--card-2); border: 1px solid var(--border-soft);
@@ -520,7 +529,7 @@
     background: rgba(255,255,255,0.55); border: 0;
     border-radius: 28px; padding: 22px;
     display: flex; flex-direction: column; gap: 16px;
-    overflow: auto; min-height: 0;
+    overflow: auto; min-height: 0; min-width: 0;
     backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
     box-shadow: inset 0 1px 0 rgba(255,255,255,0.7), 0 10px 30px rgba(0,0,0,0.04);
   }
@@ -543,14 +552,26 @@
   }
   .info-name { font-size: 17px; font-weight: 800; color: var(--text); margin-top: -8px; }
   .info-loc  { font-size: 12.5px; color: var(--text-3); display: inline-flex; align-items: center; gap: 6px; }
-  .quick-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+  .quick-row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
   .quick-row button {
     border: 1px solid var(--border-soft); background: var(--card-2);
-    color: var(--text); border-radius: 12px; padding: 10px 4px;
-    display: flex; flex-direction: column; align-items: center; gap: 4px;
-    font: 600 10.5px var(--font); cursor: pointer;
+    color: var(--text); border-radius: 12px; padding: 12px 10px;
+    min-height: 72px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px;
+    font: 600 11px var(--font); cursor: pointer;
+    text-align: center; min-width: 0;
   }
+  .quick-row button span { line-height: 1.2; }
+  .quick-row button svg { width: 20px; height: 20px; flex: none; }
   .quick-row button:hover { background: var(--card); }
+  body[data-screen-label^="04"] .topbar .search {
+    width: auto !important;
+    max-width: none !important;
+    flex: 1 1 380px !important;
+  }
+  body[data-screen-label^="04"] .topbar .top-actions {
+    flex: 1 1 460px !important;
+  }
   .info-section h4 {
     margin: 0 0 8px; font-size: 11px; color: var(--text-3);
     text-transform: uppercase; letter-spacing: .6px;
@@ -589,6 +610,12 @@
     color: #fff;
   }
 
+  @media (max-width: 1450px) {
+    .center { grid-template-columns: minmax(270px, 300px) minmax(0, 1fr) minmax(230px, 260px); }
+  }
+  @media (max-width: 1320px) {
+    .center { grid-template-columns: minmax(260px, 290px) minmax(0, 1fr) minmax(220px, 240px); gap: 14px; }
+  }
   @media (max-width: 1200px) {
     .app { flex-direction: column; }
     .sidebar { width: 100%; position: static; max-height: none; }

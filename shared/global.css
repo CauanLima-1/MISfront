@@ -476,6 +476,7 @@ body.dark {
   display: none !important;
 }
 
+.nav a,
 .nav-item,
 .menu-item {
   width: 100% !important;
@@ -495,12 +496,14 @@ body.dark {
   text-decoration: none !important;
 }
 
+.nav a:hover,
 .nav-item:hover,
 .menu-item:hover {
   background: rgba(255,255,255,.20) !important;
   transform: none !important;
 }
 
+.nav a.active,
 .nav-item.active,
 .menu-item.active {
   color: #fff !important;
@@ -533,6 +536,7 @@ body.dark {
   min-height: 58px !important;
   display: flex !important;
   align-items: center !important;
+  flex-wrap: wrap !important;
   gap: 16px !important;
   margin: 0 0 20px !important;
   flex: 0 0 auto !important;
@@ -540,8 +544,10 @@ body.dark {
 
 .search,
 .search-box {
-  width: min(620px, 48vw) !important;
+  width: min(620px, 100%) !important;
   max-width: 620px !important;
+  flex: 1 1 360px !important;
+  min-width: 280px !important;
   min-height: 58px !important;
   height: 58px !important;
   border-radius: 999px !important;
@@ -576,6 +582,9 @@ body.dark {
   margin-left: auto !important;
   display: flex !important;
   align-items: center !important;
+  justify-content: flex-end !important;
+  flex: 1 1 420px !important;
+  flex-wrap: wrap !important;
   gap: 14px !important;
 }
 
@@ -755,6 +764,14 @@ body.dark {
   color: var(--text) !important;
 }
 
+body[data-screen-label^="02"] .tabs,
+body[data-screen-label^="03"] .tabs {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+}
+
 .tabs button.active,
 .tab.active,
 .chip.active,
@@ -796,6 +813,10 @@ body.dark {
 
   .search,
   .search-box {
-    width: min(520px, 44vw) !important;
+    width: min(520px, 100%) !important;
+  }
+
+  .top-actions {
+    justify-content: flex-start !important;
   }
 }
