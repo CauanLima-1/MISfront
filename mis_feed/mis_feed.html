@@ -1,0 +1,1746 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MIS — Feed de Obras</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --font: "Roboto", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+
+      --bg: #bdbdbd;
+      --bg-2: #c7c7c7;
+      --sidebar: rgba(232, 233, 231, 0.62);
+      --surface: rgba(235, 236, 234, 0.66);
+      --surface-2: rgba(241, 242, 240, 0.72);
+      --surface-3: rgba(226, 227, 225, 0.56);
+
+      --text: #0f1412;
+      --text-soft: #303633;
+      --muted: #636b67;
+      --muted-2: #8a918e;
+
+      --line: rgba(18, 23, 21, 0.08);
+      --line-soft: rgba(255, 255, 255, 0.42);
+
+      --green: #063b25;
+      --green-2: #0a7148;
+      --blue: #126dff;
+      --red: #ea3328;
+      --orange: #ff6c38;
+      --purple: #6847d8;
+
+      --shadow: 0 22px 50px rgba(15, 18, 17, 0.11);
+      --shadow-soft: 0 12px 30px rgba(15, 18, 17, 0.08);
+      --shadow-inset: inset 0 1px 0 rgba(255,255,255,.55);
+
+      --radius-xl: 34px;
+      --radius-lg: 28px;
+      --radius-md: 18px;
+      --sidebar-w: 290px;
+      --right-w: 278px;
+      --gap: 22px;
+    }
+
+    html[data-theme="dark"] {
+      --bg: #071017;
+      --bg-2: #0c1822;
+      --sidebar: rgba(8, 20, 26, 0.72);
+      --surface: rgba(15, 30, 39, 0.70);
+      --surface-2: rgba(19, 37, 48, 0.76);
+      --surface-3: rgba(25, 47, 60, 0.58);
+
+      --text: #f4f7f6;
+      --text-soft: #dce3e0;
+      --muted: #a7b2af;
+      --muted-2: #768581;
+
+      --line: rgba(255, 255, 255, 0.09);
+      --line-soft: rgba(255, 255, 255, 0.10);
+
+      --green: #0a482e;
+      --green-2: #69d7a5;
+      --blue: #38a2ff;
+      --shadow: 0 24px 55px rgba(0, 0, 0, 0.34);
+      --shadow-soft: 0 13px 32px rgba(0, 0, 0, 0.24);
+      --shadow-inset: inset 0 1px 0 rgba(255,255,255,.08);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: var(--font);
+      color: var(--text);
+      background:
+        radial-gradient(circle at 14% 0%, rgba(255,255,255,.32), transparent 30%),
+        radial-gradient(circle at 82% 6%, rgba(255,255,255,.24), transparent 26%),
+        linear-gradient(135deg, var(--bg-2) 0%, var(--bg) 48%, var(--bg-2) 100%);
+      overflow: hidden;
+    }
+
+    html[data-theme="dark"] body {
+      background:
+        radial-gradient(circle at 10% 14%, rgba(58, 213, 155, .10), transparent 28%),
+        radial-gradient(circle at 78% 8%, rgba(56, 162, 255, .08), transparent 25%),
+        linear-gradient(135deg, #061017 0%, #0b1822 48%, #08141d 100%);
+    }
+
+    button,
+    input {
+      font: inherit;
+    }
+
+    .app {
+      width: 100vw;
+      height: 100vh;
+      display: grid;
+      grid-template-columns: var(--sidebar-w) minmax(1120px, 1fr);
+      overflow: hidden;
+    }
+
+    .sidebar {
+      height: 100vh;
+      padding: 28px 22px 22px;
+      background: var(--sidebar);
+      border-right: 1px solid var(--line-soft);
+      backdrop-filter: blur(24px);
+      box-shadow: inset -1px 0 0 rgba(0,0,0,.03);
+      display: flex;
+      flex-direction: column;
+      gap: 26px;
+      overflow: hidden;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding-left: 14px;
+      height: 70px;
+      flex: 0 0 auto;
+    }
+
+    .brand-orb {
+      width: 62px;
+      height: 62px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      color: #fff;
+      font-size: 18px;
+      font-weight: 700;
+      letter-spacing: .05em;
+      background:
+        radial-gradient(circle at 65% 20%, rgba(255,255,255,.95), transparent 11%),
+        radial-gradient(circle at 42% 52%, #2e5260 0%, #07171f 55%, #020508 100%);
+      box-shadow:
+        inset 0 0 15px rgba(255,255,255,.42),
+        inset 0 -13px 22px rgba(0,0,0,.58),
+        0 14px 24px rgba(0,0,0,.16);
+    }
+
+    .brand-word {
+      font-size: 30px;
+      line-height: 1;
+      font-weight: 800;
+      letter-spacing: .035em;
+    }
+
+    .nav {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      flex: 1 1 auto;
+      min-height: 0;
+      overflow: hidden;
+      padding-right: 2px;
+    }
+
+    .nav-item {
+      width: 100%;
+      min-height: 52px;
+      border: 0;
+      outline: 0;
+      border-radius: 18px;
+      padding: 0 18px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      color: var(--text);
+      background: transparent;
+      cursor: pointer;
+      font-size: 15px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: transform .18s ease, background .18s ease, color .18s ease, box-shadow .18s ease;
+    }
+
+    .nav-item:hover {
+      background: rgba(255,255,255,.20);
+    }
+
+    .nav-item.active {
+      color: #fff;
+      background: linear-gradient(180deg, #0b4a30, #06351f);
+      box-shadow: 0 14px 28px rgba(5, 55, 34, .24);
+    }
+
+    .nav-item svg {
+      width: 21px;
+      height: 21px;
+      stroke-width: 1.9;
+      flex: 0 0 auto;
+    }
+
+    .badge {
+      margin-left: auto;
+      min-width: 27px;
+      height: 27px;
+      border-radius: 99px;
+      display: grid;
+      place-items: center;
+      color: #e7352c;
+      background: rgba(255, 82, 76, .16);
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .sidebar-bottom {
+      margin-top: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      flex: 0 0 auto;
+    }
+
+    .performance-card {
+      height: 140px;
+      border-radius: 24px;
+      padding: 20px 19px;
+      background: var(--surface);
+      border: 1px solid var(--line-soft);
+      box-shadow: var(--shadow-soft), var(--shadow-inset);
+      backdrop-filter: blur(18px);
+    }
+
+    .performance-card header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .performance-value {
+      font-size: 31px;
+      font-weight: 800;
+      letter-spacing: -.035em;
+    }
+
+    .up {
+      color: #07975b;
+      font-size: 13px;
+      font-weight: 800;
+      margin-left: 8px;
+    }
+
+    html[data-theme="dark"] .up {
+      color: #78e4b0;
+    }
+
+    .performance-card small {
+      display: block;
+      color: var(--muted);
+      font-weight: 600;
+      margin-top: 4px;
+    }
+
+    .user-card {
+      height: 72px;
+      border-radius: 22px;
+      padding: 12px 16px;
+      background: var(--surface);
+      border: 1px solid var(--line-soft);
+      box-shadow: var(--shadow-soft), var(--shadow-inset);
+      backdrop-filter: blur(18px);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .avatar {
+      width: 43px;
+      height: 43px;
+      border-radius: 50%;
+      object-fit: cover;
+      flex: 0 0 auto;
+    }
+
+    .user-card strong,
+    .profile-top strong {
+      display: block;
+      font-size: 15px;
+      font-weight: 700;
+      line-height: 1.15;
+    }
+
+    .user-card span,
+    .profile-top span {
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    .chev {
+      margin-left: auto;
+      color: var(--text);
+      opacity: .85;
+    }
+
+    .main {
+      height: 100vh;
+      padding: 28px 28px 26px;
+      display: grid;
+      grid-template-columns: minmax(980px, 1fr) var(--right-w);
+      gap: 20px;
+      overflow: hidden;
+    }
+
+    .content {
+      min-width: 0;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      overflow: hidden;
+    }
+
+    .topbar {
+      height: 58px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex: 0 0 auto;
+    }
+
+    .search {
+      width: 620px;
+      height: 58px;
+      border-radius: 999px;
+      background: var(--surface);
+      border: 1px solid var(--line-soft);
+      box-shadow: var(--shadow-soft), var(--shadow-inset);
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 0 24px;
+      backdrop-filter: blur(18px);
+    }
+
+    .search svg {
+      width: 21px;
+      height: 21px;
+      opacity: .88;
+      flex: 0 0 auto;
+    }
+
+    .search input {
+      border: 0;
+      outline: 0;
+      width: 100%;
+      background: transparent;
+      color: var(--text);
+      font-size: 15px;
+      font-weight: 400;
+    }
+
+    .search input::placeholder {
+      color: var(--muted);
+      opacity: 1;
+    }
+
+    .kbd {
+      min-width: 34px;
+      height: 28px;
+      border-radius: 9px;
+      display: grid;
+      place-items: center;
+      color: var(--muted);
+      background: rgba(255,255,255,.30);
+      border: 1px solid var(--line);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    html[data-theme="dark"] .kbd {
+      background: rgba(255,255,255,.06);
+    }
+
+    .top-actions {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .theme-toggle {
+      height: 48px;
+      padding: 4px;
+      border-radius: 999px;
+      border: 1px solid var(--line-soft);
+      background: var(--surface);
+      box-shadow: var(--shadow-soft), var(--shadow-inset);
+      backdrop-filter: blur(18px);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .theme-toggle button {
+      height: 38px;
+      min-width: 78px;
+      padding: 0 14px;
+      border: 0;
+      border-radius: 999px;
+      cursor: pointer;
+      background: transparent;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .theme-toggle button.active {
+      color: var(--text);
+      background: rgba(255,255,255,.52);
+      box-shadow: 0 8px 16px rgba(0,0,0,.06);
+    }
+
+    html[data-theme="dark"] .theme-toggle button.active {
+      color: #fff;
+      background: rgba(255,255,255,.10);
+    }
+
+    .new-project {
+      height: 54px;
+      border: 0;
+      padding: 0 28px;
+      border-radius: 999px;
+      background: #151917;
+      color: white;
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 14px 28px rgba(0,0,0,.16);
+    }
+
+    html[data-theme="dark"] .new-project {
+      background: rgba(255,255,255,.05);
+      border: 1px solid rgba(255,255,255,.11);
+    }
+
+    .icon-btn {
+      width: 54px;
+      height: 54px;
+      border: 0;
+      border-radius: 50%;
+      background: var(--surface);
+      border: 1px solid var(--line-soft);
+      box-shadow: var(--shadow-soft), var(--shadow-inset);
+      display: grid;
+      place-items: center;
+      position: relative;
+      cursor: pointer;
+      color: var(--text);
+    }
+
+    .notif {
+      position: absolute;
+      top: -5px;
+      right: -1px;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: #ef3029;
+      color: white;
+      font-size: 12px;
+      font-weight: 800;
+      display: grid;
+      place-items: center;
+    }
+
+    .profile-top {
+      height: 54px;
+      min-width: 170px;
+      border-radius: 999px;
+      background: var(--surface);
+      border: 1px solid var(--line-soft);
+      box-shadow: var(--shadow-soft), var(--shadow-inset);
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      padding: 7px 14px 7px 8px;
+      backdrop-filter: blur(18px);
+      cursor: pointer;
+    }
+
+    .profile-top img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      object-fit: cover;
+      flex: 0 0 auto;
+    }
+
+    .stories {
+      height: 222px;
+      flex: 0 0 222px;
+      border-radius: var(--radius-xl);
+      background: var(--surface);
+      border: 1px solid var(--line-soft);
+      box-shadow: var(--shadow-soft), var(--shadow-inset);
+      padding: 27px 32px;
+      backdrop-filter: blur(22px);
+    }
+
+    .section-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 23px;
+    }
+
+    .section-head h2 {
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: -.02em;
+    }
+
+    .section-head a {
+      color: var(--text);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .story-scroller {
+      position: relative;
+      overflow-x: auto;
+      overflow-y: hidden;
+      padding: 0 6px 8px 24px;
+      scroll-behavior: smooth;
+      scrollbar-width: none;
+    }
+
+    .story-scroller::-webkit-scrollbar {
+      display: none;
+    }
+
+    .story-row {
+      display: flex;
+      gap: 43px;
+      width: max-content;
+    }
+
+    .story {
+      width: 102px;
+      text-align: center;
+      position: relative;
+      flex: 0 0 auto;
+    }
+
+    .story-pic {
+      width: 92px;
+      height: 92px;
+      margin: 0 auto 12px;
+      padding: 3px;
+      border-radius: 50%;
+      background: conic-gradient(from 90deg, #13b979, #1d7dff, #874cff, #ff6844, #13b979);
+      box-shadow: 0 10px 22px rgba(0,0,0,.13);
+    }
+
+    .story:nth-child(3) .story-pic { background: conic-gradient(#ff7146, #1d7dff, #7d55ff, #ff7146); }
+    .story:nth-child(4) .story-pic { background: conic-gradient(#13c37b, #1d7dff, #13c37b); }
+    .story:nth-child(5) .story-pic { background: conic-gradient(#ff2f2f, #ff7b3a, #7d55ff, #ff2f2f); }
+    .story:nth-child(6) .story-pic { background: conic-gradient(#1d7dff, #4ed7ff, #1d7dff); }
+    .story:nth-child(7) .story-pic { background: conic-gradient(#844cff, #1d7dff, #844cff); }
+
+    .story-pic img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 4px solid rgba(226,228,226,.95);
+    }
+
+    html[data-theme="dark"] .story-pic img {
+      border-color: rgba(16, 30, 39, .95);
+    }
+
+    .story strong {
+      display: block;
+      font-size: 14px;
+      line-height: 1.15;
+      font-weight: 700;
+    }
+
+    .story span {
+      margin-top: 5px;
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    .add-story {
+      position: absolute;
+      right: 2px;
+      top: 63px;
+      width: 31px;
+      height: 31px;
+      border-radius: 50%;
+      background: #ff673a;
+      color: white;
+      display: grid;
+      place-items: center;
+      font-size: 20px;
+      font-weight: 400;
+      border: 3px solid rgba(226,228,226,.95);
+    }
+
+    html[data-theme="dark"] .add-story {
+      border-color: rgba(16, 30, 39, .95);
+    }
+
+    .story-ok {
+      position: absolute;
+      left: 10px;
+      top: 110px;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #0c7149;
+      color: white;
+      display: grid;
+      place-items: center;
+      font-size: 11px;
+    }
+
+    .story-next {
+      position: absolute;
+      right: 8px;
+      top: 76px;
+      width: 43px;
+      height: 43px;
+      border-radius: 50%;
+      border: 0;
+      cursor: pointer;
+      background: rgba(255,255,255,.72);
+      box-shadow: var(--shadow-soft);
+      display: grid;
+      place-items: center;
+      color: #161b19;
+      z-index: 3;
+    }
+
+    html[data-theme="dark"] .story-next {
+      background: rgba(255,255,255,.12);
+      color: #fff;
+    }
+
+    .tabs-row {
+      height: 52px;
+      flex: 0 0 52px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .tabs {
+      height: 52px;
+      display: inline-flex;
+      align-items: center;
+      padding: 5px;
+      border-radius: 999px;
+      background: var(--surface);
+      border: 1px solid var(--line-soft);
+      box-shadow: var(--shadow-soft), var(--shadow-inset);
+      backdrop-filter: blur(18px);
+    }
+
+    .tab {
+      height: 42px;
+      min-width: 92px;
+      padding: 0 16px;
+      border: 0;
+      border-radius: 999px;
+      display: grid;
+      place-items: center;
+      background: transparent;
+      color: var(--text);
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .tab.active {
+      background: linear-gradient(180deg, #0b4b30, #06331f);
+      color: white;
+      box-shadow: 0 12px 20px rgba(5,55,34,.22);
+    }
+
+    .sort {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .sort-pill {
+      height: 52px;
+      padding: 0 24px;
+      border: 0;
+      border-radius: 999px;
+      background: var(--surface);
+      border: 1px solid var(--line-soft);
+      box-shadow: var(--shadow-soft), var(--shadow-inset);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--text);
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .view-toggle {
+      height: 52px;
+      display: flex;
+      align-items: center;
+      border-radius: 999px;
+      background: var(--surface);
+      border: 1px solid var(--line-soft);
+      box-shadow: var(--shadow-soft), var(--shadow-inset);
+      padding: 5px;
+      gap: 4px;
+    }
+
+    .view-toggle button {
+      width: 41px;
+      height: 41px;
+      border: 0;
+      border-radius: 50%;
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      background: transparent;
+      color: var(--text);
+    }
+
+    .view-toggle button.active {
+      background: rgba(255,255,255,.42);
+      color: #0b754b;
+    }
+
+    html[data-theme="dark"] .view-toggle button.active {
+      background: rgba(255,255,255,.09);
+      color: #7ce5b1;
+    }
+
+    .feed-scroll {
+      min-height: 0;
+      padding-bottom: 10px;
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding-right: 4px;
+      scroll-behavior: smooth;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(0,0,0,.18) transparent;
+    }
+
+    html[data-theme="dark"] .feed-scroll {
+      scrollbar-color: rgba(255,255,255,.20) transparent;
+    }
+
+    .feed-scroll::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    .feed-scroll::-webkit-scrollbar-thumb {
+      border-radius: 99px;
+      background: rgba(0,0,0,.16);
+    }
+
+    html[data-theme="dark"] .feed-scroll::-webkit-scrollbar-thumb {
+      background: rgba(255,255,255,.18);
+    }
+
+    .feed-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+      padding-bottom: 80px;
+    }
+
+    .post-card {
+      height: 635px;
+      border-radius: 29px;
+      background: var(--surface);
+      border: 1px solid var(--line-soft);
+      box-shadow: var(--shadow), var(--shadow-inset);
+      overflow: hidden;
+      backdrop-filter: blur(18px);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .post-head {
+      height: 74px;
+      padding: 18px 22px;
+      display: flex;
+      align-items: center;
+      gap: 13px;
+      flex: 0 0 auto;
+    }
+
+    .mini-img {
+      width: 42px;
+      height: 42px;
+      border-radius: 13px;
+      object-fit: cover;
+      flex: 0 0 auto;
+    }
+
+    .post-title strong {
+      display: block;
+      font-size: 17px;
+      font-weight: 800;
+      letter-spacing: -.02em;
+      line-height: 1.15;
+    }
+
+    .post-title span {
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 500;
+      line-height: 1.25;
+    }
+
+    .dots {
+      margin-left: auto;
+      border: 0;
+      background: transparent;
+      color: var(--text);
+      font-size: 24px;
+      line-height: 1;
+      cursor: pointer;
+    }
+
+    .hero {
+      height: 195px;
+      margin: 0 14px;
+      border-radius: 21px 21px 0 0;
+      overflow: hidden;
+      position: relative;
+      flex: 0 0 auto;
+      background: var(--surface-3);
+    }
+
+    .hero img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      filter: saturate(.95) contrast(.96);
+    }
+
+    .status-label {
+      position: absolute;
+      left: 18px;
+      bottom: 16px;
+      height: 37px;
+      padding: 0 20px;
+      border-radius: 999px;
+      color: white;
+      background: linear-gradient(180deg, #0a7149, #06462e);
+      display: flex;
+      align-items: center;
+      font-size: 14px;
+      font-weight: 700;
+      box-shadow: 0 12px 24px rgba(0,0,0,.18);
+    }
+
+    .status-blue { background: linear-gradient(180deg, #0a76ff, #084fc8); }
+    .status-purple { background: linear-gradient(180deg, #744de3, #4e2ab4); }
+
+    .post-body {
+      flex: 1 1 auto;
+      min-height: 0;
+      background: var(--surface-2);
+      margin-top: -1px;
+      border-radius: 28px 28px 0 0;
+      padding: 19px 21px 0;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 -14px 24px rgba(0,0,0,.07);
+    }
+
+    html[data-theme="dark"] .post-body {
+      box-shadow: 0 -14px 24px rgba(0,0,0,.20);
+    }
+
+    .progress-row {
+      display: grid;
+      grid-template-columns: 62px 1fr;
+      gap: 18px;
+      align-items: center;
+    }
+
+    .ring {
+      --p: 72%;
+      --ring-color: #10a96f;
+      width: 62px;
+      height: 62px;
+      border-radius: 50%;
+      background: conic-gradient(var(--ring-color) var(--p), rgba(0,0,0,.08) 0);
+      display: grid;
+      place-items: center;
+      position: relative;
+    }
+
+    html[data-theme="dark"] .ring {
+      background: conic-gradient(var(--ring-color) var(--p), rgba(255,255,255,.10) 0);
+    }
+
+    .ring::after {
+      content: "";
+      position: absolute;
+      inset: 7px;
+      background: var(--surface-2);
+      border-radius: 50%;
+      box-shadow: inset 0 2px 5px rgba(0,0,0,.05);
+    }
+
+    .ring span {
+      z-index: 2;
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .progress-info strong {
+      display: block;
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: -.02em;
+      line-height: 1.15;
+    }
+
+    .progress-info small {
+      display: block;
+      margin-top: 5px;
+      font-size: 14px;
+      font-weight: 400;
+      color: var(--text-soft);
+    }
+
+    .bar {
+      height: 4px;
+      border-radius: 99px;
+      background: rgba(0,0,0,.07);
+      margin-top: 10px;
+      overflow: hidden;
+    }
+
+    html[data-theme="dark"] .bar {
+      background: rgba(255,255,255,.10);
+    }
+
+    .bar div {
+      height: 100%;
+      border-radius: 99px;
+      background: var(--ring-color);
+      width: var(--p);
+    }
+
+    .author-row {
+      display: flex;
+      align-items: center;
+      margin-top: 22px;
+      gap: 12px;
+    }
+
+    .author-row img {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      object-fit: cover;
+      flex: 0 0 auto;
+    }
+
+    .author-row strong {
+      display: block;
+      font-size: 14px;
+      font-weight: 700;
+      line-height: 1.15;
+    }
+
+    .author-row span {
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    .time {
+      margin-left: auto;
+      font-size: 13px;
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    .caption {
+      margin-top: 18px;
+      font-size: 14px;
+      line-height: 1.45;
+      color: var(--text-soft);
+      font-weight: 400;
+    }
+
+    .thumbs {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .thumb {
+      height: 78px;
+      border-radius: 13px;
+      overflow: hidden;
+      position: relative;
+      background: var(--surface-3);
+    }
+
+    .thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .more-thumb {
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,.44);
+      color: white;
+      display: grid;
+      place-items: center;
+      font-size: 20px;
+      font-weight: 800;
+    }
+
+    .post-actions {
+      height: 72px;
+      display: flex;
+      align-items: center;
+      gap: 27px;
+      margin-top: auto;
+      border-top: 1px solid var(--line);
+    }
+
+    .circle-action {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      border: 1px solid var(--line);
+      background: transparent;
+      display: grid;
+      place-items: center;
+      color: var(--text);
+      cursor: pointer;
+    }
+
+    .action {
+      border: 0;
+      background: transparent;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .action svg {
+      width: 22px;
+      height: 22px;
+    }
+
+    .heart svg {
+      fill: var(--red);
+      stroke: var(--red);
+    }
+
+    .save {
+      margin-left: auto;
+    }
+
+    .right-panel {
+      min-width: 0;
+      padding-top: 72px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      overflow: hidden;
+    }
+
+    .side-widget {
+      border-radius: 28px;
+      background: var(--surface);
+      border: 1px solid var(--line-soft);
+      box-shadow: var(--shadow-soft), var(--shadow-inset);
+      backdrop-filter: blur(18px);
+      padding: 20px;
+      flex: 0 0 auto;
+    }
+
+    .summary {
+      height: 322px;
+    }
+
+    .widget-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 18px;
+    }
+
+    .widget-head h3 {
+      font-size: 17px;
+      font-weight: 800;
+      letter-spacing: -.01em;
+    }
+
+    .today {
+      height: 32px;
+      padding: 0 13px;
+      border: 0;
+      border-radius: 99px;
+      background: rgba(255,255,255,.36);
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    html[data-theme="dark"] .today {
+      background: rgba(255,255,255,.08);
+    }
+
+    .summary-list {
+      display: flex;
+      flex-direction: column;
+      gap: 13px;
+    }
+
+    .summary-item {
+      display: grid;
+      grid-template-columns: 43px 1fr;
+      gap: 12px;
+      align-items: center;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .summary-item:last-child {
+      border-bottom: 0;
+    }
+
+    .summary-icon {
+      width: 43px;
+      height: 43px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      color: #0d6945;
+      background: rgba(13,151,91,.12);
+    }
+
+    .summary-icon.orange { color: #e9721d; background: rgba(255,126,43,.14); }
+    .summary-icon.red { color: #e93632; background: rgba(255,62,58,.15); }
+    .summary-icon.purple { color: #704ce0; background: rgba(112,76,224,.14); }
+
+    .summary-item strong {
+      display: block;
+      font-size: 16px;
+      font-weight: 800;
+      line-height: 1.05;
+    }
+
+    .summary-item span {
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    .chart {
+      height: 52px;
+      margin-top: 12px;
+    }
+
+    .activity {
+      height: 405px;
+    }
+
+    .activity-list {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .activity-item {
+      display: grid;
+      grid-template-columns: 42px 1fr auto;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .activity-item img {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    .activity-item strong {
+      display: block;
+      font-size: 14px;
+      font-weight: 800;
+      line-height: 1.1;
+    }
+
+    .activity-item span {
+      display: block;
+      margin-top: 2px;
+      font-size: 12px;
+      line-height: 1.35;
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    .activity-item small {
+      color: var(--text-soft);
+      font-weight: 700;
+    }
+
+    .see-all {
+      height: 48px;
+      border-radius: 99px;
+      border: 1px solid var(--line-soft);
+      background: rgba(255,255,255,.30);
+      color: var(--text);
+      display: grid;
+      place-items: center;
+      font-size: 14px;
+      font-weight: 700;
+      margin-top: 22px;
+      cursor: pointer;
+    }
+
+    html[data-theme="dark"] .see-all {
+      background: rgba(255,255,255,.05);
+    }
+
+    svg {
+      stroke: currentColor;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    @media (max-width: 1500px) {
+      body {
+        overflow: auto;
+      }
+
+      .app {
+        min-width: 1680px;
+        min-height: 930px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-orb">MIS</div>
+        <div class="brand-word">MIS</div>
+      </div>
+
+      <nav class="nav">
+        <button class="nav-item active" type="button">
+          <svg viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5v9a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 19.5z"/><path d="M9 21v-7h6v7"/></svg>
+          Feed
+        </button>
+        <button class="nav-item" type="button">
+          <svg viewBox="0 0 24 24"><path d="M4 5.5A1.5 1.5 0 0 1 5.5 4h13A1.5 1.5 0 0 1 20 5.5v13a1.5 1.5 0 0 1-1.5 1.5h-13A1.5 1.5 0 0 1 4 18.5z"/><path d="m8 16 3-3 2 2 3-5"/></svg>
+          Projetos
+        </button>
+        <button class="nav-item" type="button">
+          <svg viewBox="0 0 24 24"><rect x="4" y="4" width="6" height="6" rx="1.5"/><rect x="14" y="4" width="6" height="6" rx="1.5"/><rect x="4" y="14" width="6" height="6" rx="1.5"/><rect x="14" y="14" width="6" height="6" rx="1.5"/></svg>
+          Dashboard
+        </button>
+        <button class="nav-item" type="button">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m8 12 2.6 2.6L16 9"/></svg>
+          Pendências
+          <span class="badge">7</span>
+        </button>
+        <button class="nav-item" type="button">
+          <svg viewBox="0 0 24 24"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/><path d="M10 21h4"/></svg>
+          Alertas
+          <span class="badge">5</span>
+        </button>
+        <button class="nav-item" type="button">
+          <svg viewBox="0 0 24 24"><path d="M4 5h16v12H8l-4 4z"/></svg>
+          Mensagens
+        </button>
+        <button class="nav-item" type="button">
+          <svg viewBox="0 0 24 24"><path d="M16 11a4 4 0 1 0-8 0"/><path d="M3 21a7 7 0 0 1 14 0"/><path d="M17 9a3 3 0 0 1 3 3"/><path d="M19 21a5 5 0 0 0-3-4.5"/></svg>
+          Equipe
+        </button>
+        <button class="nav-item" type="button">
+          <svg viewBox="0 0 24 24"><path d="M4 5.5A1.5 1.5 0 0 1 5.5 4H20v16H5.5A1.5 1.5 0 0 1 4 18.5z"/><path d="M8 4v16"/></svg>
+          Biblioteca
+        </button>
+        <button class="nav-item" type="button">
+          <svg viewBox="0 0 24 24"><path d="M5 4h14v16H5z"/><path d="M8 15h2v2H8zM11 11h2v6h-2zM14 8h2v9h-2z"/></svg>
+          Relatórios
+        </button>
+        <button class="nav-item" type="button">
+          <svg viewBox="0 0 24 24"><path d="M12 15.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/><path d="M19.4 15a1.8 1.8 0 0 0 .36 1.98l.05.05a2 2 0 1 1-2.83 2.83l-.05-.05a1.8 1.8 0 0 0-1.98-.36 1.8 1.8 0 0 0-1.1 1.66V21a2 2 0 1 1-4 0v-.08A1.8 1.8 0 0 0 8.75 19.3a1.8 1.8 0 0 0-1.98.36l-.05.05a2 2 0 1 1-2.83-2.83l.05-.05A1.8 1.8 0 0 0 4.3 15a1.8 1.8 0 0 0-1.66-1.1H2.5a2 2 0 1 1 0-4h.08A1.8 1.8 0 0 0 4.2 8.75a1.8 1.8 0 0 0-.36-1.98l-.05-.05a2 2 0 1 1 2.83-2.83l.05.05A1.8 1.8 0 0 0 8.65 4.3 1.8 1.8 0 0 0 9.75 2.64V2.5a2 2 0 1 1 4 0v.08a1.8 1.8 0 0 0 1.1 1.62 1.8 1.8 0 0 0 1.98-.36l.05-.05a2 2 0 1 1 2.83 2.83l-.05.05a1.8 1.8 0 0 0-.36 1.98 1.8 1.8 0 0 0 1.66 1.1H21a2 2 0 1 1 0 4h-.08A1.8 1.8 0 0 0 19.4 15z"/></svg>
+          Configurações
+        </button>
+      </nav>
+
+      <div class="sidebar-bottom">
+        <div class="performance-card">
+          <header>
+            <span>Performance geral</span>
+            <span>⌁</span>
+          </header>
+          <div>
+            <span class="performance-value">82%</span>
+            <span class="up">↑ 12%</span>
+            <small>vs mês passado</small>
+          </div>
+        </div>
+
+        <div class="user-card">
+          <img class="avatar" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=200&q=80" alt="Carlos Mendes">
+          <div>
+            <strong>Carlos Mendes</strong>
+            <span>Engenheiro Civil</span>
+          </div>
+          <span class="chev">⌄</span>
+        </div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <section class="content">
+        <header class="topbar">
+          <label class="search">
+            <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+            <input type="search" placeholder="Buscar obras, pessoas ou atualizações..." />
+            <span class="kbd">⌘ K</span>
+          </label>
+
+          <div class="top-actions">
+            <button class="new-project" type="button">
+              <svg width="18" height="18" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2"/></svg>
+              Novo projeto
+            </button>
+
+            <div class="theme-toggle" aria-label="Alternar tema">
+              <button type="button" class="active" data-theme-btn="light">☀ Claro</button>
+              <button type="button" data-theme-btn="dark">☾ Escuro</button>
+            </div>
+
+            <button class="icon-btn" type="button" aria-label="Notificações">
+              <span class="notif">4</span>
+              <svg width="22" height="22" viewBox="0 0 24 24"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/><path d="M10 21h4"/></svg>
+            </button>
+
+            <button class="profile-top" type="button">
+              <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=200&q=80" alt="Carlos Mendes">
+              <div>
+                <strong>Carlos Mendes</strong>
+                <span>Engenheiro Civil</span>
+              </div>
+              <span>⌄</span>
+            </button>
+          </div>
+        </header>
+
+        <section class="stories">
+          <div class="section-head">
+            <h2>Stories de obras</h2>
+            <a href="#">Ver todos</a>
+          </div>
+
+          <div class="story-scroller" id="storyScroller">
+            <div class="story-row">
+              <div class="story">
+                <div class="story-pic"><img src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=400&q=80" alt=""></div>
+                <div class="add-story">+</div>
+                <div class="story-ok">✓</div>
+                <strong>Sua obra</strong>
+              </div>
+              <div class="story">
+                <div class="story-pic"><img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=400&q=80" alt=""></div>
+                <strong>Jardins</strong><span>Em andamento</span>
+              </div>
+              <div class="story">
+                <div class="story-pic"><img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=400&q=80" alt=""></div>
+                <strong>Corp. Tower</strong><span>Acabamento</span>
+              </div>
+              <div class="story">
+                <div class="story-pic"><img src="https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=400&q=80" alt=""></div>
+                <strong>Villa Aurora</strong><span>Estrutura</span>
+              </div>
+              <div class="story">
+                <div class="story-pic"><img src="https://images.unsplash.com/photo-1600607688969-a5bfcd646154?auto=format&fit=crop&w=400&q=80" alt=""></div>
+                <strong>Loft Panorama</strong><span>Instalações</span>
+              </div>
+              <div class="story">
+                <div class="story-pic"><img src="https://images.unsplash.com/photo-1494526585095-c41746248156?auto=format&fit=crop&w=400&q=80" alt=""></div>
+                <strong>Ed. Greenview</strong><span>Fachada</span>
+              </div>
+              <div class="story">
+                <div class="story-pic"><img src="https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=400&q=80" alt=""></div>
+                <strong>Horizonte</strong><span>Terraplanagem</span>
+              </div>
+              <div class="story">
+                <div class="story-pic"><img src="https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?auto=format&fit=crop&w=400&q=80" alt=""></div>
+                <strong>Alvorada</strong><span>Estrutura</span>
+              </div>
+            </div>
+            <button class="story-next" id="storyNext" type="button" aria-label="Próximos stories">›</button>
+          </div>
+        </section>
+
+        <div class="tabs-row">
+          <div class="tabs">
+            <button type="button" class="tab active">Todos</button>
+            <button type="button" class="tab">Seguindo</button>
+            <button type="button" class="tab">Em andamento</button>
+            <button type="button" class="tab">Concluídos</button>
+          </div>
+
+          <div class="sort">
+            <button type="button" class="sort-pill">Mais recentes ⌄</button>
+            <div class="view-toggle">
+              <button type="button" class="active" aria-label="Grid">
+                <svg width="19" height="19" viewBox="0 0 24 24"><rect x="4" y="4" width="6" height="6" rx="1.5"/><rect x="14" y="4" width="6" height="6" rx="1.5"/><rect x="4" y="14" width="6" height="6" rx="1.5"/><rect x="14" y="14" width="6" height="6" rx="1.5"/></svg>
+              </button>
+              <button type="button" aria-label="Lista">
+                <svg width="19" height="19" viewBox="0 0 24 24"><path d="M8 6h12M8 12h12M8 18h12"/><circle cx="4" cy="6" r="1"/><circle cx="4" cy="12" r="1"/><circle cx="4" cy="18" r="1"/></svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="feed-scroll">
+          <section class="feed-grid">
+            <article class="post-card">
+              <div class="post-head">
+                <img class="mini-img" src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=160&q=80" alt="">
+                <div class="post-title"><strong>Villa Aurora</strong><span>Florianópolis, SC</span></div>
+                <button class="dots" type="button">...</button>
+              </div>
+              <div class="hero">
+                <img src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=900&q=85" alt="">
+                <div class="status-label">Em andamento</div>
+              </div>
+              <div class="post-body">
+                <div class="progress-row">
+                  <div class="ring" style="--p:72%; --ring-color:#10a96f;"><span>72%</span></div>
+                  <div class="progress-info">
+                    <strong>Estrutura - Fundação</strong>
+                    <small>72% concluído</small>
+                    <div class="bar" style="--p:72%; --ring-color:#10a96f;"><div></div></div>
+                  </div>
+                </div>
+                <div class="author-row">
+                  <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=160&q=80" alt="">
+                  <div><strong>Mariana Costa</strong><span>Engenheira Responsável</span></div>
+                  <span class="time">Hoje, 08:42</span>
+                </div>
+                <p class="caption">Concretagem da laje superior concluída com sucesso!</p>
+                <div class="thumbs">
+                  <div class="thumb"><img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=300&q=80" alt=""></div>
+                  <div class="thumb"><img src="https://images.unsplash.com/photo-1600607687644-c7171b42498b?auto=format&fit=crop&w=300&q=80" alt=""></div>
+                  <div class="thumb"><img src="https://images.unsplash.com/photo-1541888946425-d81bb19240f5?auto=format&fit=crop&w=300&q=80" alt=""><div class="more-thumb">+12</div></div>
+                </div>
+                <div class="post-actions">
+                  <button class="circle-action" type="button">+</button>
+                  <button class="action heart" type="button"><svg viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg>128</button>
+                  <button class="action" type="button"><svg viewBox="0 0 24 24"><path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z"/></svg>32</button>
+                  <button class="action" type="button"><svg viewBox="0 0 24 24"><path d="m22 2-7 20-4-9-9-4z"/></svg></button>
+                  <button class="action save" type="button"><svg viewBox="0 0 24 24"><path d="M6 4h12v17l-6-4-6 4z"/></svg></button>
+                </div>
+              </div>
+            </article>
+
+            <article class="post-card">
+              <div class="post-head">
+                <img class="mini-img" src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=160&q=80" alt="">
+                <div class="post-title"><strong>Residencial Jardins</strong><span>São Paulo, SP</span></div>
+                <button class="dots" type="button">...</button>
+              </div>
+              <div class="hero">
+                <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=900&q=85" alt="">
+                <div class="status-label status-blue">Acabamento</div>
+              </div>
+              <div class="post-body">
+                <div class="progress-row">
+                  <div class="ring" style="--p:48%; --ring-color:#1677ff;"><span>48%</span></div>
+                  <div class="progress-info">
+                    <strong>Acabamento - Revestimentos</strong>
+                    <small>48% concluído</small>
+                    <div class="bar" style="--p:48%; --ring-color:#1677ff;"><div></div></div>
+                  </div>
+                </div>
+                <div class="author-row">
+                  <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=160&q=80" alt="">
+                  <div><strong>João Pedro</strong><span>Arquiteto</span></div>
+                  <span class="time">Ontem, 17:30</span>
+                </div>
+                <p class="caption">Início da instalação dos revestimentos externos.</p>
+                <div class="thumbs">
+                  <div class="thumb"><img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=300&q=80" alt=""></div>
+                  <div class="thumb"><img src="https://images.unsplash.com/photo-1518005020951-eccb494ad742?auto=format&fit=crop&w=300&q=80" alt=""></div>
+                  <div class="thumb"><img src="https://images.unsplash.com/photo-1600566752355-35792bedcfea?auto=format&fit=crop&w=300&q=80" alt=""><div class="more-thumb">+8</div></div>
+                </div>
+                <div class="post-actions">
+                  <button class="circle-action" type="button">+</button>
+                  <button class="action heart" type="button"><svg viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg>96</button>
+                  <button class="action" type="button"><svg viewBox="0 0 24 24"><path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z"/></svg>28</button>
+                  <button class="action" type="button"><svg viewBox="0 0 24 24"><path d="m22 2-7 20-4-9-9-4z"/></svg></button>
+                  <button class="action save" type="button"><svg viewBox="0 0 24 24"><path d="M6 4h12v17l-6-4-6 4z"/></svg></button>
+                </div>
+              </div>
+            </article>
+
+            <article class="post-card">
+              <div class="post-head">
+                <img class="mini-img" src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=160&q=80" alt="">
+                <div class="post-title"><strong>Corporate Tower</strong><span>Curitiba, PR</span></div>
+                <button class="dots" type="button">...</button>
+              </div>
+              <div class="hero">
+                <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=900&q=85" alt="">
+                <div class="status-label status-purple">Instalações</div>
+              </div>
+              <div class="post-body">
+                <div class="progress-row">
+                  <div class="ring" style="--p:25%; --ring-color:#7c4dff;"><span>25%</span></div>
+                  <div class="progress-info">
+                    <strong>Instalações elétricas</strong>
+                    <small>25% concluído</small>
+                    <div class="bar" style="--p:25%; --ring-color:#7c4dff;"><div></div></div>
+                  </div>
+                </div>
+                <div class="author-row">
+                  <img src="https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=160&q=80" alt="">
+                  <div><strong>Fernanda Lima</strong><span>Engenheira Elétrica</span></div>
+                  <span class="time">Ontem, 11:15</span>
+                </div>
+                <p class="caption">Eletrodutos da torre A concluídos.</p>
+                <div class="thumbs">
+                  <div class="thumb"><img src="https://images.unsplash.com/photo-1604014237800-1c9102c219da?auto=format&fit=crop&w=300&q=80" alt=""></div>
+                  <div class="thumb"><img src="https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?auto=format&fit=crop&w=300&q=80" alt=""></div>
+                  <div class="thumb"><img src="https://images.unsplash.com/photo-1541888946425-d81bb19240f5?auto=format&fit=crop&w=300&q=80" alt=""><div class="more-thumb">+6</div></div>
+                </div>
+                <div class="post-actions">
+                  <button class="circle-action" type="button">+</button>
+                  <button class="action heart" type="button"><svg viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg>74</button>
+                  <button class="action" type="button"><svg viewBox="0 0 24 24"><path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z"/></svg>11</button>
+                  <button class="action" type="button"><svg viewBox="0 0 24 24"><path d="m22 2-7 20-4-9-9-4z"/></svg></button>
+                  <button class="action save" type="button"><svg viewBox="0 0 24 24"><path d="M6 4h12v17l-6-4-6 4z"/></svg></button>
+                </div>
+              </div>
+            </article>
+
+            <article class="post-card">
+              <div class="post-head">
+                <img class="mini-img" src="https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?auto=format&fit=crop&w=160&q=80" alt="">
+                <div class="post-title"><strong>Loft Panorama</strong><span>Belo Horizonte, MG</span></div>
+                <button class="dots" type="button">...</button>
+              </div>
+              <div class="hero">
+                <img src="https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?auto=format&fit=crop&w=900&q=85" alt="">
+                <div class="status-label">Em andamento</div>
+              </div>
+              <div class="post-body">
+                <div class="progress-row">
+                  <div class="ring" style="--p:64%; --ring-color:#10a96f;"><span>64%</span></div>
+                  <div class="progress-info">
+                    <strong>Fachada - Vidros</strong>
+                    <small>64% concluído</small>
+                    <div class="bar" style="--p:64%; --ring-color:#10a96f;"><div></div></div>
+                  </div>
+                </div>
+                <div class="author-row">
+                  <img src="https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?auto=format&fit=crop&w=160&q=80" alt="">
+                  <div><strong>Ana Clara</strong><span>Arquiteta</span></div>
+                  <span class="time">Há 2d</span>
+                </div>
+                <p class="caption">Revisão dos painéis externos e liberação da próxima etapa.</p>
+                <div class="thumbs">
+                  <div class="thumb"><img src="https://images.unsplash.com/photo-1518005020951-eccb494ad742?auto=format&fit=crop&w=300&q=80" alt=""></div>
+                  <div class="thumb"><img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=300&q=80" alt=""></div>
+                  <div class="thumb"><img src="https://images.unsplash.com/photo-1600607688969-a5bfcd646154?auto=format&fit=crop&w=300&q=80" alt=""><div class="more-thumb">+4</div></div>
+                </div>
+                <div class="post-actions">
+                  <button class="circle-action" type="button">+</button>
+                  <button class="action heart" type="button"><svg viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg>88</button>
+                  <button class="action" type="button"><svg viewBox="0 0 24 24"><path d="M21 15a4 4 0 0 1-4 4H8l-5 3V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4z"/></svg>19</button>
+                  <button class="action" type="button"><svg viewBox="0 0 24 24"><path d="m22 2-7 20-4-9-9-4z"/></svg></button>
+                  <button class="action save" type="button"><svg viewBox="0 0 24 24"><path d="M6 4h12v17l-6-4-6 4z"/></svg></button>
+                </div>
+              </div>
+            </article>
+          </section>
+        </div>
+      </section>
+
+      <aside class="right-panel">
+        <div class="side-widget summary">
+          <div class="widget-head">
+            <h3>Resumo do dia</h3>
+            <button class="today" type="button">Hoje⌄</button>
+          </div>
+          <div class="summary-list">
+            <div class="summary-item">
+              <div class="summary-icon"><svg width="21" height="21" viewBox="0 0 24 24"><path d="M4 7h16v13H4z"/><path d="M9 7V4h6v3"/></svg></div>
+              <div><strong>12</strong><span>Obras ativas</span></div>
+            </div>
+            <div class="summary-item">
+              <div class="summary-icon orange"><svg width="21" height="21" viewBox="0 0 24 24"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/><path d="M10 21h4"/></svg></div>
+              <div><strong>7</strong><span>Pendências</span></div>
+            </div>
+            <div class="summary-item">
+              <div class="summary-icon red"><svg width="21" height="21" viewBox="0 0 24 24"><path d="M12 3 2 21h20z"/><path d="M12 9v5M12 17h.01"/></svg></div>
+              <div><strong>5</strong><span>Alertas críticos</span></div>
+            </div>
+            <div class="summary-item">
+              <div class="summary-icon purple"><svg width="21" height="21" viewBox="0 0 24 24"><path d="m4 17 6-6 4 4 6-9"/><path d="M20 6v6h-6"/></svg></div>
+              <div><strong>86%</strong><span>Produtividade</span></div>
+            </div>
+          </div>
+          <div class="chart">
+            <svg viewBox="0 0 240 52" aria-hidden="true">
+              <path d="M0 38 C25 32 35 36 54 25 C73 14 88 29 105 23 C129 13 148 16 166 20 C189 25 199 10 220 14 C231 16 235 10 240 8" stroke="#126dff" stroke-width="3" fill="none"/>
+              <path d="M0 38 C25 32 35 36 54 25 C73 14 88 29 105 23 C129 13 148 16 166 20 C189 25 199 10 220 14 C231 16 235 10 240 8 L240 52 L0 52Z" fill="rgba(18,109,255,.08)"/>
+              <text x="0" y="51" font-size="10" fill="currentColor">S</text><text x="40" y="51" font-size="10" fill="currentColor">T</text><text x="80" y="51" font-size="10" fill="currentColor">Q</text><text x="120" y="51" font-size="10" fill="currentColor">Q</text><text x="160" y="51" font-size="10" fill="currentColor">S</text><text x="200" y="51" font-size="10" fill="currentColor">S</text><text x="232" y="51" font-size="10" fill="currentColor">D</text>
+            </svg>
+          </div>
+        </div>
+
+        <div class="side-widget activity">
+          <div class="widget-head"><h3>Atividade recente</h3></div>
+          <div class="activity-list">
+            <div class="activity-item">
+              <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=160&q=80" alt="">
+              <div><strong>Mariana Costa</strong><span>Publicou uma atualização<br>Villa Aurora</span></div>
+              <small>2h</small>
+            </div>
+            <div class="activity-item">
+              <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=160&q=80" alt="">
+              <div><strong>João Pedro</strong><span>Comentou na atualização<br>Residencial Jardins</span></div>
+              <small>5h</small>
+            </div>
+            <div class="activity-item">
+              <img src="https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&w=160&q=80" alt="">
+              <div><strong>Fernanda Lima</strong><span>Adicionou 8 novas fotos<br>Corporate Tower</span></div>
+              <small>1d</small>
+            </div>
+            <div class="activity-item">
+              <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=160&q=80" alt="">
+              <div><strong>Construtora Silva</strong><span>Aprovou uma etapa<br>Ed. Greenview</span></div>
+              <small>2d</small>
+            </div>
+          </div>
+          <button class="see-all" type="button">Ver todas</button>
+        </div>
+      </aside>
+    </main>
+  </div>
+
+  <script>
+    const html = document.documentElement;
+    const themeButtons = document.querySelectorAll("[data-theme-btn]");
+
+    function setTheme(theme) {
+      html.setAttribute("data-theme", theme);
+      themeButtons.forEach((btn) => {
+        btn.classList.toggle("active", btn.dataset.themeBtn === theme);
+      });
+    }
+
+    themeButtons.forEach((btn) => {
+      btn.addEventListener("click", () => setTheme(btn.dataset.themeBtn));
+    });
+
+    document.querySelectorAll(".tab").forEach((tab) => {
+      tab.addEventListener("click", () => {
+        document.querySelectorAll(".tab").forEach((item) => item.classList.remove("active"));
+        tab.classList.add("active");
+      });
+    });
+
+    document.querySelectorAll(".view-toggle button").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll(".view-toggle button").forEach((item) => item.classList.remove("active"));
+        btn.classList.add("active");
+      });
+    });
+
+    const storyScroller = document.getElementById("storyScroller");
+    const storyNext = document.getElementById("storyNext");
+
+    storyNext.addEventListener("click", () => {
+      storyScroller.scrollBy({ left: 260, behavior: "smooth" });
+    });
+
+    const navItems = document.querySelectorAll(".nav-item");
+    navItems.forEach((item) => {
+      item.addEventListener("click", () => {
+        navItems.forEach((nav) => nav.classList.remove("active"));
+        item.classList.add("active");
+      });
+    });
+  </script>
+</body>
+</html>
