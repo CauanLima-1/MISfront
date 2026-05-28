@@ -4,6 +4,7 @@ const path = require('path');
 
 const { APPS, BIND_HOST, PORT, buildUrl } = require('./config/server.config');
 const ROOT = __dirname;
+const SITE_BASE_PATH = '/MISfront';
 
 const MIME_TYPES = {
   '.html': 'text/html; charset=UTF-8',
@@ -31,6 +32,12 @@ function getAppIndexPath(app) {
 }
 
 function resolveFilePath(requestPath) {
+  if (requestPath === SITE_BASE_PATH) {
+    requestPath = '/';
+  } else if (requestPath.startsWith(`${SITE_BASE_PATH}/`)) {
+    requestPath = requestPath.slice(SITE_BASE_PATH.length);
+  }
+
   if (requestPath === '/') {
     return path.join(ROOT, 'index.html');
   }
@@ -70,13 +77,18 @@ function resolveFilePath(requestPath) {
 
 const server = http.createServer((req, res) => {
   const url = new URL(req.url, buildUrl());
-  const requestPath = decodeURIComponent(url.pathname);
+  let requestPath = decodeURIComponent(url.pathname);
 
   for (const app of APPS) {
     for (const route of getAppRoutes(app)) {
       const routeWithoutSlash = route.replace(/\/$/, '');
-      if (requestPath === routeWithoutSlash) {
-        res.writeHead(301, { Location: app.route });
+      const unprefixedPath = requestPath.startsWith(`${SITE_BASE_PATH}/`)
+        ? requestPath.slice(SITE_BASE_PATH.length)
+        : requestPath;
+
+      if (unprefixedPath === routeWithoutSlash) {
+        const prefix = requestPath.startsWith(SITE_BASE_PATH) ? SITE_BASE_PATH : '';
+        res.writeHead(301, { Location: `${prefix}${app.route}` });
         res.end();
         return;
       }

@@ -8,6 +8,7 @@ const { after, before, test } = require('node:test');
 const ROOT = path.resolve(__dirname, '..');
 const PORT = 3100;
 const BASE_URL = `http://localhost:${PORT}`;
+const SITE_BASE_PATH = '/MISfront';
 
 let server;
 
@@ -35,7 +36,7 @@ async function waitForServer() {
 
   while (Date.now() - started < 10000) {
     try {
-      const response = await request('/');
+      const response = await request(`${SITE_BASE_PATH}/`);
       if (response.statusCode === 200) return;
     } catch (error) {
       await new Promise((resolve) => setTimeout(resolve, 150));
@@ -67,13 +68,13 @@ after(() => {
 
 test('all public app routes respond successfully', async () => {
   const routes = [
-    '/',
-    '/mis_feed/',
-    '/mis_pendências/',
-    '/Alertas.html',
-    '/Atualizações.html',
-    '/alertas/',
-    '/atualizacoes/'
+    `${SITE_BASE_PATH}/`,
+    `${SITE_BASE_PATH}/mis_feed/`,
+    `${SITE_BASE_PATH}/mis_pendências/`,
+    `${SITE_BASE_PATH}/Alertas.html`,
+    `${SITE_BASE_PATH}/Atualizações.html`,
+    `${SITE_BASE_PATH}/alertas/`,
+    `${SITE_BASE_PATH}/atualizacoes/`
   ];
 
   for (const route of routes) {
@@ -84,7 +85,7 @@ test('all public app routes respond successfully', async () => {
 });
 
 test('shared bridge script is served from the absolute route', async () => {
-  const response = await request('/shared/bridge.js');
+  const response = await request(`${SITE_BASE_PATH}/shared/bridge.js`);
 
   assert.equal(response.statusCode, 200);
   assert.match(response.contentType, /application\/javascript/);
@@ -113,6 +114,44 @@ test('main pages do not use dashboard routes or stale index-file app links', asy
         html.includes(`href="${link}"`),
         false,
         `${page} should not link to ${link}`
+      );
+    }
+  }
+});
+
+test('main page navigation links resolve from their own locations', async () => {
+  const pages = [
+    ['index.html', `${SITE_BASE_PATH}/index.html`],
+    ['Alertas.html', `${SITE_BASE_PATH}/Alertas.html`],
+    ['Atualizações.html', `${SITE_BASE_PATH}/Atualiza%C3%A7%C3%B5es.html`],
+    [path.join('mis_pendências', 'index.html'), `${SITE_BASE_PATH}/mis_pend%C3%AAncias/`],
+    [path.join('mis_feed', 'index.html'), `${SITE_BASE_PATH}/mis_feed/`]
+  ];
+
+  for (const [file, pageUrl] of pages) {
+    const html = await fs.readFile(path.join(ROOT, file), 'utf8');
+    const hrefs = [...html.matchAll(/href="([^"]+)"/g)]
+      .map((match) => match[1])
+      .filter((href) => {
+        return !href.startsWith('#') &&
+          !href.startsWith('http') &&
+          !href.startsWith('mailto:') &&
+          href !== './';
+      });
+
+    for (const href of hrefs) {
+      assert.equal(
+        href.startsWith(`${SITE_BASE_PATH}/`),
+        true,
+        `${file} link ${href} should include ${SITE_BASE_PATH}`
+      );
+
+      const resolved = new URL(href, `${BASE_URL}${pageUrl}`).pathname;
+      const response = await request(resolved);
+      assert.equal(
+        response.statusCode,
+        200,
+        `${file} link ${href} should resolve to ${resolved}`
       );
     }
   }
