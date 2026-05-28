@@ -815,13 +815,10 @@ function Sidebar({ totalUnread }) {
       <nav className="nav">
         <a href="/MISfront/feed.html">{I.feed}<span>MIS Feed</span></a>
         <a href="/MISfront/projetos.html">{I.proj}<span>Projetos</span></a>
+        <a href="/MISfront/suprimentos.html">{I.lib}<span>Suprimentos</span></a>
         <a href="/MISfront/pendencias.html">{I.check}<span>Pendências</span><span className="badge">7</span></a>
         <a href="/MISfront/alertas.html">{I.bell}<span>Alertas</span><span className="badge">5</span></a>
         <a className="active" href="/MISfront/atualizacoes.html">{I.bolt}<span>Atualizações</span>{totalUnread > 0 && <span className="badge">{totalUnread}</span>}</a>
-        <a href="#">{I.team}<span>Equipe</span></a>
-        <a href="/MISfront/suprimentos.html">{I.lib}<span>Suprimentos</span></a>
-        <a href="#">{I.rep}<span>Relatórios</span></a>
-        <a href="#">{I.cog}<span>Configurações</span></a>
       </nav>
       <div className="user-card">
         <div className="avatar" style={{ backgroundImage: `url(${PHOTOS.carlos})` }}></div>
@@ -835,7 +832,7 @@ function Sidebar({ totalUnread }) {
 
 }
 
-function Topbar({ totalUnread, onMarkAllRead }) {
+function Topbar({ totalUnread, onMarkAllRead, theme, setTheme }) {
   const hasUnread = totalUnread > 0;
 
   return (
@@ -856,6 +853,10 @@ function Topbar({ totalUnread, onMarkAllRead }) {
           {I.read}
           <span>{hasUnread ? "Marcar tudo como lido" : "Tudo lido"}</span>
         </button>
+        <div className="theme-toggle" role="group" aria-label="Tema">
+          <button type="button" className={theme === "light" ? "active" : ""} onClick={() => setTheme("light")}>{I.sun}<span>Claro</span></button>
+          <button type="button" className={theme === "dark" ? "active" : ""} onClick={() => setTheme("dark")}>{I.moon}<span>Escuro</span></button>
+        </div>
         <button className="icon-btn">
           {I.bell}
           {hasUnread && <span className="dot">{totalUnread}</span>}
@@ -1189,14 +1190,13 @@ function App() {
     <div className="app">
       <Sidebar totalUnread={totalUnread} />
       <main className="main">
-        <Topbar totalUnread={totalUnread} onMarkAllRead={markAllAsRead} />
+        <Topbar totalUnread={totalUnread} onMarkAllRead={markAllAsRead} theme={theme} setTheme={setTheme} />
         <div className="center">
           <ObraList obras={obras} activeId={activeId} setActiveId={setActiveId} filter={filter} setFilter={setFilter} />
           <FeedPanel obra={obra} events={events} filter={feedFilter} setFilter={setFeedFilter} onSend={post} />
           <InfoPanel obra={obra} />
         </div>
       </main>
-      <ThemeSwitch theme={theme} setTheme={setTheme} />
     </div>);
 
 }

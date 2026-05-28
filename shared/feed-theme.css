@@ -191,6 +191,7 @@ body.dark img {
 
 .theme-toggle,
 .toggle,
+.mode-toggle,
 .theme-switch {
   border: 1px solid rgba(255,255,255,.45);
   border-radius: 999px;
@@ -264,6 +265,7 @@ html[data-theme="dark"] .icon-btn,
 html[data-theme="dark"] .circle-btn,
 html[data-theme="dark"] .theme-toggle,
 html[data-theme="dark"] .toggle,
+html[data-theme="dark"] .mode-toggle,
 html[data-theme="dark"] .theme-switch,
 html[data-theme="dark"] .profile-top,
 html[data-theme="dark"] .user-trigger,
@@ -272,6 +274,7 @@ body.dark .icon-btn,
 body.dark .circle-btn,
 body.dark .theme-toggle,
 body.dark .toggle,
+body.dark .mode-toggle,
 body.dark .theme-switch,
 body.dark .profile-top,
 body.dark .user-trigger,

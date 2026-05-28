@@ -154,6 +154,41 @@ test('main pages do not use dashboard routes or stale index-file app links', asy
   }
 });
 
+test('main pages share the same primary app navigation', async () => {
+  const pages = [
+    'feed.html',
+    'projetos.html',
+    'upload.html',
+    'suprimentos.html',
+    'pendencias.html',
+    'alertas.html',
+    'atualizacoes.html'
+  ];
+  const primaryLinks = [
+    `${SITE_BASE_PATH}/feed.html`,
+    `${SITE_BASE_PATH}/projetos.html`,
+    `${SITE_BASE_PATH}/suprimentos.html`,
+    `${SITE_BASE_PATH}/pendencias.html`,
+    `${SITE_BASE_PATH}/alertas.html`,
+    `${SITE_BASE_PATH}/atualizacoes.html`
+  ];
+
+  for (const page of pages) {
+    const html = await fs.readFile(path.join(ROOT, page), 'utf8');
+
+    for (const href of primaryLinks) {
+      assert.equal(
+        html.includes(`href="${href}"`),
+        true,
+        `${page} should expose ${href} in primary navigation`
+      );
+    }
+
+    assert.equal(html.includes('href="#"'), false, `${page} should not contain placeholder links`);
+    assert.equal(html.includes('<button class="nav-item"'), false, `${page} should not use nav buttons`);
+  }
+});
+
 test('main page navigation links resolve from their own locations', async () => {
   const pages = [
     ['index.html', `${SITE_BASE_PATH}/index.html`],
