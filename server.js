@@ -86,7 +86,7 @@ const server = http.createServer((req, res) => {
         ? requestPath.slice(SITE_BASE_PATH.length)
         : requestPath;
 
-      if (unprefixedPath === routeWithoutSlash) {
+      if (app.route.endsWith('/') && unprefixedPath === routeWithoutSlash) {
         const prefix = requestPath.startsWith(SITE_BASE_PATH) ? SITE_BASE_PATH : '';
         res.writeHead(301, { Location: `${prefix}${app.route}` });
         res.end();
@@ -142,8 +142,8 @@ server.listen(PORT, BIND_HOST, () => {
   console.log(`Servidor unificado rodando em ${buildUrl()}`);
   console.log(`Aplicativos disponíveis: ${appPaths.join(', ')}`);
   console.log(`Landing page: ${buildUrl('/landing_page/')}`);
-  console.log(`MIS Feed: ${buildUrl('/mis_feed/')}`);
-  console.log(`Pendências: ${buildUrl('/mis_pendências/')}`);
-  console.log(`Alertas: ${buildUrl('/alertas/')}`);
-  console.log(`Atualizações: ${buildUrl('/atualizacoes/')}`);
+  console.log(`MIS Feed: ${buildUrl('/feed.html')}`);
+  console.log(`Pendencias: ${buildUrl('/pendencias.html')}`);
+  console.log(`Alertas: ${buildUrl('/alertas.html')}`);
+  console.log(`Atualizacoes: ${buildUrl('/atualizacoes.html')}`);
 });

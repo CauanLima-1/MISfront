@@ -12,28 +12,27 @@ const APPS = [
   },
   {
     name: 'feed',
-    alias: 'mis_feed',
-    route: '/mis_feed/',
-    dir: 'mis_feed'
+    alias: 'feed',
+    route: '/feed.html',
+    file: 'feed.html'
   },
   {
     name: 'pendencias',
-    alias: 'mis_pendencias',
-    route: '/mis_pendências/',
-    aliasRoutes: ['/mis_pendencias/'],
-    dir: 'mis_pendências'
+    alias: 'pendencias',
+    route: '/pendencias.html',
+    file: 'pendencias.html'
   },
   {
     name: 'alertas',
     alias: 'alertas',
-    route: '/alertas/',
-    file: 'Alertas.html'
+    route: '/alertas.html',
+    file: 'alertas.html'
   },
   {
     name: 'atualizacoes',
     alias: 'atualizacoes',
-    route: '/atualizacoes/',
-    file: 'Atualizações.html'
+    route: '/atualizacoes.html',
+    file: 'atualizacoes.html'
   }
 ];
 

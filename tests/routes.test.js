@@ -69,12 +69,10 @@ after(() => {
 test('all public app routes respond successfully', async () => {
   const routes = [
     `${SITE_BASE_PATH}/`,
-    `${SITE_BASE_PATH}/mis_feed/`,
-    `${SITE_BASE_PATH}/mis_pendências/`,
-    `${SITE_BASE_PATH}/Alertas.html`,
-    `${SITE_BASE_PATH}/Atualizações.html`,
-    `${SITE_BASE_PATH}/alertas/`,
-    `${SITE_BASE_PATH}/atualizacoes/`
+    `${SITE_BASE_PATH}/feed.html`,
+    `${SITE_BASE_PATH}/pendencias.html`,
+    `${SITE_BASE_PATH}/alertas.html`,
+    `${SITE_BASE_PATH}/atualizacoes.html`
   ];
 
   for (const route of routes) {
@@ -94,15 +92,15 @@ test('shared bridge script is served from the absolute route', async () => {
 test('main pages do not use dashboard routes or stale index-file app links', async () => {
   const pages = [
     'index.html',
-    'Alertas.html',
-    'Atualizações.html',
-    path.join('mis_pendências', 'index.html'),
-    path.join('mis_feed', 'index.html')
+    'feed.html',
+    'pendencias.html',
+    'alertas.html',
+    'atualizacoes.html'
   ];
   const staleLinks = [
-    'mis_pendências/index.html',
+    '/MISfront/Alertas.html',
+    '/MISfront/mis_feed/',
     'mis_dashboard/index.html',
-    '../mis_pendências/index.html',
     '../mis_dashboard/index.html',
     '/mis_dashboard/'
   ];
@@ -122,10 +120,10 @@ test('main pages do not use dashboard routes or stale index-file app links', asy
 test('main page navigation links resolve from their own locations', async () => {
   const pages = [
     ['index.html', `${SITE_BASE_PATH}/index.html`],
-    ['Alertas.html', `${SITE_BASE_PATH}/Alertas.html`],
-    ['Atualizações.html', `${SITE_BASE_PATH}/Atualiza%C3%A7%C3%B5es.html`],
-    [path.join('mis_pendências', 'index.html'), `${SITE_BASE_PATH}/mis_pend%C3%AAncias/`],
-    [path.join('mis_feed', 'index.html'), `${SITE_BASE_PATH}/mis_feed/`]
+    ['feed.html', `${SITE_BASE_PATH}/feed.html`],
+    ['pendencias.html', `${SITE_BASE_PATH}/pendencias.html`],
+    ['alertas.html', `${SITE_BASE_PATH}/alertas.html`],
+    ['atualizacoes.html', `${SITE_BASE_PATH}/atualizacoes.html`]
   ];
 
   for (const [file, pageUrl] of pages) {

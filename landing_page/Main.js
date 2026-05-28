@@ -208,7 +208,7 @@ function handleLogin(e) {
   btn.disabled   = true;
   btn.textContent = 'Entrando…';
   setTimeout(() => {
-    window.location.href = '/MISfront/mis_feed/';
+    window.location.href = '/MISfront/feed.html';
   }, 800);
 }
 

@@ -795,11 +795,11 @@ function Sidebar() {
         <a className="logo" href="/MISfront/" aria-label="Ir para a página inicial do MIS">MIS</a>
       </div>
       <nav className="nav">
-        <a href="/MISfront/mis_feed/">{I.feed}<span>MIS Feed</span></a>
+        <a href="/MISfront/feed.html">{I.feed}<span>MIS Feed</span></a>
         <a href="#">{I.proj}<span>Projetos</span></a>
-        <a href="/MISfront/mis_pend%C3%AAncias/">{I.check}<span>Pendências</span><span className="badge">7</span></a>
-        <a href="/MISfront/Alertas.html">{I.bell}<span>Alertas</span><span className="badge">5</span></a>
-        <a className="active" href="/MISfront/Atualiza%C3%A7%C3%B5es.html">{I.bolt}<span>Atualizações</span><span className="badge">24</span></a>
+        <a href="/MISfront/pendencias.html">{I.check}<span>Pendências</span><span className="badge">7</span></a>
+        <a href="/MISfront/alertas.html">{I.bell}<span>Alertas</span><span className="badge">5</span></a>
+        <a className="active" href="/MISfront/atualizacoes.html">{I.bolt}<span>Atualizações</span><span className="badge">24</span></a>
         <a href="#">{I.team}<span>Equipe</span></a>
         <a href="#">{I.lib}<span>Biblioteca</span></a>
         <a href="#">{I.rep}<span>Relatórios</span></a>
@@ -1170,7 +1170,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(<App />);
     source: 'atualizacoes',
     pageLabel: 'Atualizações',
     fallbackMessage: 'Tela de atualizações ativa',
-    navLinkSelector: 'a[href="/MISfront/"], a[href="/MISfront/mis_feed/"], a[href="/MISfront/mis_pend%C3%AAncias/"], a[href="/MISfront/Alertas.html"]',
+    navLinkSelector: 'a[href="/MISfront/"], a[href="/MISfront/feed.html"], a[href="/MISfront/pendencias.html"], a[href="/MISfront/alertas.html"]',
     navPageLabel: 'Plataforma MIS',
     navMessage: 'Abrindo outra tela da plataforma'
   };
