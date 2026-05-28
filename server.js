@@ -61,6 +61,10 @@ function resolveFilePath(requestPath) {
     }
   }
 
+  if (/^\/[^/]+\.(html|css|js|json|png|jpe?g|svg|webp|ico)$/i.test(requestPath)) {
+    return path.join(ROOT, requestPath.slice(1));
+  }
+
   return null;
 }
 
@@ -126,7 +130,7 @@ server.listen(PORT, BIND_HOST, () => {
   console.log(`Servidor unificado rodando em ${buildUrl()}`);
   console.log(`Aplicativos disponíveis: ${appPaths.join(', ')}`);
   console.log(`Landing page: ${buildUrl('/landing_page/')}`);
-  console.log(`Dashboard: ${buildUrl('/mis_dashboard/')}`);
+  console.log(`MIS Feed: ${buildUrl('/mis_feed/')}`);
   console.log(`Pendências: ${buildUrl('/mis_pendências/')}`);
   console.log(`Alertas: ${buildUrl('/alertas/')}`);
   console.log(`Atualizações: ${buildUrl('/atualizacoes/')}`);

@@ -68,8 +68,10 @@ after(() => {
 test('all public app routes respond successfully', async () => {
   const routes = [
     '/',
-    '/mis_dashboard/',
+    '/mis_feed/',
     '/mis_pendências/',
+    '/Alertas.html',
+    '/Atualizações.html',
     '/alertas/',
     '/atualizacoes/'
   ];
@@ -88,23 +90,20 @@ test('shared bridge script is served from the absolute route', async () => {
   assert.match(response.contentType, /application\/javascript/);
 });
 
-test('main pages do not use stale relative navigation links', async () => {
+test('main pages do not use dashboard routes or stale index-file app links', async () => {
   const pages = [
     'index.html',
     'Alertas.html',
     'Atualizações.html',
     path.join('mis_pendências', 'index.html'),
-    path.join('mis_dashboard', 'index.html')
+    path.join('mis_feed', 'index.html')
   ];
   const staleLinks = [
-    'Alertas.html',
-    'Atualizações.html',
     'mis_pendências/index.html',
     'mis_dashboard/index.html',
-    '../Alertas.html',
-    '../Atualizações.html',
     '../mis_pendências/index.html',
-    '../mis_dashboard/index.html'
+    '../mis_dashboard/index.html',
+    '/mis_dashboard/'
   ];
 
   for (const page of pages) {

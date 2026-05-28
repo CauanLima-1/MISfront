@@ -534,15 +534,14 @@ function Sidebar() {
   return (
     <aside className="sidebar">
       <div className="logo-row">
-            <a className="logo" href="/" aria-label="Ir para a página inicial do MIS">MIS</a>
+            <a className="logo" href="../index.html" aria-label="Ir para a página inicial do MIS">MIS</a>
       </div>
       <nav className="nav">
-                <a href="/mis_dashboard/">{I.feed}<span>Feed</span></a>
+                <a href="../mis_feed/">{I.feed}<span>MIS Feed</span></a>
         <a href="#">{I.proj}<span>Projetos</span></a>
-                <a href="/mis_dashboard/">{I.dash}<span>Dashboard</span></a>
-                <a className="active" href="/mis_pendências/">{I.check}<span>Pendências</span><span className="badge">7</span></a>
-                <a href="/alertas/">{I.bell}<span>Alertas</span><span className="badge">5</span></a>
-                <a href="/atualizacoes/">{I.msg}<span>Atualizações</span><span className="badge">24</span></a>
+                <a className="active" href="./">{I.check}<span>Pendências</span><span className="badge">7</span></a>
+                <a href="../Alertas.html">{I.bell}<span>Alertas</span><span className="badge">5</span></a>
+                <a href="../Atualizações.html">{I.msg}<span>Atualizações</span><span className="badge">24</span></a>
         <a href="#">{I.team}<span>Equipe</span></a>
         <a href="#">{I.lib}<span>Biblioteca</span></a>
         <a href="#">{I.rep}<span>Relatórios</span></a>
@@ -812,12 +811,12 @@ ReactDOM.createRoot(document.getElementById("root")).render(<App />);
     source: 'mis_pendências',
     pageLabel: 'Pendências',
     fallbackMessage: 'Tela de pendências ativa',
-    navLinkSelector: 'a[href="/"], a[href="/mis_dashboard/"], a[href="/alertas/"], a[href="/atualizacoes/"]',
+    navLinkSelector: 'a[href="../index.html"], a[href="../mis_feed/"], a[href="../Alertas.html"], a[href="../Atualizações.html"]',
     navPageLabel: 'Plataforma MIS',
     navMessage: 'Abrindo outra tela da plataforma'
   };
 </script>
-<script src="/shared/bridge.js"></script>
+<script src="../shared/bridge.js"></script>
 </body>
 </html>
 

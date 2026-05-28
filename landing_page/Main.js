@@ -208,7 +208,7 @@ function handleLogin(e) {
   btn.disabled   = true;
   btn.textContent = 'Entrando…';
   setTimeout(() => {
-    window.location.href = '/mis_dashboard/';
+    window.location.href = 'mis_feed/';
   }, 800);
 }
 

@@ -11,10 +11,10 @@ const APPS = [
     dir: 'landing_page'
   },
   {
-    name: 'dashboard',
-    alias: 'mis_dashboard',
-    route: '/mis_dashboard/',
-    dir: 'mis_dashboard'
+    name: 'feed',
+    alias: 'mis_feed',
+    route: '/mis_feed/',
+    dir: 'mis_feed'
   },
   {
     name: 'pendencias',
