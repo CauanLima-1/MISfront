@@ -446,18 +446,30 @@ body.dark {
   height: 70px !important;
   display: flex !important;
   align-items: center !important;
+  justify-content: flex-start !important;
   gap: 14px !important;
   padding: 0 0 0 14px !important;
 }
 
-.brand-word,
-.logo-text {
-  display: block !important;
+.sidebar .brand-word,
+.sidebar .logo-text {
+  display: none !important;
   color: var(--text) !important;
   font-size: 30px !important;
   line-height: 1 !important;
   font-weight: 800 !important;
   letter-spacing: .035em !important;
+}
+
+.sidebar > div:not(.logo-row):not(.brand):not(.user-card):not(.sidebar-bottom) {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 18px !important;
+  min-height: 0 !important;
+}
+
+.sidebar > div:not(.logo-row):not(.brand):not(.user-card):not(.sidebar-bottom) > .logo {
+  margin: 0 0 2px 14px !important;
 }
 
 .nav,
@@ -470,6 +482,15 @@ body.dark {
   overflow: hidden !important;
   scrollbar-width: none !important;
   padding-right: 2px !important;
+}
+
+.sidebar-bottom,
+.sidebar > .user-card {
+  margin-top: auto !important;
+}
+
+.sidebar-bottom .user-card {
+  width: 100% !important;
 }
 
 .performance-card {
@@ -514,6 +535,7 @@ body.dark {
 .nav .badge,
 .menu .badge {
   margin-left: auto !important;
+  flex: 0 0 auto !important;
   min-width: 27px !important;
   height: 27px !important;
   border-radius: 99px !important;
@@ -684,6 +706,47 @@ body.dark {
   height: 43px !important;
   border-radius: 50% !important;
   object-fit: cover !important;
+  flex: 0 0 auto !important;
+}
+
+.sidebar .menu-left,
+.sidebar .user-left {
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+  min-width: 0 !important;
+  flex: 1 1 auto !important;
+}
+
+.sidebar .user-info,
+.sidebar .user-card > div:last-of-type {
+  min-width: 0 !important;
+}
+
+.sidebar .user-card strong,
+.sidebar .user-card h4,
+.sidebar .user-card .name {
+  margin: 0 !important;
+  font-size: 15px !important;
+  font-weight: 700 !important;
+  line-height: 1.15 !important;
+  color: var(--text) !important;
+}
+
+.sidebar .user-card .role,
+.sidebar .user-card p,
+.sidebar .user-card .user-info span,
+.sidebar .user-card strong + span {
+  margin: 2px 0 0 !important;
+  font-size: 12px !important;
+  line-height: 1.2 !important;
+  color: var(--muted) !important;
+}
+
+.sidebar .user-card .chev,
+.sidebar .user-card > span:last-child {
+  margin-left: auto !important;
+  color: var(--muted) !important;
   flex: 0 0 auto !important;
 }
 
